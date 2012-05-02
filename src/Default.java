@@ -10,7 +10,7 @@ import javax.swing.JSeparator;
 
 public class Default {
 	public static void main(String[] args) {
-		new SwingMenu();
+		new Default();
 	}
 
 	public Default() {
