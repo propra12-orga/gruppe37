@@ -17,7 +17,8 @@ public class Default {
 		JFrame frame = new JFrame("Bomberman");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		JLabel label = new JLabel("Hier entsteht unser Bomberman ;)",
+		JLabel label = new JLabel(
+				"Hier entsteht unser Bomberman, aber sowas von ;)",
 				JLabel.CENTER);
 
 		frame.getContentPane().add(label);
