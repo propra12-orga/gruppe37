@@ -1,3 +1,5 @@
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -6,6 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
 public class Default {
@@ -16,6 +19,8 @@ public class Default {
 	public Default() {
 		JFrame frame = new JFrame("Bomberman");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		JPanel field = new JPanel(new GridLayout(400, 300));
+		field.setPreferredSize(new Dimension(800, 600));
 
 		JLabel label = new JLabel(
 				"Hier entsteht unser Bomberman, aber sowas von ;)",
@@ -29,7 +34,6 @@ public class Default {
 		JMenuItem fileItem1 = new JMenuItem("Neues Spiel");
 		JMenuItem fileItem2 = new JMenuItem("Einstellungen");
 		JMenuItem fileItem3 = new JMenuItem("Schlieﬂen");
-
 		fileItem3.setMnemonic('x');
 		fileItem3.addActionListener(new ActionListener() {
 			@Override
@@ -46,5 +50,7 @@ public class Default {
 		frame.setJMenuBar(menubar);
 		frame.setSize(800, 600);
 		frame.setVisible(true);
+
 	}
+
 }
