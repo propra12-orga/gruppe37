@@ -33,7 +33,7 @@ public class Default {
 		filemenu.add(new JSeparator());
 		JMenuItem fileItem1 = new JMenuItem("Neues Spiel");
 		JMenuItem fileItem2 = new JMenuItem("Einstellungen");
-		JMenuItem fileItem3 = new JMenuItem("Schlieﬂen");
+		JMenuItem fileItem3 = new JMenuItem("Schliessen");
 		fileItem3.setMnemonic('x');
 		fileItem3.addActionListener(new ActionListener() {
 			@Override
