@@ -18,7 +18,7 @@ public class Player extends JPanel implements KeyListener {
 	private final ImageIcon solidBlock = new ImageIcon("HardBlock.png");
 	private final ImageIcon brkbleBlock = new ImageIcon("breakstone.jpg");
 	private final ImageIcon grndBlock = new ImageIcon("ground.jpg");
-	private final ImageIcon player = new ImageIcon("player.jpg");
+	private final ImageIcon player = new ImageIcon("Player.png");
 	private final JPanel panel1 = new JPanel();
 	private final JLabel fblock[][] = new JLabel[15][15];
 	private final int blockStatus[][] = new int[15][15];
