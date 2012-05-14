@@ -14,7 +14,9 @@ public class Einstellungen extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	public Einstellungen() {
+
 		initUI();
+
 	}
 
 	public final void initUI() {
@@ -39,6 +41,7 @@ public class Einstellungen extends JFrame {
 		setSize(600, 400);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+
 	}
 
 	public static void main(String[] args) {
