@@ -17,16 +17,16 @@ public class Player extends JPanel implements KeyListener {
 
 	private static final long serialVersionUID = 1L;
 	private final JFrame frame = new JFrame();
-	private final ImageIcon solidBlock = new ImageIcon("HardBlock.png");
-	private final ImageIcon brkbleBlock = new ImageIcon("breakstone.jpg");
-	private final ImageIcon grndBlock = new ImageIcon("ground.jpg");
-	private final ImageIcon player = new ImageIcon("Player.png");
-	private final ImageIcon bombe = new ImageIcon("bomb.jpg");
-	private final ImageIcon exp_h = new ImageIcon("exp_h.jpg");
-	private final ImageIcon exp_v = new ImageIcon("exp_v.jpg");
-	private final ImageIcon exp_m = new ImageIcon("exp_m.jpg");
-	private final ImageIcon playeronbomb = new ImageIcon("Player.png");
-	private final ImageIcon portal = new ImageIcon("portal.gif");
+	private final ImageIcon solidBlock = new ImageIcon("Images/HardBlock.png");
+	private final ImageIcon brkbleBlock = new ImageIcon("Images/breakstone.jpg");
+	private final ImageIcon grndBlock = new ImageIcon("Images/ground.jpg");
+	private final ImageIcon player = new ImageIcon("Images/Player.png");
+	private final ImageIcon bombe = new ImageIcon("Images/bomb.jpg");
+	private final ImageIcon exp_h = new ImageIcon("Images/exp_h.jpg");
+	private final ImageIcon exp_v = new ImageIcon("Images/exp_v.jpg");
+	private final ImageIcon exp_m = new ImageIcon("Images/exp_m.jpg");
+	private final ImageIcon playeronbomb = new ImageIcon("Images/Player.png");
+	private final ImageIcon portal = new ImageIcon("Images/portal.gif");
 	private final JPanel panel1 = new JPanel();
 	private final JLabel fblock[][] = new JLabel[15][15];
 	private final int blockStatus[][] = new int[15][15];
