@@ -20,22 +20,19 @@ public class Default extends JFrame {
 	}
 
 	public Default() {
-		JFrame frame = new JFrame("Bomberman");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		JPanel field = new JPanel(new GridLayout(400, 300));
-		field.setPreferredSize(new Dimension(800, 600));
-		frame.getContentPane().setLayout(null);
 
-		JLabel label = new JLabel(
-				"Hier entsteht unser Bomberman, aber sowas von ;)",
-				JLabel.CENTER);
-		label.setBounds(0, 0, 784, 541);
-
-		frame.getContentPane().add(label);
+		/*********
+		 * Menue *
+		 *********/
 
 		JMenuBar menubar = new JMenuBar();
 		JMenu filemenu = new JMenu("Spiel");
 		filemenu.add(new JSeparator());
+
+		/*****************
+		 * Erster Button *
+		 *****************/
+
 		JMenuItem fileItem1 = new JMenuItem("Neues Spiel");
 
 		fileItem1.addActionListener(new java.awt.event.ActionListener() {
@@ -55,6 +52,10 @@ public class Default extends JFrame {
 			}
 		});
 
+		/******************
+		 * Zweiter Button *
+		 ******************/
+
 		JMenuItem fileItem2 = new JMenuItem("Einstellungen");
 
 		fileItem2.addActionListener(new java.awt.event.ActionListener() {
@@ -71,6 +72,10 @@ public class Default extends JFrame {
 
 			}
 		});
+
+		/******************
+		 * Dritter Button *
+		 ******************/
 		JMenuItem fileItem3 = new JMenuItem("Schliessen");
 		fileItem3.setMnemonic('x');
 		fileItem3.addActionListener(new ActionListener() {
@@ -85,9 +90,31 @@ public class Default extends JFrame {
 		filemenu.add(fileItem2);
 		filemenu.add(fileItem3);
 		menubar.add(filemenu);
+
+		/************************
+		 * Fenstereinstellungen *
+		 ************************/
+
+		JFrame frame = new JFrame("Bomberman");
+
 		frame.setJMenuBar(menubar);
 		frame.setSize(800, 600);
+		frame.getContentPane().setLayout(null);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
+		frame.setResizable(false);
+
+		/************
+		 * Textfeld *
+		 ************/
+
+		JPanel field = new JPanel(new GridLayout(400, 300));
+		field.setPreferredSize(new Dimension(800, 600));
+		JLabel label = new JLabel(
+				"Hier entsteht unser Bomberman, aber sowas von ;)",
+				JLabel.CENTER);
+		label.setBounds(0, 0, 784, 541);
+		frame.getContentPane().add(label);
 
 	}
 }

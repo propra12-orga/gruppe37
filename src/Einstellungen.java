@@ -41,6 +41,7 @@ public class Einstellungen extends JFrame {
 		setSize(600, 400);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setResizable(false);
 
 	}
 
@@ -49,29 +50,8 @@ public class Einstellungen extends JFrame {
 			@Override
 			public void run() {
 				Einstellungen ex = new Einstellungen();
-				ex.setVisible(true);
 
-				/*
-				 * final JLabel label = new JLabel("Lautstärke");
-				 * this.add(label); JSlider wahl = new
-				 * JSlider(JSlider.HORIZONTAL, 0, 255, 0);
-				 * wahl.addChangeListener(new ChangeListener() {
-				 * 
-				 * @Override public void stateChanged(ChangeEvent e) { JSlider
-				 * source = (JSlider) e.getSource(); if
-				 * (!source.getValueIsAdjusting()) { int wert =
-				 * source.getValue(); Color farbe = new Color(wert, wert, wert);
-				 * label.setForeground(farbe); } } }); this.add(wahl,
-				 * BorderLayout.CENTER); }
-				 * 
-				 * private void add(JLabel label) { // TODO Auto-generated
-				 * method stub
-				 * 
-				 * }
-				 * 
-				 * private void add(JSlider wahl, String center) { // TODO
-				 * Auto-generated method stub
-				 */}
+			}
 		});
 	}
 }

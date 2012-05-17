@@ -35,7 +35,7 @@ public class Spielfeld extends JFrame {
 		 ***********************************/
 
 		for (m = 0; m < 15; m++) {
-			blockStatus[m][0] = 1;
+			blockStatus[m][0] = 3;
 		}
 
 		/***************************
