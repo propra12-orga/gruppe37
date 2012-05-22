@@ -31,7 +31,16 @@ public class Player extends JPanel implements KeyListener {
 	private final JLabel fblock[][] = new JLabel[15][15];
 	private final int blockStatus[][] = new int[15][15];
 	public int m = 0, n = 0, x = 1, y = 1, a, b;
-
+	public int ground = 0;
+	public int solid = 1;
+	public int breakblock = 2;
+	public int bombesetzen = 3;
+	public int spieler_bombe = 4;
+	public int explosion_mitte = 5;
+	public int explosion_horizontal = 6;
+	public int explosion_vertikal = 7;
+	public int spieler = 8;
+	public int ausgang = 9;
 	public boolean moveRight = false;
 	public boolean moveLeft = false;
 	public boolean moveDown = false;
@@ -47,40 +56,40 @@ public class Player extends JPanel implements KeyListener {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 
-					if (blockStatus[a][b] == 4) {
+					if (blockStatus[a][b] == spieler_bombe) {
 						game_over.start();
 					}
-					if (blockStatus[a + 1][b] == 8) {
+					if (blockStatus[a + 1][b] == spieler) {
 						game_over.start();
 					}
-					if (blockStatus[a - 1][b] == 8) {
+					if (blockStatus[a - 1][b] == spieler) {
 						game_over.start();
 					}
-					if (blockStatus[a][b + 1] == 8) {
+					if (blockStatus[a][b + 1] == spieler) {
 						game_over.start();
 					}
-					if (blockStatus[a][b - 1] == 8) {
+					if (blockStatus[a][b - 1] == spieler) {
 						game_over.start();
 					}
 
-					if (blockStatus[a + 1][b] != 1
-							&& blockStatus[a + 1][b] != 9) {
-						blockStatus[a + 1][b] = 6;
+					if (blockStatus[a + 1][b] != solid
+							&& blockStatus[a + 1][b] != ausgang) {
+						blockStatus[a + 1][b] = explosion_horizontal;
 					}
-					if (blockStatus[a - 1][b] != 1
-							&& blockStatus[a - 1][b] != 9) {
-						blockStatus[a - 1][b] = 6;
+					if (blockStatus[a - 1][b] != solid
+							&& blockStatus[a - 1][b] != ausgang) {
+						blockStatus[a - 1][b] = explosion_horizontal;
 					}
-					if (blockStatus[a][b - 1] != 1
-							&& blockStatus[a][b - 1] != 9) {
-						blockStatus[a][b - 1] = 7;
+					if (blockStatus[a][b - 1] != solid
+							&& blockStatus[a][b - 1] != ausgang) {
+						blockStatus[a][b - 1] = explosion_vertikal;
 					}
-					if (blockStatus[a][b + 1] != 1
-							&& blockStatus[a][b + 1] != 9) {
-						blockStatus[a][b + 1] = 7;
+					if (blockStatus[a][b + 1] != solid
+							&& blockStatus[a][b + 1] != ausgang) {
+						blockStatus[a][b + 1] = explosion_vertikal;
 					}
 
-					blockStatus[a][b] = 5;
+					blockStatus[a][b] = explosion_mitte;
 					zeichnen();
 					explosion_ende.start();
 
@@ -93,23 +102,23 @@ public class Player extends JPanel implements KeyListener {
 			new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					if (blockStatus[a + 1][b] != 1
-							&& blockStatus[a + 1][b] != 9) {
-						blockStatus[a + 1][b] = 0;
+					if (blockStatus[a + 1][b] != solid
+							&& blockStatus[a + 1][b] != ausgang) {
+						blockStatus[a + 1][b] = ground;
 					}
-					if (blockStatus[a - 1][b] != 1
-							&& blockStatus[a - 1][b] != 9) {
-						blockStatus[a - 1][b] = 0;
+					if (blockStatus[a - 1][b] != solid
+							&& blockStatus[a - 1][b] != ausgang) {
+						blockStatus[a - 1][b] = ground;
 					}
-					if (blockStatus[a][b - 1] != 1
-							&& blockStatus[a][b - 1] != 9) {
-						blockStatus[a][b - 1] = 0;
+					if (blockStatus[a][b - 1] != solid
+							&& blockStatus[a][b - 1] != ausgang) {
+						blockStatus[a][b - 1] = ground;
 					}
-					if (blockStatus[a][b + 1] != 1
-							&& blockStatus[a][b + 1] != 9) {
-						blockStatus[a][b + 1] = 0;
+					if (blockStatus[a][b + 1] != solid
+							&& blockStatus[a][b + 1] != ausgang) {
+						blockStatus[a][b + 1] = ground;
 					}
-					blockStatus[a][b] = 0;
+					blockStatus[a][b] = ground;
 					zeichnen();
 
 					explosion_ende.stop();
@@ -137,7 +146,7 @@ public class Player extends JPanel implements KeyListener {
 		 ***********************************/
 
 		for (m = 0; m < 15; m++) {
-			blockStatus[m][0] = 1;
+			blockStatus[m][0] = solid;
 		}
 
 		/***************************
@@ -145,7 +154,7 @@ public class Player extends JPanel implements KeyListener {
 		 ***************************/
 
 		for (m = 0; m < 15; m++) {
-			blockStatus[m][14] = 1;
+			blockStatus[m][14] = solid;
 		}
 
 		/***************************
@@ -153,7 +162,7 @@ public class Player extends JPanel implements KeyListener {
 		 ***************************/
 
 		for (n = 1; n < 14; n++) {
-			blockStatus[0][n] = 1;
+			blockStatus[0][n] = solid;
 		}
 
 		/***************************
@@ -161,7 +170,7 @@ public class Player extends JPanel implements KeyListener {
 		 ***************************/
 
 		for (n = 1; n < 14; n++) {
-			blockStatus[14][n] = 1;
+			blockStatus[14][n] = solid;
 		}
 
 		/*************************************************************
@@ -173,7 +182,7 @@ public class Player extends JPanel implements KeyListener {
 		 ************/
 
 		for (m = 1; m < 14; m++) {
-			blockStatus[m][1] = 2;
+			blockStatus[m][1] = breakblock;
 		}
 
 		/************
@@ -181,9 +190,9 @@ public class Player extends JPanel implements KeyListener {
 		 ************/
 
 		for (m = 1; m < 14; m++) {
-			blockStatus[m][2] = 2;
+			blockStatus[m][2] = breakblock;
 			m++;
-			blockStatus[m][2] = 1;
+			blockStatus[m][2] = solid;
 		}
 
 		/************
@@ -191,7 +200,7 @@ public class Player extends JPanel implements KeyListener {
 		 ************/
 
 		for (m = 1; m < 14; m++) {
-			blockStatus[m][3] = 2;
+			blockStatus[m][3] = breakblock;
 		}
 
 		/************
@@ -199,9 +208,9 @@ public class Player extends JPanel implements KeyListener {
 		 ************/
 
 		for (m = 1; m < 14; m++) {
-			blockStatus[m][4] = 2;
+			blockStatus[m][4] = breakblock;
 			m++;
-			blockStatus[m][4] = 1;
+			blockStatus[m][4] = solid;
 		}
 
 		/************
@@ -209,7 +218,7 @@ public class Player extends JPanel implements KeyListener {
 		 ************/
 
 		for (m = 1; m < 14; m++) {
-			blockStatus[m][5] = 2;
+			blockStatus[m][5] = breakblock;
 		}
 
 		/************
@@ -217,9 +226,9 @@ public class Player extends JPanel implements KeyListener {
 		 ************/
 
 		for (m = 1; m < 14; m++) {
-			blockStatus[m][6] = 2;
+			blockStatus[m][6] = breakblock;
 			m++;
-			blockStatus[m][6] = 1;
+			blockStatus[m][6] = solid;
 		}
 
 		/************
@@ -227,7 +236,7 @@ public class Player extends JPanel implements KeyListener {
 		 ************/
 
 		for (m = 1; m < 14; m++) {
-			blockStatus[m][7] = 2;
+			blockStatus[m][7] = breakblock;
 		}
 
 		/************
@@ -235,9 +244,9 @@ public class Player extends JPanel implements KeyListener {
 		 ************/
 
 		for (m = 1; m < 14; m++) {
-			blockStatus[m][8] = 2;
+			blockStatus[m][8] = breakblock;
 			m++;
-			blockStatus[m][8] = 1;
+			blockStatus[m][8] = solid;
 		}
 
 		/************
@@ -245,7 +254,7 @@ public class Player extends JPanel implements KeyListener {
 		 ************/
 
 		for (m = 1; m < 14; m++) {
-			blockStatus[m][9] = 2;
+			blockStatus[m][9] = breakblock;
 		}
 
 		/************
@@ -253,9 +262,9 @@ public class Player extends JPanel implements KeyListener {
 		 ************/
 
 		for (m = 1; m < 14; m++) {
-			blockStatus[m][10] = 2;
+			blockStatus[m][10] = breakblock;
 			m++;
-			blockStatus[m][10] = 1;
+			blockStatus[m][10] = solid;
 		}
 
 		/************
@@ -263,7 +272,7 @@ public class Player extends JPanel implements KeyListener {
 		 ************/
 
 		for (m = 1; m < 14; m++) {
-			blockStatus[m][11] = 2;
+			blockStatus[m][11] = breakblock;
 		}
 
 		/************
@@ -271,9 +280,9 @@ public class Player extends JPanel implements KeyListener {
 		 ************/
 
 		for (m = 1; m < 14; m++) {
-			blockStatus[m][12] = 2;
+			blockStatus[m][12] = breakblock;
 			m++;
-			blockStatus[m][12] = 1;
+			blockStatus[m][12] = solid;
 		}
 
 		/************
@@ -281,7 +290,7 @@ public class Player extends JPanel implements KeyListener {
 		 ************/
 
 		for (m = 1; m < 14; m++) {
-			blockStatus[m][13] = 2;
+			blockStatus[m][13] = breakblock;
 		}
 
 		/********************
@@ -289,28 +298,28 @@ public class Player extends JPanel implements KeyListener {
 		 ********************/
 
 		// Oben links
-		blockStatus[1][1] = 0; // <-- aktuelle spieler start posi
-		blockStatus[1][2] = 0;
-		blockStatus[2][1] = 0;
+		blockStatus[1][1] = ground; // <-- aktuelle spieler start posi
+		blockStatus[1][2] = ground;
+		blockStatus[2][1] = ground;
 		// Oben rechts
-		blockStatus[13][1] = 0;
-		blockStatus[13][2] = 0;
-		blockStatus[12][1] = 0;
+		blockStatus[13][1] = ground;
+		blockStatus[13][2] = ground;
+		blockStatus[12][1] = ground;
 		// Unten links
-		blockStatus[1][13] = 0;
-		blockStatus[1][12] = 0;
-		blockStatus[2][13] = 0;
+		blockStatus[1][13] = ground;
+		blockStatus[1][12] = ground;
+		blockStatus[2][13] = ground;
 		// Unten rechts
-		blockStatus[13][13] = 0;
-		blockStatus[13][12] = 0;
-		blockStatus[12][13] = 0;
+		blockStatus[13][13] = ground;
+		blockStatus[13][12] = ground;
+		blockStatus[12][13] = ground;
 	}
 
 	public void zeichnen() {
 		panel1.removeAll();
 		for (m = 0; m < 15; m++) {
 			for (n = 0; n < 15; n++) {
-				if (blockStatus[m][n] == 0) {
+				if (blockStatus[m][n] == ground) {
 					fblock[m][n] = new JLabel(grndBlock);
 					panel1.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
@@ -322,7 +331,7 @@ public class Player extends JPanel implements KeyListener {
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 				}
 
-				else if (blockStatus[m][n] == 2) {
+				else if (blockStatus[m][n] == breakblock) {
 					fblock[m][n] = new JLabel(brkbleBlock);
 					panel1.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
@@ -330,27 +339,27 @@ public class Player extends JPanel implements KeyListener {
 				/*
 				 * Bombe
 				 */
-				else if (blockStatus[m][n] == 3) {
+				else if (blockStatus[m][n] == bombesetzen) {
 					fblock[m][n] = new JLabel(bombe);
 					panel1.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 
-				} else if (blockStatus[m][n] == 4) {
+				} else if (blockStatus[m][n] == spieler_bombe) {
 					fblock[m][n] = new JLabel(playeronbomb);
 					panel1.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 
-				} else if (blockStatus[m][n] == 5) {
+				} else if (blockStatus[m][n] == explosion_mitte) {
 					fblock[m][n] = new JLabel(exp_m);
 					panel1.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 
-				} else if (blockStatus[m][n] == 6) {
+				} else if (blockStatus[m][n] == explosion_horizontal) {
 					fblock[m][n] = new JLabel(exp_h);
 					panel1.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 
-				} else if (blockStatus[m][n] == 7) {
+				} else if (blockStatus[m][n] == explosion_vertikal) {
 					fblock[m][n] = new JLabel(exp_v);
 					panel1.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
@@ -359,7 +368,7 @@ public class Player extends JPanel implements KeyListener {
 				/*
 				 * Spieler
 				 */
-				else if (blockStatus[m][n] == 8) {
+				else if (blockStatus[m][n] == spieler) {
 					fblock[m][n] = new JLabel(player);
 					panel1.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
@@ -368,7 +377,7 @@ public class Player extends JPanel implements KeyListener {
 				/*
 				 * Ausgang
 				 */
-				else if (blockStatus[m][n] == 9) {
+				else if (blockStatus[m][n] == ausgang) {
 					fblock[m][n] = new JLabel(portal);
 					panel1.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
@@ -393,8 +402,8 @@ public class Player extends JPanel implements KeyListener {
 		 * Spieler setzen *
 		 ********************/
 		testfeld();
-		blockStatus[1][1] = 8;
-		blockStatus[7][7] = 9;
+		blockStatus[1][1] = spieler;
+		blockStatus[7][7] = ausgang;
 		zeichnen();
 
 	}
@@ -451,63 +460,63 @@ public class Player extends JPanel implements KeyListener {
 			nextbomb = false;
 		}
 		if (moveRight == true
-				&& (blockStatus[x + 1][y] == 0 || blockStatus[x + 1][y] == 9)) {
-			if (blockStatus[x + 1][y] == 9) {
+				&& (blockStatus[x + 1][y] == ground || blockStatus[x + 1][y] == ausgang)) {
+			if (blockStatus[x + 1][y] == ausgang) {
 				frame.dispose();
 				new Player();
-			} else if (blockStatus[x][y] == 4) {
-				blockStatus[x][y] = 3;
+			} else if (blockStatus[x][y] == spieler_bombe) {
+				blockStatus[x][y] = bombesetzen;
 			} else {
-				blockStatus[x][y] = 0;
+				blockStatus[x][y] = ground;
 			}
 			x++;
-			blockStatus[x][y] = 8;
+			blockStatus[x][y] = spieler;
 			zeichnen();
 		}
 		if (moveLeft == true
-				&& (blockStatus[x - 1][y] == 0 || blockStatus[x - 1][y] == 9)) {
-			if (blockStatus[x - 1][y] == 9) {
+				&& (blockStatus[x - 1][y] == ground || blockStatus[x - 1][y] == ausgang)) {
+			if (blockStatus[x - 1][y] == ausgang) {
 				frame.dispose();
 				new Player();
-			} else if (blockStatus[x][y] == 4) {
-				blockStatus[x][y] = 3;
+			} else if (blockStatus[x][y] == spieler_bombe) {
+				blockStatus[x][y] = bombesetzen;
 			} else {
-				blockStatus[x][y] = 0;
+				blockStatus[x][y] = ground;
 			}
 			x--;
-			blockStatus[x][y] = 8;
+			blockStatus[x][y] = spieler;
 			zeichnen();
 		}
 		if (moveUp == true
-				&& (blockStatus[x][y - 1] == 0 || blockStatus[x][y - 1] == 9)) {
-			if (blockStatus[x][y - 1] == 9) {
+				&& (blockStatus[x][y - 1] == ground || blockStatus[x][y - 1] == ausgang)) {
+			if (blockStatus[x][y - 1] == ausgang) {
 				frame.dispose();
 				new Player();
-			} else if (blockStatus[x][y] == 4) {
-				blockStatus[x][y] = 3;
+			} else if (blockStatus[x][y] == spieler_bombe) {
+				blockStatus[x][y] = bombesetzen;
 			} else {
-				blockStatus[x][y] = 0;
+				blockStatus[x][y] = ground;
 			}
 			y--;
-			blockStatus[x][y] = 8;
+			blockStatus[x][y] = spieler;
 			zeichnen();
 		}
 		if (moveDown == true
-				&& (blockStatus[x][y + 1] == 0 || blockStatus[x][y + 1] == 9)) {
-			if (blockStatus[x][y + 1] == 9) {
+				&& (blockStatus[x][y + 1] == ground || blockStatus[x][y + 1] == ausgang)) {
+			if (blockStatus[x][y + 1] == ausgang) {
 				frame.dispose();
 				new Player();
-			} else if (blockStatus[x][y] == 4) {
-				blockStatus[x][y] = 3;
+			} else if (blockStatus[x][y] == spieler_bombe) {
+				blockStatus[x][y] = bombesetzen;
 			} else {
-				blockStatus[x][y] = 0;
+				blockStatus[x][y] = ground;
 			}
 			y++;
-			blockStatus[x][y] = 8;
+			blockStatus[x][y] = spieler;
 			zeichnen();
 		}
 		if (bomb == true) {
-			blockStatus[x][y] = 4;
+			blockStatus[x][y] = spieler_bombe;
 			a = x;
 			b = y;
 			zeichnen();
