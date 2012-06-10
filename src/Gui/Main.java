@@ -3,12 +3,14 @@ package Gui;
 import javax.swing.JFrame;
 
 import Objects.Steuerung;
+import Objects.Steuerung2;
 import Spielfeld.Spielfeld;
 
 public class Main extends JFrame {
 
 	public Spielfeld gamepanel;
 	public Steuerung gameinput;
+	public Steuerung2 gameinput2;
 	public Menue gamemenue;
 
 	/**
@@ -41,6 +43,7 @@ public class Main extends JFrame {
 		gamepanel.setLayout(null);
 		add(gamepanel);
 		gameinput = new Steuerung(this);
+		gameinput2 = new Steuerung2(this);
 	}
 
 	public static void main(String[] args) {

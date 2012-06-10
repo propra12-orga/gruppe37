@@ -3,14 +3,14 @@ package Objects;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class Spieler extends JPanel {
+public class Spieler2 extends JPanel {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public static JPanel panel1 = new JPanel();
+	public static JPanel panel2 = new JPanel();
 	public static int Feldgröße_x = 15;
 	public static int Feldgröße_y = 15;
 	private static final JLabel fblock[][] = new JLabel[Feldgröße_x][Feldgröße_y];
@@ -31,7 +31,7 @@ public class Spieler extends JPanel {
 	public static int spieler2 = 11;
 	public static int spieler2_bombe = 12;
 
-	public Spieler() {
+	public Spieler2() {
 
 	}
 }

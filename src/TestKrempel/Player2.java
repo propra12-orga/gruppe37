@@ -11,7 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class Player extends JPanel implements KeyListener {
+public class Player2 extends JPanel implements KeyListener {
 
 	public static void main(String[] args) {
 
@@ -23,6 +23,7 @@ public class Player extends JPanel implements KeyListener {
 	private final ImageIcon brkbleBlock = new ImageIcon("Images/breakstone.jpg");
 	private final ImageIcon grndBlock = new ImageIcon("Images/ground.jpg");
 	private final ImageIcon player = new ImageIcon("Images/Player.png");
+	private final ImageIcon player2 = new ImageIcon("Images/Player.png");
 	private final ImageIcon bombe = new ImageIcon("Images/bomb.jpg");
 	private final ImageIcon exp_h = new ImageIcon("Images/exp_h.jpg");
 	private final ImageIcon exp_v = new ImageIcon("Images/exp_v.jpg");
@@ -31,6 +32,7 @@ public class Player extends JPanel implements KeyListener {
 			"Images/Playeronbomb.png");
 	private final ImageIcon portal = new ImageIcon("Images/portal.gif");
 	private final JPanel panel1 = new JPanel();
+	private final JPanel panel2 = new JPanel();
 	public int Feldgröße_x = 15;
 	public int Feldgröße_y = 15;
 	private final JLabel fblock[][] = new JLabel[Feldgröße_x][Feldgröße_y];
@@ -49,10 +51,12 @@ public class Player extends JPanel implements KeyListener {
 	public int spieler = 8;
 	public int versteckterausgang = 9;
 	public int ausgang = 10;
-	public boolean moveRight = false;
-	public boolean moveLeft = false;
-	public boolean moveDown = false;
-	public boolean moveUp = false;
+	public int spieler2 = 11;
+	public int spieler2_bombe = 12;
+	public boolean moveRechts = false;
+	public boolean moveLinks = false;
+	public boolean moveRunter = false;
+	public boolean moveHoch = false;
 	public boolean bomb = false;
 	public boolean nextbomb = true;
 
@@ -68,26 +72,26 @@ public class Player extends JPanel implements KeyListener {
 					 * Game_over wenn spieler von der Bombe getroffen wird *
 					 *******************************************************/
 					for (int z = 1; z <= radius; z++) {
-						if (blockStatus[a][b] == spieler_bombe) {
+						if (blockStatus[a][b] == spieler2_bombe) {
 							game_over.start();
 						}
 						if (a + z < Feldgröße_x) {
 							if (blockStatus[a + (z - 1)][b] != solid) {
-								if (blockStatus[a + z][b] == spieler) {
+								if (blockStatus[a + z][b] == spieler2) {
 									game_over.start();
 								}
 							}
 						}
 						if (a - z > 0) {
 							if (blockStatus[a - (z - 1)][b] != solid) {
-								if (blockStatus[a - z][b] == spieler) {
+								if (blockStatus[a - z][b] == spieler2) {
 									game_over.start();
 								}
 							}
 						}
 						if (b + z < Feldgröße_y) {
 							if (blockStatus[a][b + (z - 1)] != solid) {
-								if (blockStatus[a][b + z] == spieler) {
+								if (blockStatus[a][b + z] == spieler2) {
 									game_over.start();
 								}
 							}
@@ -95,7 +99,7 @@ public class Player extends JPanel implements KeyListener {
 
 						if (b - z > 0) {
 							if (blockStatus[a][b - (z - 1)] != solid) {
-								if (blockStatus[a][b - z] == spieler) {
+								if (blockStatus[a][b - z] == spieler2) {
 									game_over.start();
 								}
 							}
@@ -108,7 +112,7 @@ public class Player extends JPanel implements KeyListener {
 					for (int z = 1; z <= radius; z++) {
 						if (a + z < Feldgröße_x) {
 							if (blockStatus[a + (z - 1)][b] != solid) {
-								if ((blockStatus[a + z][b] == spieler
+								if ((blockStatus[a + z][b] == spieler2
 										|| blockStatus[a + z][b] == breakblock || blockStatus[a
 										+ z][b] == ground)) {
 									blockStatus[a + z][b] = explosion_horizontal;
@@ -120,7 +124,7 @@ public class Player extends JPanel implements KeyListener {
 						}
 						if (a - z > 0) {
 							if (blockStatus[a - (z - 1)][b] != solid) {
-								if ((blockStatus[a - z][b] == spieler
+								if ((blockStatus[a - z][b] == spieler2
 										|| blockStatus[a - z][b] == breakblock || blockStatus[a
 										- z][b] == ground)) {
 									blockStatus[a - z][b] = explosion_horizontal;
@@ -132,7 +136,7 @@ public class Player extends JPanel implements KeyListener {
 						}
 						if (b - z > 0) {
 							if (blockStatus[a][b - (z - 1)] != solid) {
-								if ((blockStatus[a][b - z] == spieler
+								if ((blockStatus[a][b - z] == spieler2
 										|| blockStatus[a][b - z] == breakblock || blockStatus[a][b
 										- z] == ground)) {
 									blockStatus[a][b - z] = explosion_vertikal;
@@ -144,7 +148,7 @@ public class Player extends JPanel implements KeyListener {
 						}
 						if (b + z < Feldgröße_y) {
 							if (blockStatus[a][b + (z - 1)] != solid) {
-								if ((blockStatus[a][b + z] == spieler
+								if ((blockStatus[a][b + z] == spieler2
 										|| blockStatus[a][b + z] == breakblock || blockStatus[a][b
 										+ z] == ground)) {
 									blockStatus[a][b + z] = explosion_vertikal;
@@ -157,7 +161,7 @@ public class Player extends JPanel implements KeyListener {
 						}
 					}
 					blockStatus[a][b] = explosion_mitte;
-					zeichnen();
+					zeichnen2();
 					explosion_ende.start();
 
 					explosion.stop();
@@ -184,7 +188,7 @@ public class Player extends JPanel implements KeyListener {
 							}
 						}
 					}
-					zeichnen();
+					zeichnen2();
 
 					explosion_ende.stop();
 					nextbomb = true;
@@ -200,7 +204,7 @@ public class Player extends JPanel implements KeyListener {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					frame.dispose();
-					new Player();
+					new Player2();
 					game_over.stop();
 				}
 			});
@@ -259,25 +263,25 @@ public class Player extends JPanel implements KeyListener {
 		}
 	}
 
-	public void zeichnen() {
-		panel1.removeAll();
+	public void zeichnen2() {
+		panel2.removeAll();
 		for (m = 0; m < Feldgröße_x; m++) {
 			for (n = 0; n < Feldgröße_y; n++) {
 				if (blockStatus[m][n] == ground) {
 					fblock[m][n] = new JLabel(grndBlock);
-					panel1.add(fblock[m][n]);
+					panel2.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 				}
 
 				else if (blockStatus[m][n] == 1) {
 					fblock[m][n] = new JLabel(solidBlock);
-					panel1.add(fblock[m][n]);
+					panel2.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 				}
 
 				else if (blockStatus[m][n] == breakblock) {
 					fblock[m][n] = new JLabel(brkbleBlock);
-					panel1.add(fblock[m][n]);
+					panel2.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 				}
 				/*
@@ -285,36 +289,36 @@ public class Player extends JPanel implements KeyListener {
 				 */
 				else if (blockStatus[m][n] == bombesetzen) {
 					fblock[m][n] = new JLabel(bombe);
-					panel1.add(fblock[m][n]);
+					panel2.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 
-				} else if (blockStatus[m][n] == spieler_bombe) {
+				} else if (blockStatus[m][n] == spieler2_bombe) {
 					fblock[m][n] = new JLabel(playeronbomb);
-					panel1.add(fblock[m][n]);
+					panel2.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 
 				} else if (blockStatus[m][n] == explosion_mitte) {
 					fblock[m][n] = new JLabel(exp_m);
-					panel1.add(fblock[m][n]);
+					panel2.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 
 				} else if (blockStatus[m][n] == explosion_horizontal) {
 					fblock[m][n] = new JLabel(exp_h);
-					panel1.add(fblock[m][n]);
+					panel2.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 
 				} else if (blockStatus[m][n] == explosion_vertikal) {
 					fblock[m][n] = new JLabel(exp_v);
-					panel1.add(fblock[m][n]);
+					panel2.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 
 				}
 				/*
 				 * Spieler
 				 */
-				else if (blockStatus[m][n] == spieler) {
-					fblock[m][n] = new JLabel(player);
-					panel1.add(fblock[m][n]);
+				else if (blockStatus[m][n] == spieler2) {
+					fblock[m][n] = new JLabel(player2);
+					panel2.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 
 				}
@@ -323,13 +327,13 @@ public class Player extends JPanel implements KeyListener {
 				 */
 				else if (blockStatus[m][n] == versteckterausgang) {
 					fblock[m][n] = new JLabel(brkbleBlock);
-					panel1.add(fblock[m][n]);
+					panel2.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 				}
 
 				else if (blockStatus[m][n] == ausgang) {
 					fblock[m][n] = new JLabel(portal);
-					panel1.add(fblock[m][n]);
+					panel2.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 
 				}
@@ -338,13 +342,13 @@ public class Player extends JPanel implements KeyListener {
 
 	}
 
-	public Player() {
-		frame.getContentPane().add(panel1);
+	public Player2() {
+		frame.getContentPane().add(panel2);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setSize((Feldgröße_x * 32), (Feldgröße_y * 32));
 		frame.setVisible(true);
-		panel1.setLayout(null);
-		panel1.setBounds(200, 200, Feldgröße_x * 30, Feldgröße_y * 30);
+		panel2.setLayout(null);
+		panel2.setBounds(200, 200, Feldgröße_x * 30, Feldgröße_y * 30);
 		frame.addKeyListener(this);
 		frame.setResizable(false);
 
@@ -352,13 +356,13 @@ public class Player extends JPanel implements KeyListener {
 		 * Spieler setzen *
 		 ********************/
 		testfeld();
-		blockStatus[1][1] = spieler;
+		blockStatus[13][13] = spieler2;
 
 		/**********************************
 		 * Portal auf zuf�lligem Breakable*
 		 **********************************/
 		zufallsPortal();
-		zeichnen();
+		zeichnen2();
 
 	}
 
@@ -369,16 +373,16 @@ public class Player extends JPanel implements KeyListener {
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		if ((e.getKeyCode()) == (KeyEvent.VK_UP))
-			moveUp = false;
-		else if ((e.getKeyCode()) == (KeyEvent.VK_DOWN))
-			moveDown = false;
+		if ((e.getKeyCode()) == (KeyEvent.VK_W))
+			moveHoch = false;
+		else if ((e.getKeyCode()) == (KeyEvent.VK_S))
+			moveRunter = false;
 
-		else if ((e.getKeyCode()) == (KeyEvent.VK_LEFT))
-			moveLeft = false;
+		else if ((e.getKeyCode()) == (KeyEvent.VK_A))
+			moveLinks = false;
 
-		else if ((e.getKeyCode()) == (KeyEvent.VK_RIGHT))
-			moveRight = false;
+		else if ((e.getKeyCode()) == (KeyEvent.VK_D))
+			moveRechts = false;
 
 	}
 
@@ -386,105 +390,105 @@ public class Player extends JPanel implements KeyListener {
 	public void keyPressed(KeyEvent e) {
 		if ((e.getKeyCode()) == (KeyEvent.VK_ESCAPE)) {
 			frame.dispose();
-			new Player();
+			new Player2();
 		}
-		if ((e.getKeyCode()) == (KeyEvent.VK_UP)) {
-			moveUp = true;
-			moveDown = false;
-			moveLeft = false;
-			moveRight = false;
+		if ((e.getKeyCode()) == (KeyEvent.VK_W)) {
+			moveHoch = true;
+			moveRunter = false;
+			moveLinks = false;
+			moveRechts = false;
 		}
 
 		// move player down with DOWN-ARROW key
-		else if ((e.getKeyCode()) == (KeyEvent.VK_DOWN)) {
-			moveUp = false;
-			moveDown = true;
-			moveLeft = false;
-			moveRight = false;
+		else if ((e.getKeyCode()) == (KeyEvent.VK_S)) {
+			moveHoch = false;
+			moveRunter = true;
+			moveLinks = false;
+			moveRechts = false;
 		}
 		// move player left with LEFT-ARROW key
-		else if ((e.getKeyCode()) == (KeyEvent.VK_LEFT)) {
-			moveLeft = true;
-			moveRight = false;
-			moveUp = false;
-			moveDown = false;
+		else if ((e.getKeyCode()) == (KeyEvent.VK_A)) {
+			moveLinks = true;
+			moveRechts = false;
+			moveHoch = false;
+			moveRunter = false;
 		}
 		// move player right with RIGHT-ARROW key
-		else if ((e.getKeyCode()) == (KeyEvent.VK_RIGHT)) {
-			moveRight = true;
-			moveLeft = false;
-			moveUp = false;
-			moveDown = false;
+		else if ((e.getKeyCode()) == (KeyEvent.VK_D)) {
+			moveRechts = true;
+			moveLinks = false;
+			moveHoch = false;
+			moveRunter = false;
 
 		}
 		// bomb with CONTROL key
-		else if ((e.getKeyCode()) == (KeyEvent.VK_CONTROL) && nextbomb == true) {
+		else if ((e.getKeyCode()) == (KeyEvent.VK_SPACE) && nextbomb == true) {
 			bomb = true;
 			nextbomb = false;
 		}
-		if (moveRight == true
+		if (moveRechts == true
 				&& (blockStatus[x + 1][y] == ground || blockStatus[x + 1][y] == ausgang)) {
 			if (blockStatus[x + 1][y] == ausgang) {
 				frame.dispose();
-				new Player();
-			} else if (blockStatus[x][y] == spieler_bombe) {
+				new Player2();
+			} else if (blockStatus[x][y] == spieler2_bombe) {
 				blockStatus[x][y] = bombesetzen;
 			} else {
 				blockStatus[x][y] = ground;
 			}
 			x++;
-			blockStatus[x][y] = spieler;
-			zeichnen();
+			blockStatus[x][y] = spieler2;
+			zeichnen2();
 		}
-		if (moveLeft == true
+		if (moveLinks == true
 				&& (blockStatus[x - 1][y] == ground || blockStatus[x - 1][y] == ausgang)) {
 			if (blockStatus[x - 1][y] == ausgang) {
 				frame.dispose();
-				new Player();
-			} else if (blockStatus[x][y] == spieler_bombe) {
+				new Player2();
+			} else if (blockStatus[x][y] == spieler2_bombe) {
 				blockStatus[x][y] = bombesetzen;
 			} else {
 				blockStatus[x][y] = ground;
 			}
 			x--;
-			blockStatus[x][y] = spieler;
+			blockStatus[x][y] = spieler2;
 
-			zeichnen();
+			zeichnen2();
 		}
-		if (moveUp == true
+		if (moveHoch == true
 				&& (blockStatus[x][y - 1] == ground || blockStatus[x][y - 1] == ausgang)) {
 			if (blockStatus[x][y - 1] == ausgang) {
 				frame.dispose();
-				new Player();
-			} else if (blockStatus[x][y] == spieler_bombe) {
+				new Player2();
+			} else if (blockStatus[x][y] == spieler2_bombe) {
 				blockStatus[x][y] = bombesetzen;
 			} else {
 				blockStatus[x][y] = ground;
 			}
 			y--;
-			blockStatus[x][y] = spieler;
+			blockStatus[x][y] = spieler2;
 
-			zeichnen();
+			zeichnen2();
 		}
-		if (moveDown == true
+		if (moveRunter == true
 				&& (blockStatus[x][y + 1] == ground || blockStatus[x][y + 1] == ausgang)) {
 			if (blockStatus[x][y + 1] == ausgang) {
 				frame.dispose();
-				new Player();
-			} else if (blockStatus[x][y] == spieler_bombe) {
+				new Player2();
+			} else if (blockStatus[x][y] == spieler2_bombe) {
 				blockStatus[x][y] = bombesetzen;
 			} else {
 				blockStatus[x][y] = ground;
 			}
 			y++;
-			blockStatus[x][y] = spieler;
-			zeichnen();
+			blockStatus[x][y] = spieler2;
+			zeichnen2();
 		}
 		if (bomb == true) {
-			blockStatus[x][y] = spieler_bombe;
+			blockStatus[x][y] = spieler2_bombe;
 			a = x;
 			b = y;
-			zeichnen();
+			zeichnen2();
 			bomb = false;
 			explosion.start();
 

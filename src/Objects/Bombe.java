@@ -22,6 +22,8 @@ public class Bombe extends Spielfeld {
 	public int spieler = 8;
 	public int versteckterausgang = 9;
 	public int ausgang = 10;
+	public int spieler2 = 11;
+	public int spieler2_bombe = 12;
 
 	public Bombe() {
 
@@ -45,7 +47,7 @@ public class Bombe extends Spielfeld {
 						if (blockStatus[a][b] == spieler_bombe) {
 							game_over.start();
 						}
-						if (a + z < Feldgröße_x) {
+						if (a + z < FeldgrÃ¶ÃŸe_x) {
 							if (blockStatus[a + (z - 1)][b] != solid) {
 								if (blockStatus[a + z][b] == spieler) {
 									game_over.start();
@@ -59,7 +61,7 @@ public class Bombe extends Spielfeld {
 								}
 							}
 						}
-						if (b + z < Feldgröße_y) {
+						if (b + z < FeldgrÃ¶ÃŸe_y) {
 							if (blockStatus[a][b + (z - 1)] != solid) {
 								if (blockStatus[a][b + z] == spieler) {
 									game_over.start();
@@ -80,7 +82,7 @@ public class Bombe extends Spielfeld {
 					 * ersetzen der break- und spieler blocks durch explosion *
 					 **********************************************************/
 					for (int z = 1; z <= radius; z++) {
-						if (a + z < Feldgröße_x) {
+						if (a + z < FeldgrÃ¶ÃŸe_x) {
 							if (blockStatus[a + (z - 1)][b] != solid) {
 								if ((blockStatus[a + z][b] == spieler
 										|| blockStatus[a + z][b] == breakblock || blockStatus[a
@@ -116,7 +118,7 @@ public class Bombe extends Spielfeld {
 								}
 							}
 						}
-						if (b + z < Feldgröße_y) {
+						if (b + z < FeldgrÃ¶ÃŸe_y) {
 							if (blockStatus[a][b + (z - 1)] != solid) {
 								if ((blockStatus[a][b + z] == spieler
 										|| blockStatus[a][b + z] == breakblock || blockStatus[a][b
@@ -145,11 +147,11 @@ public class Bombe extends Spielfeld {
 				public void actionPerformed(ActionEvent e) {
 
 					/****************************************************
-					 * ersetzen der explosionsblöcke durch groundblocks *
+					 * ersetzen der explosionsblï¿½cke durch groundblocks *
 					 ****************************************************/
 
-					for (k = 0; k < Feldgröße_x; k++) {
-						for (l = 0; l < Feldgröße_y; l++) {
+					for (k = 0; k < FeldgrÃ¶ÃŸe_x; k++) {
+						for (l = 0; l < FeldgrÃ¶ÃŸe_y; l++) {
 							if (blockStatus[k][l] == explosion_horizontal
 									|| blockStatus[k][l] == explosion_vertikal
 									|| blockStatus[k][l] == explosion_mitte) {
@@ -184,12 +186,12 @@ public class Bombe extends Spielfeld {
 	 * 
 	 * public void getRadius() { return radius; }
 	 * 
-	 * public void getFeldX() { return Feldgröße_x; }
+	 * public void getFeldX() { return FeldgrÃ¶ÃŸe_x; }
 	 * 
-	 * public void getFeldY() { return Feldgröße_y; }
+	 * public void getFeldY() { return FeldgrÃ¶ÃŸe_y; }
 	 * 
 	 * public void getWerte() { int blockstatus[][] = new
-	 * int[Feldgröße_x][Feldgröße_y]; blockstatus[x][y] =
+	 * int[FeldgrÃ¶ÃŸe_x][FeldgrÃ¶ÃŸe_y]; blockstatus[x][y] =
 	 * Spielfeld.blockstatus[x][y]; }
 	 */
 }

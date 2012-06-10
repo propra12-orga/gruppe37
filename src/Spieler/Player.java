@@ -1,4 +1,5 @@
 package Spieler;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -22,6 +23,7 @@ public class Player extends JPanel implements KeyListener {
 	private final ImageIcon brkbleBlock = new ImageIcon("Images/breakstone.jpg");
 	private final ImageIcon grndBlock = new ImageIcon("Images/ground.jpg");
 	private final ImageIcon player = new ImageIcon("Images/Player.png");
+	private final ImageIcon player2 = new ImageIcon("Images/Player.png");
 	private final ImageIcon bombe = new ImageIcon("Images/bomb.jpg");
 	private final ImageIcon exp_h = new ImageIcon("Images/exp_h.jpg");
 	private final ImageIcon exp_v = new ImageIcon("Images/exp_v.jpg");
@@ -42,6 +44,8 @@ public class Player extends JPanel implements KeyListener {
 	public int explosion_vertikal = 7;
 	public int spieler = 8;
 	public int ausgang = 9;
+	public int spieler2 = 11;
+	public int spieler2_bombe = 12;
 	public boolean moveRight = false;
 	public boolean moveLeft = false;
 	public boolean moveDown = false;
@@ -143,7 +147,7 @@ public class Player extends JPanel implements KeyListener {
 
 	public void testfeld() {
 		/***********************************
-		 * Es folgt das obere Rahmenst�ck. *
+		 * Es folgt das obere Rahmenstück. *
 		 ***********************************/
 
 		for (m = 0; m < 15; m++) {
@@ -151,7 +155,7 @@ public class Player extends JPanel implements KeyListener {
 		}
 
 		/***************************
-		 * Das untere Rahmenst�ck. *
+		 * Das untere Rahmenstück. *
 		 ***************************/
 
 		for (m = 0; m < 15; m++) {
@@ -159,7 +163,7 @@ public class Player extends JPanel implements KeyListener {
 		}
 
 		/***************************
-		 * Das linke Rahmenst�ck. *
+		 * Das linke Rahmenstück. *
 		 ***************************/
 
 		for (n = 1; n < 14; n++) {
@@ -167,7 +171,7 @@ public class Player extends JPanel implements KeyListener {
 		}
 
 		/***************************
-		 * Das rechte Rahmenst�ck. *
+		 * Das rechte Rahmenstück. *
 		 ***************************/
 
 		for (n = 1; n < 14; n++) {
@@ -175,7 +179,7 @@ public class Player extends JPanel implements KeyListener {
 		}
 
 		/*************************************************************
-		 * Innenfeld - Reihen der Spielfeld Bl�cke. *
+		 * Innenfeld - Reihen der Spielfeld Blöcke. *
 		 *************************************************************/
 
 		/************
