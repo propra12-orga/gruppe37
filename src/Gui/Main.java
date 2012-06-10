@@ -2,7 +2,14 @@ package Gui;
 
 import javax.swing.JFrame;
 
+import Objects.Steuerung;
+import Spielfeld.Spielfeld;
+
 public class Main extends JFrame {
+
+	public Spielfeld gamepanel;
+	public Steuerung gameinput;
+	public Menue gamemenue;
 
 	/**
 	 * 
@@ -11,23 +18,32 @@ public class Main extends JFrame {
 
 	public Main() {
 
+		super("Bomberman");
 		/************************
 		 * Fenstereinstellungen *
 		 ************************/
+		gamemenue = new Menue(this);
+		createGame();
+		setJMenuBar(Menue.menubar);
+		getContentPane().setLayout(null);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setVisible(true);
+		setResizable(false);
 
-		JFrame frame = new JFrame("Bomberman");
-		frame.setJMenuBar(Menue.menubar);
-		frame.setSize(800, 600);
-		frame.getContentPane().setLayout(null);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(true);
-		frame.setResizable(false);
+	}
 
+	public void createGame() {
+		if (gamepanel != null) {
+			gamepanel = null;
+		}
+		gamepanel = new Spielfeld(this);
+		gamepanel.setVisible(true);
+		gamepanel.setLayout(null);
+		add(gamepanel);
+		gameinput = new Steuerung(this);
 	}
 
 	public static void main(String[] args) {
-		new Main();
-		new Menue();
+		Main m = new Main();
 	}
-
 }

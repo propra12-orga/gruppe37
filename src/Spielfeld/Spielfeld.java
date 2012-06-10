@@ -1,9 +1,12 @@
 package Spielfeld;
 
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import Gui.Main;
+import Objects.Steuerung;
+import TestKrempel.Player;
 
 public class Spielfeld extends JPanel {
 
@@ -12,23 +15,21 @@ public class Spielfeld extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private final JFrame frame = new JFrame();
-	private static ImageIcon solidBlock = new ImageIcon("Images/HardBlock.png");
-	private static ImageIcon brkbleBlock = new ImageIcon(
-			"Images/breakstone.jpg");
-	private static ImageIcon grndBlock = new ImageIcon("Images/ground.jpg");
-	private static ImageIcon player = new ImageIcon("Images/Player.png");
-	private static ImageIcon bombe = new ImageIcon("Images/bomb.jpg");
-	private static ImageIcon exp_h = new ImageIcon("Images/exp_h.jpg");
-	private static ImageIcon exp_v = new ImageIcon("Images/exp_v.jpg");
-	private static ImageIcon exp_m = new ImageIcon("Images/exp_m.jpg");
-	private static ImageIcon playeronbomb = new ImageIcon("Images/Player.png");
-	private static ImageIcon portal = new ImageIcon("Images/portal.gif");
-	public static JPanel panel1 = new JPanel();
+	private ImageIcon solidBlock;
+	private ImageIcon brkbleBlock;
+	private ImageIcon grndBlock;
+	private ImageIcon player;
+	private ImageIcon bombe;
+	private ImageIcon exp_h;
+	private ImageIcon exp_v;
+	private ImageIcon exp_m;
+	private ImageIcon playeronbomb;
+	private ImageIcon portal;
+	public JPanel panel1 = new JPanel();
 	public int Feldgröße_x = 15;
 	public int Feldgröße_y = 15;
 	private final JLabel fblock[][] = new JLabel[Feldgröße_x][Feldgröße_y];
-	private final int blockStatus[][] = new int[Feldgröße_x][Feldgröße_y];
+	public final int blockStatus[][] = new int[Feldgröße_x][Feldgröße_y];
 	public int m = 0, n = 0, x = 1, y = 1, a, b, k, l;
 	public int radius = 10;
 
@@ -44,23 +45,39 @@ public class Spielfeld extends JPanel {
 	public int versteckterausgang = 9;
 	public int ausgang = 10;
 
-	public Spielfeld() {
+	private final Main window;
 
-		frame.getContentPane().add(panel1);
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.setSize((Feldgröße_x * 32), (Feldgröße_y * 32));
-		frame.setVisible(true);
+	public Spielfeld(Main parent) {
+
+		loadContentImages();
+		window = parent;
+		window.getContentPane().add(panel1);
+		window.setSize(((Feldgröße_x * 30) + 10), ((Feldgröße_y * 30) + 50));
+		window.setVisible(true);
 		panel1.setLayout(null);
-		panel1.setBounds(200, 200, Feldgröße_x * 30, Feldgröße_y * 30);
-		frame.setResizable(false);
+		panel1.setBounds(0, 0, Feldgröße_x * 30, Feldgröße_y * 30);
+		window.setResizable(false);
 
 		/********************
 		 * Spieler setzen *
 		 ********************/
 		standardfeld();
 		blockStatus[1][1] = spieler;
-		blockStatus[7][7] = ausgang;
+		control();
 		zeichnen();
+	}
+
+	private void loadContentImages() {
+		solidBlock = new ImageIcon("Images/HardBlock.png");
+		brkbleBlock = new ImageIcon("Images/breakstone.jpg");
+		grndBlock = new ImageIcon("Images/ground.jpg");
+		player = new ImageIcon("Images/Player.png");
+		bombe = new ImageIcon("Images/bomb.jpg");
+		exp_h = new ImageIcon("Images/exp_h.jpg");
+		exp_v = new ImageIcon("Images/exp_v.jpg");
+		exp_m = new ImageIcon("Images/exp_m.jpg");
+		playeronbomb = new ImageIcon("Images/Playeronbomb.png");
+		portal = new ImageIcon("Images/portal.gif");
 	}
 
 	public void standardfeld() {
@@ -174,9 +191,98 @@ public class Spielfeld extends JPanel {
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 
 				}
+				/*************************************************
+				 * Bewegung der Spielfigur //abfrage der steuerung*
+				 *************************************************/
+
 			}
 		}
 
+	}
+
+	public void control() {
+		boolean moveRight = Steuerung.moveRight;
+		boolean moveLeft = Steuerung.moveLeft;
+		boolean moveDown = Steuerung.moveDown;
+		boolean moveUp = Steuerung.moveUp;
+		boolean bomb = Steuerung.bomb;
+		boolean nextbomb = Steuerung.nextbomb;
+
+		if (moveRight == true
+				&& (blockStatus[x + 1][y] == ground || blockStatus[x + 1][y] == ausgang)) {
+			if (blockStatus[x + 1][y] == ausgang) {
+				window.dispose();
+				new Player();
+			} else if (blockStatus[x][y] == spieler_bombe) {
+				blockStatus[x][y] = bombesetzen;
+			} else {
+				blockStatus[x][y] = ground;
+			}
+			x++;
+			blockStatus[x][y] = spieler;
+			zeichnen();
+		}
+		if (moveLeft == true
+				&& (blockStatus[x - 1][y] == ground || blockStatus[x - 1][y] == ausgang)) {
+			if (blockStatus[x - 1][y] == ausgang) {
+				window.dispose();
+				new Player();
+			} else if (blockStatus[x][y] == spieler_bombe) {
+				blockStatus[x][y] = bombesetzen;
+			} else {
+				blockStatus[x][y] = ground;
+			}
+			x--;
+			blockStatus[x][y] = spieler;
+
+			zeichnen();
+		}
+		if (moveUp == true
+				&& (blockStatus[x][y - 1] == ground || blockStatus[x][y - 1] == ausgang)) {
+			if (blockStatus[x][y - 1] == ausgang) {
+				window.dispose();
+				new Player();
+			} else if (blockStatus[x][y] == spieler_bombe) {
+				blockStatus[x][y] = bombesetzen;
+			} else {
+				blockStatus[x][y] = ground;
+			}
+			y--;
+			blockStatus[x][y] = spieler;
+
+			zeichnen();
+		}
+
+		if (moveDown == true
+				&& (blockStatus[x][y + 1] == ground || blockStatus[x][y + 1] == ausgang)) {
+			if (blockStatus[x][y + 1] == ausgang) {
+				window.dispose();
+				new Player();
+			} else if (blockStatus[x][y] == spieler_bombe) {
+				blockStatus[x][y] = bombesetzen;
+			} else {
+				blockStatus[x][y] = ground;
+			}
+			y++;
+			blockStatus[x][y] = spieler;
+			zeichnen();
+		}
+		if (bomb == true) {
+			blockStatus[x][y] = spieler_bombe;
+			a = x;
+			b = y;
+			zeichnen();
+			bomb = false;
+			// Bombe.explosion.start();
+		}
+	}
+
+	public void setBlockStatus(int x, int y, int status) {
+		blockStatus[x][y] = status;
+	}
+
+	public int getBlockStatus(int x, int y) {
+		return blockStatus[x][y];
 	}
 
 }

@@ -1,30 +1,35 @@
-package Gui;
+package Startbildschirm;
 
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
-public class Menue extends JPanel {
+import Spieler.Player;
 
-	/**
-	 * 
-	 */
+public class Default extends JFrame {
+
 	private static final long serialVersionUID = 1L;
-	public static final JMenuBar menubar = new JMenuBar();
-	private final Main window;
 
-	public Menue(Main parent) {
+	public static void main(String[] args) {
+		new Default();
+	}
 
-		window = parent;
+	public Default() {
 
 		/*********
 		 * Menue *
 		 *********/
+
+		JMenuBar menubar = new JMenuBar();
 		JMenu filemenu = new JMenu("Spiel");
 		filemenu.add(new JSeparator());
 
@@ -39,10 +44,12 @@ public class Menue extends JPanel {
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 
 				try {
-					window.createGame();
-				}
+					JPanel Player = new Player();
+					Player.setVisible(true);
+					Player.setLayout(null);
+					add(Player);
 
-				catch (Exception e1) {
+				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
 
@@ -87,6 +94,31 @@ public class Menue extends JPanel {
 		filemenu.add(fileItem2);
 		filemenu.add(fileItem3);
 		menubar.add(filemenu);
+
+		/************************
+		 * Fenstereinstellungen *
+		 ************************/
+
+		JFrame frame = new JFrame("Bomberman");
+
+		frame.setJMenuBar(menubar);
+		frame.setSize(800, 600);
+		frame.getContentPane().setLayout(null);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
+		frame.setResizable(false);
+
+		/************
+		 * Textfeld *
+		 ************/
+
+		JPanel field = new JPanel(new GridLayout(400, 300));
+		field.setPreferredSize(new Dimension(800, 600));
+		JLabel label = new JLabel(
+				"Hier entsteht unser Bomberman, aber sowas von ;)",
+				JLabel.CENTER);
+		label.setBounds(0, 0, 784, 541);
+		frame.getContentPane().add(label);
 
 	}
 }
