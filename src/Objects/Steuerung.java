@@ -1,5 +1,7 @@
 package Objects;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -12,7 +14,6 @@ public class Steuerung implements KeyListener {
 	public static boolean moveDown = false;
 	public static boolean moveUp = false;
 	public static boolean bomb = false;
-	public static boolean nextbomb = true;
 
 	private final Main window;
 
@@ -20,6 +21,14 @@ public class Steuerung implements KeyListener {
 		window = parent;
 		window.addKeyListener(this);
 	}
+
+	javax.swing.Timer delay = new javax.swing.Timer(1000, new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			bomb = false;
+			delay.stop();
+		}
+	});
 
 	@Override
 	public void keyReleased(KeyEvent e) {
@@ -38,15 +47,12 @@ public class Steuerung implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if ((e.getKeyCode()) == (KeyEvent.VK_ESCAPE)) {
-			window.dispose();
-		}
+		// move player up with UP-ARROW key
 		if ((e.getKeyCode()) == (KeyEvent.VK_UP)) {
 			moveUp = true;
 			moveDown = false;
 			moveLeft = false;
 			moveRight = false;
-			System.out.println("blaaaa");
 		}
 
 		// move player down with DOWN-ARROW key
@@ -55,7 +61,6 @@ public class Steuerung implements KeyListener {
 			moveDown = true;
 			moveLeft = false;
 			moveRight = false;
-			System.out.println("blaaaa");
 		}
 		// move player left with LEFT-ARROW key
 		else if ((e.getKeyCode()) == (KeyEvent.VK_LEFT)) {
@@ -63,7 +68,6 @@ public class Steuerung implements KeyListener {
 			moveRight = false;
 			moveUp = false;
 			moveDown = false;
-			System.out.println("blaaaa");
 		}
 		// move player right with RIGHT-ARROW key
 		else if ((e.getKeyCode()) == (KeyEvent.VK_RIGHT)) {
@@ -71,13 +75,14 @@ public class Steuerung implements KeyListener {
 			moveLeft = false;
 			moveUp = false;
 			moveDown = false;
-			System.out.println("blaaaa");
 
 		}
 		// bomb with CONTROL key
-		else if ((e.getKeyCode()) == (KeyEvent.VK_CONTROL) && nextbomb == true) {
+		else if ((e.getKeyCode()) == (KeyEvent.VK_CONTROL)
+				&& Spielfeld.Spielfeld.nextbomb1 == true) {
 			bomb = true;
-			nextbomb = false;
+			delay.start();
+
 		}
 		window.gamepanel.control();
 	}

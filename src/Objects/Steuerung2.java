@@ -1,5 +1,7 @@
 package Objects;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -11,8 +13,7 @@ public class Steuerung2 implements KeyListener {
 	public static boolean moveLinks = false;
 	public static boolean moveRunter = false;
 	public static boolean moveHoch = false;
-	public static boolean bomb = false;
-	public static boolean nextbomb = true;
+	public static boolean bomb2 = false;
 
 	private final Main window;
 
@@ -20,6 +21,14 @@ public class Steuerung2 implements KeyListener {
 		window = parent;
 		window.addKeyListener(this);
 	}
+
+	javax.swing.Timer delay = new javax.swing.Timer(1000, new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			bomb2 = false;
+			delay.stop();
+		}
+	});
 
 	@Override
 	public void keyReleased(KeyEvent e) {
@@ -38,16 +47,12 @@ public class Steuerung2 implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if ((e.getKeyCode()) == (KeyEvent.VK_ESCAPE)) {
-			window.dispose();
-		}
 		// move player2 up with W
 		if ((e.getKeyCode()) == (KeyEvent.VK_W)) {
 			moveHoch = true;
 			moveRunter = false;
 			moveLinks = false;
 			moveRechts = false;
-			System.out.println("blaaaa");
 		}
 
 		// move player2 down with S
@@ -56,7 +61,6 @@ public class Steuerung2 implements KeyListener {
 			moveRunter = true;
 			moveLinks = false;
 			moveRechts = false;
-			System.out.println("blaaaa");
 		}
 		// move player2 left with A
 		else if ((e.getKeyCode()) == (KeyEvent.VK_A)) {
@@ -64,7 +68,6 @@ public class Steuerung2 implements KeyListener {
 			moveRechts = false;
 			moveHoch = false;
 			moveRunter = false;
-			System.out.println("blaaaa");
 		}
 		// move player2 right with D
 		else if ((e.getKeyCode()) == (KeyEvent.VK_D)) {
@@ -72,13 +75,13 @@ public class Steuerung2 implements KeyListener {
 			moveLinks = false;
 			moveHoch = false;
 			moveRunter = false;
-			System.out.println("blaaaa");
 
 		}
 		// set bomb with player2 with SPACE
-		else if ((e.getKeyCode()) == (KeyEvent.VK_SPACE) && nextbomb == true) {
-			bomb = true;
-			nextbomb = false;
+		else if ((e.getKeyCode()) == (KeyEvent.VK_SPACE)
+				&& Spielfeld.Spielfeld.nextbomb2 == true) {
+			bomb2 = true;
+			delay.start();
 		}
 		window.gamepanel.control2();
 	}

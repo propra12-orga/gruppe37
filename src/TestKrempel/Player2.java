@@ -33,10 +33,10 @@ public class Player2 extends JPanel implements KeyListener {
 	private final ImageIcon portal = new ImageIcon("Images/portal.gif");
 	private final JPanel panel1 = new JPanel();
 	private final JPanel panel2 = new JPanel();
-	public int Feldgröße_x = 15;
-	public int Feldgröße_y = 15;
-	private final JLabel fblock[][] = new JLabel[Feldgröße_x][Feldgröße_y];
-	private final int blockStatus[][] = new int[Feldgröße_x][Feldgröße_y];
+	public int Feldgroesse_x = 15;
+	public int Feldgroesse_y = 15;
+	private final JLabel fblock[][] = new JLabel[Feldgroesse_x][Feldgroesse_y];
+	private final int blockStatus[][] = new int[Feldgroesse_x][Feldgroesse_y];
 	public int m = 0, n = 0, x = 1, y = 1, a, b, k, l;
 	public int radius = 10;
 
@@ -75,7 +75,7 @@ public class Player2 extends JPanel implements KeyListener {
 						if (blockStatus[a][b] == spieler2_bombe) {
 							game_over.start();
 						}
-						if (a + z < Feldgröße_x) {
+						if (a + z < Feldgroesse_x) {
 							if (blockStatus[a + (z - 1)][b] != solid) {
 								if (blockStatus[a + z][b] == spieler2) {
 									game_over.start();
@@ -89,7 +89,7 @@ public class Player2 extends JPanel implements KeyListener {
 								}
 							}
 						}
-						if (b + z < Feldgröße_y) {
+						if (b + z < Feldgroesse_y) {
 							if (blockStatus[a][b + (z - 1)] != solid) {
 								if (blockStatus[a][b + z] == spieler2) {
 									game_over.start();
@@ -110,7 +110,7 @@ public class Player2 extends JPanel implements KeyListener {
 					 * ersetzen der break- und spieler blocks durch explosion *
 					 **********************************************************/
 					for (int z = 1; z <= radius; z++) {
-						if (a + z < Feldgröße_x) {
+						if (a + z < Feldgroesse_x) {
 							if (blockStatus[a + (z - 1)][b] != solid) {
 								if ((blockStatus[a + z][b] == spieler2
 										|| blockStatus[a + z][b] == breakblock || blockStatus[a
@@ -146,7 +146,7 @@ public class Player2 extends JPanel implements KeyListener {
 								}
 							}
 						}
-						if (b + z < Feldgröße_y) {
+						if (b + z < Feldgroesse_y) {
 							if (blockStatus[a][b + (z - 1)] != solid) {
 								if ((blockStatus[a][b + z] == spieler2
 										|| blockStatus[a][b + z] == breakblock || blockStatus[a][b
@@ -178,8 +178,8 @@ public class Player2 extends JPanel implements KeyListener {
 					 * ersetzen der explosionsbl�cke durch groundblocks *
 					 ****************************************************/
 
-					for (k = 0; k < Feldgröße_x; k++) {
-						for (l = 0; l < Feldgröße_y; l++) {
+					for (k = 0; k < Feldgroesse_x; k++) {
+						for (l = 0; l < Feldgroesse_y; l++) {
 							if (blockStatus[k][l] == explosion_horizontal
 									|| blockStatus[k][l] == explosion_vertikal
 									|| blockStatus[k][l] == explosion_mitte) {
@@ -214,10 +214,10 @@ public class Player2 extends JPanel implements KeyListener {
 		 * Innenfeld - Reihen der Spielfeld Bloecke. *
 		 *************************************************************/
 
-		for (n = 0; n < Feldgröße_y; n++) {
-			for (m = 0; m < Feldgröße_x; m++) {
+		for (n = 0; n < Feldgroesse_y; n++) {
+			for (m = 0; m < Feldgroesse_x; m++) {
 				if (m % 2 != 1 && n % 2 != 1 || m == 0 || n == 0
-						|| n == Feldgröße_y - 1 || m == Feldgröße_x - 1) {
+						|| n == Feldgroesse_y - 1 || m == Feldgroesse_x - 1) {
 					blockStatus[m][n] = solid;
 				}
 
@@ -237,24 +237,24 @@ public class Player2 extends JPanel implements KeyListener {
 		blockStatus[1][2] = ground;
 		blockStatus[2][1] = ground;
 		// Oben rechts
-		blockStatus[Feldgröße_x - 2][1] = ground;
-		blockStatus[Feldgröße_x - 2][2] = ground;
-		blockStatus[Feldgröße_x - 3][1] = ground;
+		blockStatus[Feldgroesse_x - 2][1] = ground;
+		blockStatus[Feldgroesse_x - 2][2] = ground;
+		blockStatus[Feldgroesse_x - 3][1] = ground;
 		// Unten links
-		blockStatus[1][Feldgröße_y - 2] = ground;
-		blockStatus[1][Feldgröße_y - 3] = ground;
-		blockStatus[2][Feldgröße_y - 2] = ground;
+		blockStatus[1][Feldgroesse_y - 2] = ground;
+		blockStatus[1][Feldgroesse_y - 3] = ground;
+		blockStatus[2][Feldgroesse_y - 2] = ground;
 		// Unten rechts
-		blockStatus[Feldgröße_x - 2][Feldgröße_y - 2] = ground;
-		blockStatus[Feldgröße_x - 2][Feldgröße_y - 3] = ground;
-		blockStatus[Feldgröße_x - 3][Feldgröße_y - 2] = ground;
+		blockStatus[Feldgroesse_x - 2][Feldgroesse_y - 2] = ground;
+		blockStatus[Feldgroesse_x - 2][Feldgroesse_y - 3] = ground;
+		blockStatus[Feldgroesse_x - 3][Feldgroesse_y - 2] = ground;
 	}
 
 	private void zufallsPortal() {
 
 		Random r = new Random();
-		int random_x = r.nextInt(Feldgröße_x);
-		int random_y = r.nextInt(Feldgröße_y);
+		int random_x = r.nextInt(Feldgroesse_x);
+		int random_y = r.nextInt(Feldgroesse_y);
 
 		if (blockStatus[random_x][random_y] == breakblock) {
 			blockStatus[random_x][random_y] = versteckterausgang;
@@ -265,8 +265,8 @@ public class Player2 extends JPanel implements KeyListener {
 
 	public void zeichnen2() {
 		panel2.removeAll();
-		for (m = 0; m < Feldgröße_x; m++) {
-			for (n = 0; n < Feldgröße_y; n++) {
+		for (m = 0; m < Feldgroesse_x; m++) {
+			for (n = 0; n < Feldgroesse_y; n++) {
 				if (blockStatus[m][n] == ground) {
 					fblock[m][n] = new JLabel(grndBlock);
 					panel2.add(fblock[m][n]);
@@ -345,10 +345,10 @@ public class Player2 extends JPanel implements KeyListener {
 	public Player2() {
 		frame.getContentPane().add(panel2);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.setSize((Feldgröße_x * 32), (Feldgröße_y * 32));
+		frame.setSize((Feldgroesse_x * 32), (Feldgroesse_y * 32));
 		frame.setVisible(true);
 		panel2.setLayout(null);
-		panel2.setBounds(200, 200, Feldgröße_x * 30, Feldgröße_y * 30);
+		panel2.setBounds(200, 200, Feldgroesse_x * 30, Feldgroesse_y * 30);
 		frame.addKeyListener(this);
 		frame.setResizable(false);
 
@@ -490,7 +490,7 @@ public class Player2 extends JPanel implements KeyListener {
 			b = y;
 			zeichnen2();
 			bomb = false;
-			explosion.start();
+			// explosion.start();
 
 		}
 	}

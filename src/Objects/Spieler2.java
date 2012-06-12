@@ -11,10 +11,10 @@ public class Spieler2 extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	public static JPanel panel2 = new JPanel();
-	public static int Feldgröße_x = 15;
-	public static int Feldgröße_y = 15;
-	private static final JLabel fblock[][] = new JLabel[Feldgröße_x][Feldgröße_y];
-	public final static int blockStatus[][] = new int[Feldgröße_x][Feldgröße_y];
+	public static int Feldgroesse_x = 15;
+	public static int Feldgroesse_y = 15;
+	private static final JLabel fblock[][] = new JLabel[Feldgroesse_x][Feldgroesse_y];
+	public final static int blockStatus[][] = new int[Feldgroesse_x][Feldgroesse_y];
 	public static int m = 0, n = 0, x = 1, y = 1, a, b, k, l;
 
 	public static int ground = 0;

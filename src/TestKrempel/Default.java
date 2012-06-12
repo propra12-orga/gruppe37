@@ -13,7 +13,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
-
 public class Default extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -43,10 +42,10 @@ public class Default extends JFrame {
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 
 				try {
-					JPanel Player = new Player();
-					Player.setVisible(true);
-					Player.setLayout(null);
-					add(Player);
+					JPanel Player2 = new Player2();
+					Player2.setVisible(true);
+					Player2.setLayout(null);
+					add(Player2);
 
 				} catch (Exception e1) {
 					e1.printStackTrace();

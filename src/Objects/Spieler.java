@@ -1,22 +1,15 @@
 package Objects;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import Spielfeld.Spielfeld;
 
 public class Spieler extends JPanel {
 
+	private final Spielfeld panel;
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-
-	public static JPanel panel1 = new JPanel();
-	public static int Feldgröße_x = 15;
-	public static int Feldgröße_y = 15;
-	private static final JLabel fblock[][] = new JLabel[Feldgröße_x][Feldgröße_y];
-	public final static int blockStatus[][] = new int[Feldgröße_x][Feldgröße_y];
-	public static int m = 0, n = 0, x = 1, y = 1, a, b, k, l;
-
 	public static int ground = 0;
 	public static int solid = 1;
 	public static int breakblock = 2;
@@ -31,7 +24,27 @@ public class Spieler extends JPanel {
 	public static int spieler2 = 11;
 	public static int spieler2_bombe = 12;
 
-	public Spieler() {
+	private static final long serialVersionUID = 1L;
 
+	// Versuch einer Get / Set Methode um die daten f�r eine bewegung (runter)
+	// einzulesen ..... funktioniert noch nicht ^^
+
+	public Spieler(Spielfeld parent) {
+		panel = parent;
+		boolean moveDown = Steuerung.moveDown;
+		if (moveDown == true) {
+			int y = panel.getY();
+			int x = panel.getX();
+			int nextStatus = panel.getBlockStatus(x, y + 1);// status des Blocks
+															// unter dem
+															// aktuellen zwecks
+															// kollisionsabfrage
+			int currentBlock = panel.getBlockStatus(x, y);// Status des
+															// aktuellen blocks
+
+			panel.setBlockStatus(x, y + 1, spieler);
+			System.out.println("EEEEEEYYYYYYYY");
+			// Spielfeld.zeichnen();
+		}
 	}
 }
