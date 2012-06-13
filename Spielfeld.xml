@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+
+//  ground = 0;
+//  solid = 1;
+//  breakblock = 2;
+//  versteckterausgang = 9;
+
+
+<Bomberman> 
+    <Feld>111111111
+	  100000001
+	  101219101
+	  102020201
+	  101010101
+	  102020201
+	  101212101
+	  100000001
+	  111111111</Feld>
+</Bomberman>
