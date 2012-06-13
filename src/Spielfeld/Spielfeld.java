@@ -112,9 +112,9 @@ public class Spielfeld extends JPanel {
 		playeronbomb = new ImageIcon("Images/Playeronbomb.png");
 		player2onbomb = new ImageIcon("Images/Player2onbomb.png");
 		portal = new ImageIcon("Images/portal.gif");
-		player1wins = new ImageIcon("Images/player1wins.jpg");
-		player2wins = new ImageIcon("Images/player2wins.jpg");
-		bothplayerdead = new ImageIcon("Images/bothplayerdead.jpg");
+		player1wins = new ImageIcon("Images/Player1Wins.jpg");
+		player2wins = new ImageIcon("Images/Player2Wins.jpg");
+		bothplayerdead = new ImageIcon("Images/BothPlayerDead.jpg");
 	}
 
 	/****************************************************************
@@ -288,17 +288,15 @@ public class Spielfeld extends JPanel {
 
 					for (int z1 = 1; z1 <= radius1; z1++) {
 						if (blockStatus[a1][b1] == spieler_bombe) {
-							game_over.start();
+							player1alive = false;
 						}
 						if (a1 + z1 < Feldgroesse_x) {
 							if (blockStatus[a1 + (z1 - 1)][b1] != solid) {
 								if (blockStatus[a1 + z1][b1] == spieler) {
 									player1alive = false;
-									game_over.start();
 								}
 								if (blockStatus[a1 + z1][b1] == spieler2) {
 									player2alive = false;
-									game_over.start();
 								}
 							}
 						}
@@ -306,11 +304,9 @@ public class Spielfeld extends JPanel {
 							if (blockStatus[a1 - (z1 - 1)][b1] != solid) {
 								if (blockStatus[a1 - z1][b1] == spieler) {
 									player1alive = false;
-									game_over.start();
 								}
 								if (blockStatus[a1 - z1][b1] == spieler2) {
 									player2alive = false;
-									game_over.start();
 								}
 							}
 						}
@@ -318,11 +314,9 @@ public class Spielfeld extends JPanel {
 							if (blockStatus[a1][b1 + (z1 - 1)] != solid) {
 								if (blockStatus[a1][b1 + z1] == spieler) {
 									player1alive = false;
-									game_over.start();
 								}
 								if (blockStatus[a1][b1 + z1] == spieler2) {
 									player2alive = false;
-									game_over.start();
 								}
 							}
 						}
@@ -331,15 +325,15 @@ public class Spielfeld extends JPanel {
 							if (blockStatus[a1][b1 - (z1 - 1)] != solid) {
 								if (blockStatus[a1][b1 - z1] == spieler) {
 									player1alive = false;
-									game_over.start();
 								}
 								if (blockStatus[a1][b1 - z1] == spieler2) {
 									player2alive = false;
-									game_over.start();
 								}
 							}
 						}
-
+						if (player1alive == false || player2alive == false) {
+							game_over.start();
+						}
 					}
 					/**********************************************************
 					 * ersetzen der break- und spieler blocks durch explosion *
@@ -495,17 +489,16 @@ public class Spielfeld extends JPanel {
 
 					for (int z2 = 1; z2 <= radius2; z2++) {
 						if (blockStatus[a2][b2] == spieler2_bombe) {
-							game_over.start();
+							player2alive = false;
+
 						}
 						if (a2 + z2 < Feldgroesse_x) {
 							if (blockStatus[a2 + (z2 - 1)][b2] != solid) {
 								if (blockStatus[a2 + z2][b2] == spieler) {
 									player1alive = false;
-									game_over.start();
 								}
 								if (blockStatus[a2 + z2][b2] == spieler2) {
 									player2alive = false;
-									game_over.start();
 								}
 							}
 						}
@@ -513,11 +506,9 @@ public class Spielfeld extends JPanel {
 							if (blockStatus[a2 - (z2 - 1)][b2] != solid) {
 								if (blockStatus[a2 - z2][b2] == spieler) {
 									player1alive = false;
-									game_over.start();
 								}
 								if (blockStatus[a2 - z2][b2] == spieler2) {
 									player2alive = false;
-									game_over.start();
 								}
 							}
 						}
@@ -525,11 +516,9 @@ public class Spielfeld extends JPanel {
 							if (blockStatus[a2][b2 + (z2 - 1)] != solid) {
 								if (blockStatus[a2][b2 + z2] == spieler) {
 									player1alive = false;
-									game_over.start();
 								}
 								if (blockStatus[a2][b2 + z2] == spieler2) {
 									player2alive = false;
-									game_over.start();
 								}
 							}
 						}
@@ -538,15 +527,15 @@ public class Spielfeld extends JPanel {
 							if (blockStatus[a2][b2 - (z2 - 1)] != solid) {
 								if (blockStatus[a2][b2 - z2] == spieler) {
 									player1alive = false;
-									game_over.start();
 								}
 								if (blockStatus[a2][b2 - z2] == spieler2) {
 									player2alive = false;
-									game_over.start();
 								}
 							}
 						}
-
+						if (player1alive == false || player2alive == false) {
+							game_over.start();
+						}
 					}
 					/**********************************************************
 					 * ersetzen der break- und spieler blocks durch explosion *
@@ -638,6 +627,7 @@ public class Spielfeld extends JPanel {
 			new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
+
 					for (int z = 1; z <= radius2; z++) {
 						if (a2 + z < Feldgroesse_x) {
 							if (blockStatus[a2 + (z - 1)][b2] != solid) {
@@ -690,22 +680,47 @@ public class Spielfeld extends JPanel {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					if (player1alive == true && player2alive == false) {
-						// ImageIcon player1wins darstellen
+						JLabel endscreen;
+						panel1.removeAll();
+						endscreen = new JLabel(player1wins);
+						panel1.add(endscreen);
+						endscreen.setBounds(0, 0, Feldgroesse_x * 30,
+								Feldgroesse_y * 30);
+					}
 
-					}
 					if (player2alive == true && player1alive == false) {
-						// ImageIcon player2wins darstellen
+						JLabel endscreen;
+						panel1.removeAll();
+						endscreen = new JLabel(player2wins);
+						panel1.add(endscreen);
+						endscreen.setBounds(0, 0, Feldgroesse_x * 30,
+								Feldgroesse_y * 30);
 					}
-					if (player2alive == false && player2alive == false) {
-						// ImageIcon bothplayerdead darstellen
+
+					if (player1alive == false && player2alive == false) {
+						JLabel endscreen;
+						panel1.removeAll();
+						endscreen = new JLabel(bothplayerdead);
+						panel1.add(endscreen);
+						endscreen.setBounds(0, 0, Feldgroesse_x * 30,
+								Feldgroesse_y * 30);
 					}
+					x = 1;
+					y = 1;
+					x2 = (Feldgroesse_x - 2);
+					y2 = (Feldgroesse_y - 2);
+					blockStatus[x][y] = spieler;
+					blockStatus[x2][y2] = spieler2;
+					player1alive = true;
+					player2alive = true;
 					game_over_intern.start();
 					game_over.stop();
+
 				}
 			});
 
 	// Neustart
-	javax.swing.Timer game_over_intern = new javax.swing.Timer(2000,
+	javax.swing.Timer game_over_intern = new javax.swing.Timer(5000,
 			new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
