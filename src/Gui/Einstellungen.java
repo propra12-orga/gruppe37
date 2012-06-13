@@ -20,6 +20,9 @@ public class Einstellungen extends JFrame {
 
 	}
 
+	/************************************************************************
+	 * Erstellen eines Fensters und implementierung eines Schlieﬂen Buttons *
+	 ************************************************************************/
 	public final void initUI() {
 
 		JPanel panel = new JPanel();
@@ -46,7 +49,4 @@ public class Einstellungen extends JFrame {
 
 	}
 
-	public static void main(String[] args) {
-
-	}
 }

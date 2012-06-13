@@ -34,6 +34,9 @@ public class Main extends JFrame {
 
 	}
 
+	/***********************************************************
+	 * Erstellen eines Neuen Spiels und einfügen der Steuerung *
+	 ***********************************************************/
 	public void createGame() {
 		if (gamepanel != null) {
 			gamepanel = null;

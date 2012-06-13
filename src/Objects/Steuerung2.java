@@ -22,6 +22,10 @@ public class Steuerung2 implements KeyListener {
 		window.addKeyListener(this);
 	}
 
+	/*
+	 * Timer mit 1sec um zu verhindern, dass der spieler durchgehend neue Bomben
+	 * legt
+	 */
 	javax.swing.Timer delay = new javax.swing.Timer(1000, new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -30,6 +34,10 @@ public class Steuerung2 implements KeyListener {
 		}
 	});
 
+	/*
+	 * Methoden zum erkennen der Tastendrücke für die Steuerung des zweiten
+	 * Spielers
+	 */
 	@Override
 	public void keyReleased(KeyEvent e) {
 		if ((e.getKeyCode()) == (KeyEvent.VK_W))
@@ -88,7 +96,6 @@ public class Steuerung2 implements KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 }

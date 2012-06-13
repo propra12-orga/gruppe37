@@ -22,15 +22,15 @@ public class Menue extends JPanel {
 
 		window = parent;
 
-		/*********
-		 * Menue *
-		 *********/
+		/*******************
+		 * Menue erstellen *
+		 *******************/
 		JMenu filemenu = new JMenu("Spiel");
 		filemenu.add(new JSeparator());
 
-		/*****************
-		 * Erster Button *
-		 *****************/
+		/*******************************
+		 * Erster Button - Neues Spiel *
+		 *******************************/
 
 		JMenuItem fileItem1 = new JMenuItem("Neues Spiel");
 
@@ -49,9 +49,9 @@ public class Menue extends JPanel {
 			}
 		});
 
-		/******************
-		 * Zweiter Button *
-		 ******************/
+		/*************************************
+		 * Zweiter Button - Einstellungsmenue*
+		 *************************************/
 
 		JMenuItem fileItem2 = new JMenuItem("Einstellungen");
 
@@ -70,9 +70,9 @@ public class Menue extends JPanel {
 			}
 		});
 
-		/******************
-		 * Dritter Button *
-		 ******************/
+		/*************************
+		 * Dritter Button - Exit *
+		 *************************/
 		JMenuItem fileItem3 = new JMenuItem("Schliessen");
 		fileItem3.setMnemonic('x');
 		fileItem3.addActionListener(new ActionListener() {
