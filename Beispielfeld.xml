@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Map>
-	<name>Beispielfeld.xml</name>
 	<Line>
 			<Status>Solid0.1</Status>
 			<Status>Solid0.2</Status>
