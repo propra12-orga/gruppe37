@@ -62,8 +62,8 @@ public class Main extends JFrame {
 	}
 
 	public void Dateibrowser() {
-		getContentPane().removeAll();
 		new OeffnenDialogClass(this);
+		getContentPane().removeAll();
 	}
 
 	public static void main(String[] args) {
