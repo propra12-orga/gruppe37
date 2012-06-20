@@ -133,6 +133,9 @@ public class Spielfeld extends JPanel {
 	/** Gibt an, ob der 2. Spieler am Leben ist */
 	public static boolean player2alive = true;
 
+	/** Gibt an, ob ein zerstörbarer block vorhanden ist */
+	public static boolean Breakblock_vorhanden = false;
+
 	private final Main window;
 
 	/** Spielfeld wird im Fenster Main angezeigt */
@@ -200,10 +203,10 @@ public class Spielfeld extends JPanel {
 				}
 
 				else {
-					if (Math.random() <= Blockdichte) {
-						blockStatus[m][n] = breakblock;
-					} else {
+					if ((1 - Math.random()) >= Blockdichte) {
 						blockStatus[m][n] = ground;
+					} else {
+						blockStatus[m][n] = breakblock;
 					}
 				}
 
@@ -242,7 +245,6 @@ public class Spielfeld extends JPanel {
 		y2 = (Feldgroesse_y - 2);
 		blockStatus[x][y] = spieler;
 		blockStatus[x2][y2] = spieler2;
-		zufallsPortal();
 		player1alive = true;
 		player2alive = true;
 	}
@@ -418,8 +420,13 @@ public class Spielfeld extends JPanel {
 								}
 							}
 						}
-						if (player1alive == false || player2alive == false) {
+
+					}
+					if (player1alive == false || player2alive == false) {
+						if (player1alive == false && player2alive == false) {
 							game_over.start();
+						} else {
+							zufallsPortal();
 						}
 					}
 					/**********************************************************
@@ -647,8 +654,13 @@ public class Spielfeld extends JPanel {
 								}
 							}
 						}
-						if (player1alive == false || player2alive == false) {
+
+					}
+					if (player1alive == false || player2alive == false) {
+						if (player1alive == false && player2alive == false) {
 							game_over.start();
+						} else {
+							zufallsPortal();
 						}
 					}
 					/**********************************************************
@@ -869,6 +881,8 @@ public class Spielfeld extends JPanel {
 
 		if (blockStatus[random_x][random_y] == breakblock) {
 			blockStatus[random_x][random_y] = versteckterausgang;
+		} else if (blockStatus[random_x][random_y] == ground) {
+			blockStatus[random_x][random_y] = ausgang;
 		} else {
 			zufallsPortal();
 		}
@@ -892,6 +906,7 @@ public class Spielfeld extends JPanel {
 				&& player1alive == true
 				&& (blockStatus[x + 1][y] == ground || blockStatus[x + 1][y] == ausgang)) {
 			if (blockStatus[x + 1][y] == ausgang) {
+				blockStatus[x][y] = ground;
 				game_over.start();
 			} else if (blockStatus[x][y] == spieler_bombe) {
 				blockStatus[x][y] = bombesetzen;
@@ -906,6 +921,7 @@ public class Spielfeld extends JPanel {
 				&& player1alive == true
 				&& (blockStatus[x - 1][y] == ground || blockStatus[x - 1][y] == ausgang)) {
 			if (blockStatus[x - 1][y] == ausgang) {
+				blockStatus[x][y] = ground;
 				game_over.start();
 			} else if (blockStatus[x][y] == spieler_bombe) {
 				blockStatus[x][y] = bombesetzen;
@@ -921,6 +937,7 @@ public class Spielfeld extends JPanel {
 				&& player1alive == true
 				&& (blockStatus[x][y - 1] == ground || blockStatus[x][y - 1] == ausgang)) {
 			if (blockStatus[x][y - 1] == ausgang) {
+				blockStatus[x][y] = ground;
 				game_over.start();
 			} else if (blockStatus[x][y] == spieler_bombe) {
 				blockStatus[x][y] = bombesetzen;
@@ -938,6 +955,7 @@ public class Spielfeld extends JPanel {
 				&& (blockStatus[x][y + 1] == ground || blockStatus[x][y + 1] == ausgang)) {
 
 			if (blockStatus[x][y + 1] == ausgang) {
+				blockStatus[x][y] = ground;
 				game_over.start();
 			}
 			if (blockStatus[x][y] == spieler_bombe) {
@@ -979,6 +997,7 @@ public class Spielfeld extends JPanel {
 				&& (blockStatus[x2 + 1][y2] == ground || blockStatus[x2 + 1][y2] == ausgang)) {
 
 			if (blockStatus[x2 + 1][y2] == ausgang) {
+				blockStatus[x][y] = ground;
 				game_over.start();
 			} else if (blockStatus[x2][y2] == spieler2_bombe) {
 				blockStatus[x2][y2] = bombesetzen;
@@ -994,6 +1013,7 @@ public class Spielfeld extends JPanel {
 				&& (blockStatus[x2 - 1][y2] == ground || blockStatus[x2 - 1][y2] == ausgang)) {
 
 			if (blockStatus[x2 - 1][y2] == ausgang) {
+				blockStatus[x][y] = ground;
 				game_over.start();
 			} else if (blockStatus[x2][y2] == spieler2_bombe) {
 				blockStatus[x2][y2] = bombesetzen;
@@ -1009,6 +1029,7 @@ public class Spielfeld extends JPanel {
 				&& player2alive == true
 				&& (blockStatus[x2][y2 - 1] == ground || blockStatus[x2][y2 - 1] == ausgang)) {
 			if (blockStatus[x2][y2 - 1] == ausgang) {
+				blockStatus[x][y] = ground;
 				game_over.start();
 			} else if (blockStatus[x2][y2] == spieler2_bombe) {
 				blockStatus[x2][y2] = bombesetzen;
@@ -1024,6 +1045,7 @@ public class Spielfeld extends JPanel {
 				&& player2alive == true
 				&& (blockStatus[x2][y2 + 1] == ground || blockStatus[x2][y2 + 1] == ausgang)) {
 			if (blockStatus[x2][y2 + 1] == ausgang) {
+				blockStatus[x][y] = ground;
 				game_over.start();
 			} else if (blockStatus[x2][y2] == spieler2_bombe) {
 				blockStatus[x2][y2] = bombesetzen;
