@@ -59,13 +59,32 @@ public class Menue extends JPanel {
 			}
 		});
 
-		/*************************************
-		 * Zweiter Button - Einstellungsmenue*
-		 *************************************/
+		/**
+		 * Zweiter Button - Level einlesen
+		 */
 
-		JMenuItem fileItem2 = new JMenuItem("Einstellungen");
+		JMenuItem fileItem2 = new JMenuItem("Level auswählen");
 
 		fileItem2.addActionListener(new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent e) {
+
+				try {
+					window.Dateibrowser();
+
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+
+		/*************************************
+		 * Dritter Button - Einstellungsmenue*
+		 *************************************/
+
+		JMenuItem fileItem3 = new JMenuItem("Einstellungen");
+
+		fileItem3.addActionListener(new java.awt.event.ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 
@@ -80,21 +99,22 @@ public class Menue extends JPanel {
 		});
 
 		/*************************
-		 * Dritter Button - Exit *
+		 * Vierter Button - Exit *
 		 *************************/
-		JMenuItem fileItem3 = new JMenuItem("Schliessen");
-		fileItem3.setMnemonic('x');
-		fileItem3.addActionListener(new ActionListener() {
+		JMenuItem fileItem4 = new JMenuItem("Schliessen");
+		fileItem4.setMnemonic('x');
+		fileItem4.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
 			}
 		});
 
-		fileItem3.add(new JSeparator());
+		fileItem4.add(new JSeparator());
 		filemenu.add(fileItem1);
 		filemenu.add(fileItem2);
 		filemenu.add(fileItem3);
+		filemenu.add(fileItem4);
 		menubar.add(filemenu);
 
 	}

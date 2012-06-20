@@ -61,6 +61,11 @@ public class Main extends JFrame {
 		new Einstellungen(this);
 	}
 
+	public void Dateibrowser() {
+		getContentPane().removeAll();
+		new OeffnenDialogClass(this);
+	}
+
 	public static void main(String[] args) {
 		Main m = new Main();
 	}
