@@ -11,11 +11,14 @@ public class Main extends JFrame {
 
 	/** Spielfeld in dem das Spiel stattfindet */
 	public Spielfeld gamepanel;
+<<<<<<< HEAD
 	/** Steuerung des 1. Spielers */
 	public Steuerung gameinput;
 	/** Steuerung des 2. Spielers */
 	public Steuerung2 gameinput2;
 	/** Menüleiste des Programms */
+=======
+>>>>>>> 5e681c41751c555328d29c7a47f70af36a0899b2
 	public Menue gamemenue;
 
 	private static final long serialVersionUID = 1L;
@@ -28,7 +31,7 @@ public class Main extends JFrame {
 		 * Fenstereinstellungen *
 		 ************************/
 		gamemenue = new Menue(this);
-		createGame();
+		this.setSize(500, 500);
 		setJMenuBar(Menue.menubar);
 		getContentPane().setLayout(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -41,9 +44,10 @@ public class Main extends JFrame {
 	 * Erstellen eines Neuen Spiels und einfügen der Steuerung *
 	 ***********************************************************/
 	public void createGame() {
-		if (gamepanel != null) {
-			gamepanel = null;
-		}
+
+		final Steuerung gameinput;
+		final Steuerung2 gameinput2;
+		getContentPane().removeAll();
 		gamepanel = new Spielfeld(this);
 		gamepanel.setVisible(true);
 		gamepanel.setLayout(null);
@@ -52,7 +56,15 @@ public class Main extends JFrame {
 		gameinput2 = new Steuerung2(this);
 	}
 
+<<<<<<< HEAD
 	/** Aufruf der Main Methode */
+=======
+	public void Einstellungen() {
+		getContentPane().removeAll();
+		new Einstellungen(this);
+	}
+
+>>>>>>> 5e681c41751c555328d29c7a47f70af36a0899b2
 	public static void main(String[] args) {
 		Main m = new Main();
 	}

@@ -53,8 +53,12 @@ public class Spielfeld extends JPanel {
 	public int Feldgroesse_x = 15;
 	/** vertikale Feldgröße */
 	public int Feldgroesse_y = 15;
+<<<<<<< HEAD
 	/** Dichte der zerstörbaren Blöcke */
 	public double Blockdichte = 0.3;
+=======
+	public double Blockdichte = 0.7;
+>>>>>>> 5e681c41751c555328d29c7a47f70af36a0899b2
 
 	/** Array in dem das Feld erstellt wird */
 	private final JLabel fblock[][] = new JLabel[Feldgroesse_x][Feldgroesse_y];
@@ -179,10 +183,17 @@ public class Spielfeld extends JPanel {
 		bothplayerdead = new ImageIcon("Images/BothPlayerDead.jpg");
 	}
 
+<<<<<<< HEAD
 	/****************************************************************
 	 * Standardspielfeld mit variabler Groesse und zufälligem Aufbau aus
 	 * zerstörbaren und freien Blöcken in Array schreiben *
 	 ****************************************************************/
+=======
+	/*
+	 * Standardspielfeld mit variabler Groesse und zufälligem aufbau aus
+	 * zerstörbare und freien Blöcken in Array schreiben
+	 */
+>>>>>>> 5e681c41751c555328d29c7a47f70af36a0899b2
 	public void standardfeld() {
 
 		for (n = 0; n < Feldgroesse_y; n++) {
@@ -985,34 +996,54 @@ public class Spielfeld extends JPanel {
 
 	// Ansatz für Get/ Set Methoden zu übermittelung der aktuellen werte an die
 	// Klassen die Später Bombe und Spieler darstellen
-	/*
-	 * public void setX(int x) { this.x = x; }
-	 * 
-	 * public int getX(int x) { return x; }
-	 * 
-	 * public void setY(int y2) { this.y2 = y2; }
-	 * 
-	 * public int getY(int y2) { return y2;
-	 * 
-	 * }
-	 * 
-	 * public int getX2(int x2) { return x2; }
-	 * 
-	 * public void setX2(int y2) { this.y2 = y2; }
-	 * 
-	 * public int getY2(int x2) { return x2; }
-	 * 
-	 * public void setY2(int y2) { this.y2 = y2; }
-	 * 
-	 * public void setBlockStatus1(int x, int y, int status) { blockStatus[x][y]
-	 * = status; }
-	 * 
-	 * public int getBlockStatus1(int x, int y) { return blockStatus[x][y]; }
-	 * 
-	 * public void setBlockStatus2(int x2, int y2, int status) {
-	 * blockStatus[x2][y2] = status; }
-	 * 
-	 * public int getBlockStatus2(int x2, int y2) { return blockStatus[x2][y2];
-	 * }
-	 */
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getX(int x) {
+		return x;
+	}
+
+	public void setY(int y2) {
+		this.y2 = y2;
+	}
+
+	public int getY(int y2) {
+		return y2;
+
+	}
+
+	public int getX2(int x2) {
+		return x2;
+	}
+
+	public void setX2(int y2) {
+		this.y2 = y2;
+	}
+
+	public int getY2(int x2) {
+		return x2;
+	}
+
+	public void setY2(int y2) {
+		this.y2 = y2;
+	}
+
+	public void setBlockStatus1(int x, int y, int status) {
+		blockStatus[x][y] = status;
+	}
+
+	public int getBlockStatus1(int x, int y) {
+		return blockStatus[x][y];
+	}
+
+	public void setBlockStatus2(int x2, int y2, int status) {
+		blockStatus[x2][y2] = status;
+	}
+
+	public int getBlockStatus2(int x2, int y2) {
+		return blockStatus[x2][y2];
+	}
+
 }

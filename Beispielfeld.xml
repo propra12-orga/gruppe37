@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Map>
+	<Line>
+			<Status>Solid0.1</Status>
+			<Status>Solid0.2</Status>
+			<Status>Solid0.3</Status>
+			<Status>Solid0.4</Status>
+			<Status>Solid0.5</Status>
+	</Line>
+	
+	<Line>
+			<Status>Solid1.1</Status>
+			<Status>Solid1.2</Status>
+			<Status>Solid1.3</Status>
+			<Status>Solid1.4</Status>
+			<Status>Solid1.5</Status>
+	</Line>
+	
+	<Line>
+			<Status>Solid2.1</Status>
+			<Status>Solid2.2</Status>
+			<Status>Solid2.3</Status>
+			<Status>Solid2.4</Status>
+			<Status>Solid2.5</Status>
+	</Line>
+	
+	<Line>
+			<Status>Solid3.1</Status>
+			<Status>Solid3.2</Status>
+			<Status>Solid3.3</Status>
+			<Status>Solid3.4</Status>
+			<Status>Solid3.5</Status>
+	</Line>
+	
+	<Line>
+			<Status>Solid4.1</Status>
+			<Status>Solid4.2</Status>
+			<Status>Solid4.3</Status>
+			<Status>Solid4.4</Status>
+			<Status>Solid4.5</Status>
+	</Line>
+</Map>
+
