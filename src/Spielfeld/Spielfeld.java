@@ -50,15 +50,12 @@ public class Spielfeld extends JPanel {
 	public JPanel panel1 = new JPanel();
 
 	/** horizontale Feldgröße */
-	public int Feldgroesse_x = 15;
+	public int Feldgroesse_x = Gui.Einstellungen.breite;
 	/** vertikale Feldgröße */
-	public int Feldgroesse_y = 15;
-<<<<<<< HEAD
+	public int Feldgroesse_y = Gui.Einstellungen.hoehe;
+
 	/** Dichte der zerstörbaren Blöcke */
-	public double Blockdichte = 0.3;
-=======
-	public double Blockdichte = 0.7;
->>>>>>> 5e681c41751c555328d29c7a47f70af36a0899b2
+	public double Blockdichte = (Gui.Einstellungen.dichte * 0.01);
 
 	/** Array in dem das Feld erstellt wird */
 	private final JLabel fblock[][] = new JLabel[Feldgroesse_x][Feldgroesse_y];
@@ -183,17 +180,16 @@ public class Spielfeld extends JPanel {
 		bothplayerdead = new ImageIcon("Images/BothPlayerDead.jpg");
 	}
 
-<<<<<<< HEAD
 	/****************************************************************
 	 * Standardspielfeld mit variabler Groesse und zufälligem Aufbau aus
 	 * zerstörbaren und freien Blöcken in Array schreiben *
 	 ****************************************************************/
-=======
+
 	/*
 	 * Standardspielfeld mit variabler Groesse und zufälligem aufbau aus
 	 * zerstörbare und freien Blöcken in Array schreiben
 	 */
->>>>>>> 5e681c41751c555328d29c7a47f70af36a0899b2
+
 	public void standardfeld() {
 
 		for (n = 0; n < Feldgroesse_y; n++) {
@@ -369,7 +365,9 @@ public class Spielfeld extends JPanel {
 							player1alive = false;
 						}
 						if (a1 + z1 < Feldgroesse_x) {
-							if (blockStatus[a1 + (z1 - 1)][b1] != solid) {
+							if (blockStatus[a1 + z1][b1] == solid) {
+								break;
+							} else {
 								if (blockStatus[a1 + z1][b1] == spieler) {
 									player1alive = false;
 								}
@@ -378,8 +376,12 @@ public class Spielfeld extends JPanel {
 								}
 							}
 						}
+					}
+					for (int z1 = 1; z1 <= radius1; z1++) {
 						if (a1 - z1 > 0) {
-							if (blockStatus[a1 - (z1 - 1)][b1] != solid) {
+							if (blockStatus[a1 - z1][b1] == solid) {
+								break;
+							} else {
 								if (blockStatus[a1 - z1][b1] == spieler) {
 									player1alive = false;
 								}
@@ -388,8 +390,12 @@ public class Spielfeld extends JPanel {
 								}
 							}
 						}
+					}
+					for (int z1 = 1; z1 <= radius1; z1++) {
 						if (b1 + z1 < Feldgroesse_y) {
-							if (blockStatus[a1][b1 + (z1 - 1)] != solid) {
+							if (blockStatus[a1][b1 + z1] == solid) {
+								break;
+							} else {
 								if (blockStatus[a1][b1 + z1] == spieler) {
 									player1alive = false;
 								}
@@ -398,9 +404,12 @@ public class Spielfeld extends JPanel {
 								}
 							}
 						}
-
+					}
+					for (int z1 = 1; z1 <= radius1; z1++) {
 						if (b1 - z1 > 0) {
-							if (blockStatus[a1][b1 - (z1 - 1)] != solid) {
+							if (blockStatus[a1][b1 - z1] == solid) {
+								break;
+							} else {
 								if (blockStatus[a1][b1 - z1] == spieler) {
 									player1alive = false;
 								}
@@ -418,7 +427,9 @@ public class Spielfeld extends JPanel {
 					 **********************************************************/
 					for (int z1 = 1; z1 <= radius1; z1++) {
 						if (a1 + z1 < Feldgroesse_x) {
-							if (blockStatus[a1 + (z1 - 1)][b1] != solid) {
+							if (blockStatus[a1 + z1][b1] == solid) {
+								break;
+							} else {
 								if ((blockStatus[a1 + z1][b1] == spieler2
 										|| blockStatus[a1 + z1][b1] == spieler
 										|| blockStatus[a1 + z1][b1] == breakblock || blockStatus[a1
@@ -434,8 +445,12 @@ public class Spielfeld extends JPanel {
 								}
 							}
 						}
+					}
+					for (int z1 = 1; z1 <= radius1; z1++) {
 						if (a1 - z1 > 0) {
-							if (blockStatus[a1 - (z1 - 1)][b1] != solid) {
+							if (blockStatus[a1 - z1][b1] == solid) {
+								break;
+							} else {
 								if ((blockStatus[a1 - z1][b1] == spieler2
 										|| blockStatus[a1 - z1][b1] == spieler
 										|| blockStatus[a1 - z1][b1] == breakblock || blockStatus[a1
@@ -451,8 +466,12 @@ public class Spielfeld extends JPanel {
 								}
 							}
 						}
+					}
+					for (int z1 = 1; z1 <= radius1; z1++) {
 						if (b1 - z1 > 0) {
-							if (blockStatus[a1][b1 - (z1 - 1)] != solid) {
+							if (blockStatus[a1][b1 - z1] == solid) {
+								break;
+							} else {
 								if ((blockStatus[a1][b1 - z1] == spieler2
 										|| blockStatus[a1][b1 - z1] == spieler
 										|| blockStatus[a1][b1 - z1] == breakblock || blockStatus[a1][b1
@@ -468,8 +487,12 @@ public class Spielfeld extends JPanel {
 								}
 							}
 						}
+					}
+					for (int z1 = 1; z1 <= radius1; z1++) {
 						if (b1 + z1 < Feldgroesse_y) {
-							if (blockStatus[a1][b1 + (z1 - 1)] != solid) {
+							if (blockStatus[a1][b1 + z1] == solid) {
+								break;
+							} else {
 								if ((blockStatus[a1][b1 + z1] == spieler2
 										|| blockStatus[a1][b1 + z1] == spieler
 										|| blockStatus[a1][b1 + z1] == breakblock || blockStatus[a1][b1
@@ -571,7 +594,9 @@ public class Spielfeld extends JPanel {
 
 						}
 						if (a2 + z2 < Feldgroesse_x) {
-							if (blockStatus[a2 + (z2 - 1)][b2] != solid) {
+							if (blockStatus[a2 + z2][b2] == solid) {
+								break;
+							} else {
 								if (blockStatus[a2 + z2][b2] == spieler) {
 									player1alive = false;
 								}
@@ -580,8 +605,12 @@ public class Spielfeld extends JPanel {
 								}
 							}
 						}
+					}
+					for (int z2 = 1; z2 <= radius2; z2++) {
 						if (a2 - z2 > 0) {
-							if (blockStatus[a2 - (z2 - 1)][b2] != solid) {
+							if (blockStatus[a2 - z2][b2] == solid) {
+								break;
+							} else {
 								if (blockStatus[a2 - z2][b2] == spieler) {
 									player1alive = false;
 								}
@@ -590,8 +619,12 @@ public class Spielfeld extends JPanel {
 								}
 							}
 						}
+					}
+					for (int z2 = 1; z2 <= radius2; z2++) {
 						if (b2 + z2 < Feldgroesse_y) {
-							if (blockStatus[a2][b2 + (z2 - 1)] != solid) {
+							if (blockStatus[a2][b2 + z2] == solid) {
+								break;
+							} else {
 								if (blockStatus[a2][b2 + z2] == spieler) {
 									player1alive = false;
 								}
@@ -600,9 +633,12 @@ public class Spielfeld extends JPanel {
 								}
 							}
 						}
-
+					}
+					for (int z2 = 1; z2 <= radius2; z2++) {
 						if (b2 - z2 > 0) {
-							if (blockStatus[a2][b2 - (z2 - 1)] != solid) {
+							if (blockStatus[a2][b2 - z2] == solid) {
+								break;
+							} else {
 								if (blockStatus[a2][b2 - z2] == spieler) {
 									player1alive = false;
 								}
@@ -620,7 +656,9 @@ public class Spielfeld extends JPanel {
 					 **********************************************************/
 					for (int z2 = 1; z2 <= radius2; z2++) {
 						if (a2 + z2 < Feldgroesse_x) {
-							if (blockStatus[a2 + (z2 - 1)][b2] != solid) {
+							if (blockStatus[a2 + z2][b2] == solid) {
+								break;
+							} else {
 								if ((blockStatus[a2 + z2][b2] == spieler2
 										|| blockStatus[a2 + z2][b2] == spieler
 										|| blockStatus[a2 + z2][b2] == breakblock || blockStatus[a2
@@ -636,8 +674,12 @@ public class Spielfeld extends JPanel {
 								}
 							}
 						}
+					}
+					for (int z2 = 1; z2 <= radius2; z2++) {
 						if (a2 - z2 > 0) {
-							if (blockStatus[a2 - (z2 - 1)][b2] != solid) {
+							if (blockStatus[a2 - z2][b2] == solid) {
+								break;
+							} else {
 								if ((blockStatus[a2 - z2][b2] == spieler2
 										|| blockStatus[a2 - z2][b2] == spieler
 										|| blockStatus[a2 - z2][b2] == breakblock || blockStatus[a2
@@ -653,8 +695,12 @@ public class Spielfeld extends JPanel {
 								}
 							}
 						}
+					}
+					for (int z2 = 1; z2 <= radius2; z2++) {
 						if (b2 - z2 > 0) {
-							if (blockStatus[a2][b2 - (z2 - 1)] != solid) {
+							if (blockStatus[a2][b2 - z2] == solid) {
+								break;
+							} else {
 								if ((blockStatus[a2][b2 - z2] == spieler2
 										|| blockStatus[a2][b2 - z2] == spieler
 										|| blockStatus[a2][b2 - z2] == breakblock || blockStatus[a2][b2
@@ -670,8 +716,12 @@ public class Spielfeld extends JPanel {
 								}
 							}
 						}
+					}
+					for (int z2 = 1; z2 <= radius2; z2++) {
 						if (b2 + z2 < Feldgroesse_y) {
-							if (blockStatus[a2][b2 + (z2 - 1)] != solid) {
+							if (blockStatus[a2][b2 + z2] == solid) {
+								break;
+							} else {
 								if ((blockStatus[a2][b2 + z2] == spieler2
 										|| blockStatus[a2][b2 + z2] == spieler
 										|| blockStatus[a2][b2 + z2] == breakblock || blockStatus[a2][b2

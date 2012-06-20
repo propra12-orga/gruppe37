@@ -14,8 +14,7 @@ import org.w3c.dom.NodeList;
  * - Da bisher keine wirkliche Funktionalität, ist diese Klasse vom Spiel
  * abgetrennt.
  * 
- * @author dario
- * 
+ * @author Gruppe 37
  */
 
 public class XMLReader {

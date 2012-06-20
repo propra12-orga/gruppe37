@@ -25,6 +25,7 @@ public class Einstellungen implements ChangeListener {
 	public static int breite = breite_INIT;
 	public static int dichte = dichte_INIT;
 	public static int hoehe = hoehe_INIT;
+	
 
 	private final JSlider hoehe_s = new JSlider(hoehe_MIN, hoehe_MAX,
 			hoehe_INIT);
@@ -121,10 +122,6 @@ public class Einstellungen implements ChangeListener {
 			dichte = dichte_s.getValue();
 			breite = breite_s.getValue();
 			hoehe = hoehe_s.getValue();
-			System.out.println("Breite: " + breite);
-			System.out.println("Hoehe: " + hoehe);
-			System.out.println("Dichte: " + dichte);
-			System.out.println();
 		}
 
 	}
