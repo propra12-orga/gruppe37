@@ -32,8 +32,8 @@ public class Spieler2 extends JPanel {
 	public void moveRechts() {
 		boolean moveRechts = Steuerung2.moveRechts;
 
-		int x2 = this.getX2();
-		int y2 = this.getY2();
+		int x2 = this.getX();
+		int y2 = this.getY();
 		int nextStatus = panel.getBlockStatus1(x2 + 1, y2);
 		int currentBlock = panel.getBlockStatus1(x2, y2);
 
@@ -56,8 +56,8 @@ public class Spieler2 extends JPanel {
 	public void moveLinks() {
 		boolean moveLinks = Steuerung2.moveLinks;
 
-		int x2 = this.getX2();
-		int y2 = this.getY2();
+		int x2 = this.getX();
+		int y2 = this.getY();
 		int nextStatus = panel.getBlockStatus1(x2 - 1, y2);
 		int currentBlock = panel.getBlockStatus1(x2, y2);
 
@@ -81,8 +81,8 @@ public class Spieler2 extends JPanel {
 	public void moveHoch() {
 		boolean moveHoch = Steuerung2.moveHoch;
 
-		int x2 = this.getX2();
-		int y2 = this.getY2();
+		int x2 = this.getX();
+		int y2 = this.getY();
 		int nextStatus = panel.getBlockStatus1(x2, y2 - 1);
 		int currentBlock = panel.getBlockStatus1(x2, y2);
 
@@ -106,8 +106,8 @@ public class Spieler2 extends JPanel {
 	public void moveRunter() {
 		boolean moveRunter = Steuerung2.moveRunter;
 
-		int x2 = this.getX2();
-		int y2 = this.getY2();
+		int x2 = this.getX();
+		int y2 = this.getY();
 		int nextStatus = panel.getBlockStatus1(x2, y2 + 1);
 		int currentBlock = panel.getBlockStatus1(x2, y2);
 
