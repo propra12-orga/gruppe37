@@ -26,7 +26,7 @@ public class XMLReader {
 	public static int solid = 1;
 	public static int breakblock = 2;
 
-	public static int blockStatus[][] = new int[hoehe][breite];
+	public static int xmlStatus[][] = new int[hoehe][breite];
 
 	public static void handleChannelTag(Document dok) {
 		NodeList nodeList = dok.getElementsByTagName("Line");
@@ -58,14 +58,14 @@ public class XMLReader {
 				value.append("\n" + "Höhe: " + hoehe + " Breite: " + breite
 						+ " Status: " + node.getNodeValue());
 			}
-			if (node.getNodeValue() == "solid") {
-				blockStatus[hoehe][breite] = solid;
+			if (node.getNodeValue() == "Solid") {
+				xmlStatus[hoehe][breite] = solid;
 
-			} else if (node.getNodeValue() == "ground") {
-				blockStatus[hoehe][breite] = ground;
+			} else if (node.getNodeValue() == "Ground") {
+				xmlStatus[hoehe][breite] = ground;
 
-			} else if (node.getNodeValue() == "breakblock") {
-				blockStatus[hoehe][breite] = breakblock;
+			} else if (node.getNodeValue() == "Breakblock") {
+				xmlStatus[hoehe][breite] = breakblock;
 
 			}
 			if (breite == element.getElementsByTagName(tagName).getLength() - 1) {

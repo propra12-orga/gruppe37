@@ -157,6 +157,7 @@ public class Spielfeld extends JPanel {
 		 *******************************************/
 
 		standardfeld();
+		// XMLFeld();
 		control();
 		control2();
 		zeichnen();
@@ -187,6 +188,57 @@ public class Spielfeld extends JPanel {
 	 * Standardspielfeld mit variabler Groesse und zufälligem Aufbau aus
 	 * zerstörbaren und freien Blöcken in Array schreiben *
 	 ****************************************************************/
+	public void XMLFeld() {
+		new XMLInit();
+		// int hoehe = XMLReader.hoehe;
+		// int breite = XMLReader.breite;
+		for (int breite = 0; breite < Feldgroesse_y; breite++) {
+			for (int hoehe = 0; hoehe < Feldgroesse_x; hoehe++) {
+				if (XMLReader.xmlStatus[breite][hoehe] == XMLReader.solid) {
+					blockStatus[breite][hoehe] = solid;
+				} else if (XMLReader.xmlStatus[breite][hoehe] == XMLReader.breakblock) {
+					blockStatus[breite][hoehe] = breakblock;
+				} else if (XMLReader.xmlStatus[breite][hoehe] == XMLReader.ground) {
+					blockStatus[breite][hoehe] = ground;
+				}
+			}
+		}
+
+		/*******************************************************
+		 * Sicherstellung, dass die Startpositionen frei sind. *
+		 *******************************************************/
+
+		// Oben links
+		blockStatus[1][1] = ground;
+		blockStatus[1][2] = ground;
+		blockStatus[2][1] = ground;
+		// Oben rechts
+		blockStatus[Feldgroesse_x - 2][1] = ground;
+		blockStatus[Feldgroesse_x - 2][2] = ground;
+		blockStatus[Feldgroesse_x - 3][1] = ground;
+		// Unten links
+		blockStatus[1][Feldgroesse_y - 2] = ground;
+		blockStatus[1][Feldgroesse_y - 3] = ground;
+		blockStatus[2][Feldgroesse_y - 2] = ground;
+		// Unten rechts
+		blockStatus[Feldgroesse_x - 2][Feldgroesse_y - 2] = ground;
+		blockStatus[Feldgroesse_x - 2][Feldgroesse_y - 3] = ground;
+		blockStatus[Feldgroesse_x - 3][Feldgroesse_y - 2] = ground;
+
+		// Spieler setzen und Positions-Reset bei Neustart
+		/** horizontale Position von Spieler 1 */
+		x = 1;
+		/** vertikale Position von Spieler 1 */
+		y = 1;
+		/** horizontale Position von Spieler 2 */
+		x2 = (Feldgroesse_x - 2);
+		/** vertikale Position von Spieler 2 */
+		y2 = (Feldgroesse_y - 2);
+		blockStatus[x][y] = spieler;
+		blockStatus[x2][y2] = spieler2;
+		player1alive = true;
+		player2alive = true;
+	}
 
 	/*
 	 * Standardspielfeld mit variabler Groesse und zufälligem aufbau aus
@@ -262,7 +314,7 @@ public class Spielfeld extends JPanel {
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 				}
 
-				else if (blockStatus[m][n] == 1) {
+				else if (blockStatus[m][n] == solid) {
 					fblock[m][n] = new JLabel(solidBlock);
 					panel1.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);

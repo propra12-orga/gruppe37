@@ -25,7 +25,6 @@ public class Einstellungen implements ChangeListener {
 	public static int breite = breite_INIT;
 	public static int dichte = dichte_INIT;
 	public static int hoehe = hoehe_INIT;
-	
 
 	private final JSlider hoehe_s = new JSlider(hoehe_MIN, hoehe_MAX,
 			hoehe_INIT);
