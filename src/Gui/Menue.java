@@ -39,6 +39,7 @@ public class Menue extends JPanel {
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 
 				try {
+
 					window.createGame();
 				}
 
@@ -60,8 +61,7 @@ public class Menue extends JPanel {
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 
 				try {
-					Einstellungen frame = new Einstellungen();
-					frame.setVisible(true);
+					window.Einstellungen();
 
 				} catch (Exception e1) {
 					e1.printStackTrace();

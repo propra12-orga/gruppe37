@@ -25,7 +25,7 @@ public class Main extends JFrame {
 		 * Fenstereinstellungen *
 		 ************************/
 		gamemenue = new Menue(this);
-		createGame();
+		this.setSize(500, 500);
 		setJMenuBar(Menue.menubar);
 		getContentPane().setLayout(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -38,6 +38,7 @@ public class Main extends JFrame {
 	 * Erstellen eines Neuen Spiels und einfügen der Steuerung *
 	 ***********************************************************/
 	public void createGame() {
+
 		if (gamepanel != null) {
 			gamepanel = null;
 		}
@@ -47,6 +48,11 @@ public class Main extends JFrame {
 		add(gamepanel);
 		gameinput = new Steuerung(this);
 		gameinput2 = new Steuerung2(this);
+	}
+
+	public void Einstellungen() {
+
+		new Einstellungen(this);
 	}
 
 	public static void main(String[] args) {
