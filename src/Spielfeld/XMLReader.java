@@ -20,14 +20,23 @@ import org.w3c.dom.NodeList;
 
 public class XMLReader {
 
+	public static int hoehe = 0;
+	public static int breite = 0;
+
+	public static int ground = 0;
+	public static int solid = 1;
+	public static int breakblock = 2;
+
+	public static int blockStatus[][] = new int[hoehe][breite];
+
 	public static void handleChannelTag(Document dok) {
 		NodeList nodeList = dok.getElementsByTagName("Line");
 		mainTagHandler(nodeList);
 	}
 
 	private static void mainTagHandler(NodeList nodeList) {
-		for (int i = 0; i < nodeList.getLength(); i++) {
-			Node node = nodeList.item(i);
+		for (int breite = 0; breite < nodeList.getLength(); breite++) {
+			Node node = nodeList.item(breite);
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
 				Element element = (Element) node;
 				System.out.println(TextTagHandler("Status", element));
@@ -38,14 +47,30 @@ public class XMLReader {
 
 	private static String TextTagHandler(String tagName, Element element) {
 		StringBuffer value = new StringBuffer();
-		for (int i = 0; i < element.getElementsByTagName(tagName).getLength(); i++) {
-			NodeList nodeList = element.getElementsByTagName(tagName).item(i)
-					.getChildNodes();
+		for (int breite = 0; breite < element.getElementsByTagName(tagName)
+				.getLength(); breite++) {
+			NodeList nodeList = element.getElementsByTagName(tagName)
+					.item(breite).getChildNodes();
 			Node node = nodeList.item(0);
-			if (i == 0) {
-				value.append("Status: " + node.getNodeValue());
+			if (breite == 0) {
+				value.append("Höhe: " + hoehe + " Breite: " + breite
+						+ " Status: " + node.getNodeValue());
 			} else {
-				value.append("\n" + "Status: " + node.getNodeValue());
+				value.append("\n" + "Höhe: " + hoehe + " Breite: " + breite
+						+ " Status: " + node.getNodeValue());
+			}
+			if (node.getNodeValue() == "solid") {
+				blockStatus[hoehe][breite] = solid;
+
+			} else if (node.getNodeValue() == "ground") {
+				blockStatus[hoehe][breite] = ground;
+
+			} else if (node.getNodeValue() == "breakblock") {
+				blockStatus[hoehe][breite] = breakblock;
+
+			}
+			if (breite == element.getElementsByTagName(tagName).getLength() - 1) {
+				hoehe++;
 			}
 		}
 		return value.toString();

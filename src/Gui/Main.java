@@ -9,8 +9,6 @@ import Spielfeld.Spielfeld;
 public class Main extends JFrame {
 
 	public Spielfeld gamepanel;
-	public Steuerung gameinput;
-	public Steuerung2 gameinput2;
 	public Menue gamemenue;
 
 	/**
@@ -39,9 +37,9 @@ public class Main extends JFrame {
 	 ***********************************************************/
 	public void createGame() {
 
-		if (gamepanel != null) {
-			gamepanel = null;
-		}
+		final Steuerung gameinput;
+		final Steuerung2 gameinput2;
+		getContentPane().removeAll();
 		gamepanel = new Spielfeld(this);
 		gamepanel.setVisible(true);
 		gamepanel.setLayout(null);
@@ -51,7 +49,7 @@ public class Main extends JFrame {
 	}
 
 	public void Einstellungen() {
-
+		getContentPane().removeAll();
 		new Einstellungen(this);
 	}
 
