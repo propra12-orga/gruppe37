@@ -9,13 +9,22 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
+/**
+ * Erstellung der Menüleiste mit den Buttons zum Spielstart, Einstellungsmenue
+ * und Beenden des Programms
+ * 
+ * @author Johannes
+ * 
+ */
 public class Menue extends JPanel {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public static final JMenuBar menubar = new JMenuBar();
+	public static final JMenuBar menubar = new JMenuBar(); // Neue Menüleiste
+															// wird
+															// initialisiert
 	private final Main window;
 
 	public Menue(Main parent) {

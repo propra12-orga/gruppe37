@@ -7,16 +7,29 @@ import java.awt.event.KeyListener;
 
 import Gui.Main;
 
+/**
+ * Klasse für die Steuerung der Spielfigur mit Übergabe der Tastendrücke
+ * 
+ * @author Gruppe 37
+ * @version 1
+ * 
+ */
 public class Steuerung implements KeyListener {
 
+	/** Bewegung nach rechts */
 	public static boolean moveRight = false;
+	/** Bewegung nach links */
 	public static boolean moveLeft = false;
+	/** Bewegung nach unten */
 	public static boolean moveDown = false;
+	/** Bewegung nach oben */
 	public static boolean moveUp = false;
+	/** Bombe legen */
 	public static boolean bomb = false;
 
 	private final Main window;
 
+	/** Steuerungseingabe wird in Mainpanel implementiert */
 	public Steuerung(Main parent) {
 		window = parent;
 		window.addKeyListener(this);
@@ -39,6 +52,7 @@ public class Steuerung implements KeyListener {
 	 * Spielers
 	 */
 	@Override
+	/** Loslassen einer Taste */
 	public void keyReleased(KeyEvent e) {
 		if ((e.getKeyCode()) == (KeyEvent.VK_UP))
 			moveUp = false;
@@ -54,6 +68,7 @@ public class Steuerung implements KeyListener {
 	}
 
 	@Override
+	/** Drücken (und Halten) einer Taste */
 	public void keyPressed(KeyEvent e) {
 		// move player up with UP-ARROW key
 		if ((e.getKeyCode()) == (KeyEvent.VK_UP)) {

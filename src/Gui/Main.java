@@ -6,18 +6,21 @@ import Objects.Steuerung;
 import Objects.Steuerung2;
 import Spielfeld.Spielfeld;
 
+/** Main Klasse, die das gesamte Spiel beinhaltet */
 public class Main extends JFrame {
 
+	/** Spielfeld in dem das Spiel stattfindet */
 	public Spielfeld gamepanel;
+	/** Steuerung des 1. Spielers */
 	public Steuerung gameinput;
+	/** Steuerung des 2. Spielers */
 	public Steuerung2 gameinput2;
+	/** Menüleiste des Programms */
 	public Menue gamemenue;
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
+	/** Start des Programms mit den Fenstereigenschaften */
 	public Main() {
 
 		super("Bomberman");
@@ -49,6 +52,7 @@ public class Main extends JFrame {
 		gameinput2 = new Steuerung2(this);
 	}
 
+	/** Aufruf der Main Methode */
 	public static void main(String[] args) {
 		Main m = new Main();
 	}

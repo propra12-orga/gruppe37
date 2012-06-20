@@ -12,13 +12,24 @@ import Gui.Main;
 import Objects.Steuerung;
 import Objects.Steuerung2;
 
+/**
+ * Klasse zur Erstellung des Basis-Spielfelds mit den zugewiesenen Grafiken
+ * 
+ * @author Gruppe37
+ * @version 0.9
+ * @param Main
+ *            parent
+ */
 public class Spielfeld extends JPanel {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	/**
+	 * Variablen der verschiedenen Stati eines Spielfeldblocks und der Grafiken
+	 * bei Spielende
+	 */
 	private ImageIcon solidBlock;
 	private ImageIcon brkbleBlock;
 	private ImageIcon grndBlock;
@@ -34,44 +45,96 @@ public class Spielfeld extends JPanel {
 	private ImageIcon player1wins;
 	private ImageIcon player2wins;
 	private ImageIcon bothplayerdead;
+
+	/** Panel in dem das Spiel dargestellt wird */
 	public JPanel panel1 = new JPanel();
 
-	// Variablen zur Spielfelderstellung
+	/** horizontale Feldgröße */
 	public int Feldgroesse_x = 15;
+	/** vertikale Feldgröße */
 	public int Feldgroesse_y = 15;
+	/** Dichte der zerstörbaren Blöcke */
 	public double Blockdichte = 0.3;
 
+	/** Array in dem das Feld erstellt wird */
 	private final JLabel fblock[][] = new JLabel[Feldgroesse_x][Feldgroesse_y];
+
+	/** Definition der einzelnen Spielfeldelemente */
 	public final int blockStatus[][] = new int[Feldgroesse_x][Feldgroesse_y];
-	public int m = 0, n = 0, a1, a2, b1, b2, k, l, x = 1, y = 1,
-			x2 = (Feldgroesse_x - 2), y2 = (Feldgroesse_y - 2);
+
+	/** horizontale Koordinate des Spielfelds */
+	public int m = 0;
+	/** horizontale Koordinate von Spieler 1 */
+	public int x = 1;
+	/** vertikale Koordinate von Spieler 1 */
+	public int y = 1;
+	/** horizontale Koordiante von Spieler 2 */
+	public int x2 = (Feldgroesse_x - 2);
+	/** vertikale Koordinate von Spieler 2 */
+	public int y2 = (Feldgroesse_y - 2);
+	/** vertikale Koordinate des Spielfelds */
+	public int n = 0;
+	/** horizontale Koordinate der Bombe von Spieler 1 */
+	public int a1;
+	/** horizontale Koordinate der Bombe von Spieler 2 */
+	public int a2;
+	/** vertikale Koordinate der Bombe von Spieler 1 */
+	public int b1;
+	/** vertikale Koordinate der Bombe von Spieler 2 */
+	public int b2;
 
 	// Radien der beiden bomben
+	/** Radius der Bombe von Spieler 1 */
 	public int radius1 = 6;
+	/** Radius der Bombe von Spieler 2 */
 	public int radius2 = 6;
 
-	// variablen für die Blockstati
+	/** freies Bodenfeld */
 	public int ground = 0;
+	/** unzerstörbarer Block */
 	public int solid = 1;
+	/** zerstörbarer Block */
 	public int breakblock = 2;
+	/** Bombe auf einem freien Feld */
 	public int bombesetzen = 3;
+	/** Spieler 1 auf seiner Bombe */
 	public int spieler_bombe = 4;
+	/** Mittelpunkt der Explosion */
 	public int explosion_mitte = 5;
+	/** horizontale Komponente der Explosion */
 	public int explosion_horizontal = 6;
+	/** vertikale Komponente der Explosion */
 	public int explosion_vertikal = 7;
+	/** Spielfigur von Spieler 1 */
 	public int spieler = 8;
+	/** Ausgang unter einem zerstörbaren Block */
 	public int versteckterausgang = 9;
+	/** offengelegter Ausgang */
 	public int ausgang = 10;
+	/** Spielfigur von Spieler 2 */
 	public int spieler2 = 11;
+	/** Spieler 2 auf seiner Bombe */
 	public int spieler2_bombe = 12;
+
+	/*
+	 * Fähigkeit Bomben zu legen wird ermöglicht
+	 */
+	/** Fähigkeit des 1. Spielers eine Bombe zu legen */
 	public static boolean nextbomb1 = true;
+	/** Fähigkeit des 2. Spielers eine Bombe zu legen */
 	public static boolean nextbomb2 = true;
 
+	/**
+	 * Festlegung, dass die Spielfiguren am Leben sind
+	 */
+	/** Gibt an, ob der 1. Spieler am Leben ist */
 	public static boolean player1alive = true;
+	/** Gibt an, ob der 2. Spieler am Leben ist */
 	public static boolean player2alive = true;
 
 	private final Main window;
 
+	/** Spielfeld wird im Fenster Main angezeigt */
 	public Spielfeld(Main parent) {
 
 		loadContentImages();
@@ -90,7 +153,6 @@ public class Spielfeld extends JPanel {
 		 *******************************************/
 
 		standardfeld();
-		zufallsPortal();
 		control();
 		control2();
 		zeichnen();
@@ -118,8 +180,8 @@ public class Spielfeld extends JPanel {
 	}
 
 	/****************************************************************
-	 * Standardspielfeld mit variabler Groesse und zufälligem * aufbau aus
-	 * zerstörbareb und freien Blöckenin Array schreiben *
+	 * Standardspielfeld mit variabler Groesse und zufälligem Aufbau aus
+	 * zerstörbaren und freien Blöcken in Array schreiben *
 	 ****************************************************************/
 	public void standardfeld() {
 
@@ -132,18 +194,18 @@ public class Spielfeld extends JPanel {
 
 				else {
 					if (Math.random() <= Blockdichte) {
-						blockStatus[m][n] = ground;
-					} else {
 						blockStatus[m][n] = breakblock;
+					} else {
+						blockStatus[m][n] = ground;
 					}
 				}
 
 			}
 		}
 
-		/*******************************
-		 * Startpositionen frei machen *
-		 *******************************/
+		/*******************************************************
+		 * Sicherstellung, dass die Startpositionen frei sind. *
+		 *******************************************************/
 
 		// Oben links
 		blockStatus[1][1] = ground;
@@ -162,13 +224,18 @@ public class Spielfeld extends JPanel {
 		blockStatus[Feldgroesse_x - 2][Feldgroesse_y - 3] = ground;
 		blockStatus[Feldgroesse_x - 3][Feldgroesse_y - 2] = ground;
 
-		// Spieler setzen und Positions-reset bei neustart
+		// Spieler setzen und Positions-Reset bei Neustart
+		/** horizontale Position von Spieler 1 */
 		x = 1;
+		/** vertikale Position von Spieler 1 */
 		y = 1;
+		/** horizontale Position von Spieler 2 */
 		x2 = (Feldgroesse_x - 2);
+		/** vertikale Position von Spieler 2 */
 		y2 = (Feldgroesse_y - 2);
 		blockStatus[x][y] = spieler;
 		blockStatus[x2][y2] = spieler2;
+		zufallsPortal();
 		player1alive = true;
 		player2alive = true;
 	}
@@ -751,11 +818,14 @@ public class Spielfeld extends JPanel {
 	 **********************************/
 
 	public void control() {
-		boolean moveRight = Steuerung.moveRight;
-		boolean moveLeft = Steuerung.moveLeft;
-		boolean moveDown = Steuerung.moveDown;
-		boolean moveUp = Steuerung.moveUp;
-		boolean bomb = Steuerung.bomb;
+		boolean moveRight = Steuerung.moveRight; // Bewegung von Spieler 1 nach
+													// rechts
+		boolean moveLeft = Steuerung.moveLeft; // Bewegung von Spieler 1 nach
+												// links
+		boolean moveDown = Steuerung.moveDown; // Bewegung von Spieler 1 nach
+												// unten
+		boolean moveUp = Steuerung.moveUp; // Bewegung von Spieler 1 nach oben
+		boolean bomb = Steuerung.bomb; // Bombenlegung von Spieler 1
 
 		if (moveRight == true
 				&& player1alive == true
@@ -833,11 +903,15 @@ public class Spielfeld extends JPanel {
 	 * Methode fuer die zweite Steuerung *
 	 *************************************/
 	public void control2() {
-		boolean moveRechts = Steuerung2.moveRechts;
-		boolean moveLinks = Steuerung2.moveLinks;
-		boolean moveRunter = Steuerung2.moveRunter;
-		boolean moveHoch = Steuerung2.moveHoch;
-		boolean bomb2 = Steuerung2.bomb2;
+		boolean moveRechts = Steuerung2.moveRechts; // Bewegung von Spieler 2
+													// nach rechts
+		boolean moveLinks = Steuerung2.moveLinks; // Bewegung von SPieler 2 nach
+													// links
+		boolean moveRunter = Steuerung2.moveRunter; // Bewegung von Spieler 2
+													// nach unten
+		boolean moveHoch = Steuerung2.moveHoch; // Bewegung von Spieler 2 nach
+												// oben
+		boolean bomb2 = Steuerung2.bomb2; // Bombenlegung von Spieler 2
 
 		if (moveRechts == true
 				&& player2alive == true

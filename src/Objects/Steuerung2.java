@@ -9,14 +9,20 @@ import Gui.Main;
 
 public class Steuerung2 implements KeyListener {
 
+	/** Bewegung nach rechts */
 	public static boolean moveRechts = false;
+	/** Bewegung nach links */
 	public static boolean moveLinks = false;
+	/** Bewegung nach unten */
 	public static boolean moveRunter = false;
+	/** Bewegung nach oben */
 	public static boolean moveHoch = false;
+	/** Bombe legen */
 	public static boolean bomb2 = false;
 
 	private final Main window;
 
+	/** Steuerungseingabe wird in Mainpanel implementiert */
 	public Steuerung2(Main parent) {
 		window = parent;
 		window.addKeyListener(this);
