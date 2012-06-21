@@ -146,7 +146,9 @@ public class Spielfeld extends JPanel {
 		// Fenstereinstellungen
 		window = parent;
 		window.getContentPane().add(panel1);
-		window.setSize(((Feldgroesse_x * 30) + 10), ((Feldgroesse_y * 30) + 50));
+		window
+				.setSize(((Feldgroesse_x * 30) + 10),
+						((Feldgroesse_y * 30) + 50));
 		window.setVisible(true);
 		panel1.setLayout(null);
 		panel1.setBounds(0, 0, Feldgroesse_x * 30, Feldgroesse_y * 30);
@@ -158,8 +160,6 @@ public class Spielfeld extends JPanel {
 
 		standardfeld();
 		// XMLFeld();
-		control();
-		control2();
 		zeichnen();
 	}
 
@@ -946,11 +946,11 @@ public class Spielfeld extends JPanel {
 
 	public void control() {
 		boolean moveRight = Steuerung.moveRight; // Bewegung von Spieler 1 nach
-													// rechts
+		// rechts
 		boolean moveLeft = Steuerung.moveLeft; // Bewegung von Spieler 1 nach
-												// links
+		// links
 		boolean moveDown = Steuerung.moveDown; // Bewegung von Spieler 1 nach
-												// unten
+		// unten
 		boolean moveUp = Steuerung.moveUp; // Bewegung von Spieler 1 nach oben
 		boolean bomb = Steuerung.bomb; // Bombenlegung von Spieler 1
 
@@ -1035,13 +1035,13 @@ public class Spielfeld extends JPanel {
 	 *************************************/
 	public void control2() {
 		boolean moveRechts = Steuerung2.moveRechts; // Bewegung von Spieler 2
-													// nach rechts
+		// nach rechts
 		boolean moveLinks = Steuerung2.moveLinks; // Bewegung von SPieler 2 nach
-													// links
+		// links
 		boolean moveRunter = Steuerung2.moveRunter; // Bewegung von Spieler 2
-													// nach unten
+		// nach unten
 		boolean moveHoch = Steuerung2.moveHoch; // Bewegung von Spieler 2 nach
-												// oben
+		// oben
 		boolean bomb2 = Steuerung2.bomb2; // Bombenlegung von Spieler 2
 
 		if (moveRechts == true

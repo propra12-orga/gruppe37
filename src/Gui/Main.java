@@ -37,6 +37,8 @@ public class Main extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 		setResizable(false);
+		gameinput = new Steuerung(this);
+		gameinput2 = new Steuerung2(this);
 
 	}
 
@@ -46,12 +48,11 @@ public class Main extends JFrame {
 	public void createGame() {
 
 		getContentPane().removeAll();
+		gamepanel = null;
 		gamepanel = new Spielfeld(this);
 		gamepanel.setVisible(true);
 		gamepanel.setLayout(null);
 		add(gamepanel);
-		gameinput = new Steuerung(this);
-		gameinput2 = new Steuerung2(this);
 
 	}
 
@@ -68,5 +69,6 @@ public class Main extends JFrame {
 
 	public static void main(String[] args) {
 		Main m = new Main();
+
 	}
 }
