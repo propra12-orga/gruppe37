@@ -8,6 +8,7 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class OeffnenDialogClass {
+	private String Levelname;
 	private final Main window;
 
 	private void oeffnen() {
@@ -20,13 +21,10 @@ public class OeffnenDialogClass {
 			chooser.setDialogType(JFileChooser.OPEN_DIALOG);
 			chooser.addChoosableFileFilter(filter);
 
-			// chooser.setVisible(true);
 			int rueckgabe = chooser.showOpenDialog(null);
-			String Levelname = chooser.getSelectedFile().getName();
+			Levelname = chooser.getSelectedFile().getName();
 			if (rueckgabe == JFileChooser.APPROVE_OPTION) {
-				if (Levelname.endsWith(".xml")) {
-					System.out.println("Level:" + Levelname);
-				} else {
+				if (!Levelname.endsWith(".xml")) {
 					JOptionPane.showMessageDialog(null,
 							"Bitte eine xml Datei auswählen");
 					oeffnen();
@@ -40,5 +38,9 @@ public class OeffnenDialogClass {
 	public OeffnenDialogClass(Main parent) {
 		window = parent;
 		oeffnen();
+	}
+
+	public String getLevelName() {
+		return Levelname;
 	}
 }

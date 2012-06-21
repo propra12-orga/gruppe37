@@ -17,6 +17,7 @@ import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 import Gui.Main;
+import Gui.OeffnenDialogClass;
 import Objects.Steuerung;
 import Objects.Steuerung2;
 
@@ -159,14 +160,6 @@ public class Spielfeld extends JPanel {
 		panel1.setLayout(null);
 		panel1.setBounds(0, 0, Feldgroesse_x * 30, Feldgroesse_y * 30);
 		window.setResizable(false);
-
-		/*******************************************
-		 * Starten und erstellen eines Spielfeldes *
-		 *******************************************/
-
-		// standardfeld();
-		XMLFeld();
-		zeichnen();
 	}
 
 	/****************************************
@@ -193,16 +186,18 @@ public class Spielfeld extends JPanel {
 	/*******************************
 	 * Initialisieren der XML-Datei*
 	 ******************************/
+
 	public void XMLInit() throws SAXException, IOException,
-			ParserConfigurationException {
-		File field = new File("Beispielfeld.xml");
+			ParserConfigurationException, NullPointerException {
+		OeffnenDialogClass oeffne = new OeffnenDialogClass(null);
+		File field = new File(oeffne.getLevelName());
+		System.out.println(oeffne.getLevelName());
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory
 				.newInstance();
 		DocumentBuilder documentBuilder = documentBuilderFactory
 				.newDocumentBuilder();
 		Document dok = documentBuilder.parse(field);
 		XMLReader.handleChannelTag(dok);
-
 	}
 
 	public void XMLFeld() {
@@ -213,6 +208,8 @@ public class Spielfeld extends JPanel {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}
 
@@ -228,7 +225,6 @@ public class Spielfeld extends JPanel {
 				} else if (XMLReader.xmlStatus[breite][hoehe] == XMLReader.ground) {
 					blockStatus[breite][hoehe] = ground;
 				}
-				// System.out.println(XMLReader.xmlStatus[breite][hoehe]);
 			}
 		}
 
@@ -903,30 +899,31 @@ public class Spielfeld extends JPanel {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					if (player1alive == true && player2alive == false) {
+						// window.setSize(340, 200);
 						JLabel endscreen;
 						panel1.removeAll();
 						endscreen = new JLabel(player1wins);
 						panel1.add(endscreen);
-						endscreen.setBounds(0, 0, Feldgroesse_x * 30,
-								Feldgroesse_y * 30);
+						endscreen.setBounds(0, 0, 340, 200);
+
 					}
 
 					if (player2alive == true && player1alive == false) {
+						// window.setSize(340, 200);
 						JLabel endscreen;
 						panel1.removeAll();
 						endscreen = new JLabel(player2wins);
 						panel1.add(endscreen);
-						endscreen.setBounds(0, 0, Feldgroesse_x * 30,
-								Feldgroesse_y * 30);
+						endscreen.setBounds(0, 0, 340, 200);
 					}
 
 					if (player1alive == false && player2alive == false) {
+						// window.setSize(340, 200);
 						JLabel endscreen;
 						panel1.removeAll();
 						endscreen = new JLabel(bothplayerdead);
 						panel1.add(endscreen);
-						endscreen.setBounds(0, 0, Feldgroesse_x * 30,
-								Feldgroesse_y * 30);
+						endscreen.setBounds(0, 0, 340, 200);
 					}
 					x = 1;
 					y = 1;

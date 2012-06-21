@@ -52,6 +52,8 @@ public class Main extends JFrame {
 		gamepanel.setVisible(true);
 		gamepanel.setLayout(null);
 		add(gamepanel);
+		gamepanel.standardfeld();
+		gamepanel.zeichnen();
 
 	}
 
@@ -62,8 +64,13 @@ public class Main extends JFrame {
 	}
 
 	public void Dateibrowser() {
-		new OeffnenDialogClass(this);
 		getContentPane().removeAll();
+		gamepanel = new Spielfeld(this);
+		gamepanel.setVisible(true);
+		gamepanel.setLayout(null);
+		add(gamepanel);
+		gamepanel.XMLFeld();
+		gamepanel.zeichnen();
 	}
 
 	public static void main(String[] args) {
