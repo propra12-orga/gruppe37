@@ -10,26 +10,30 @@ public class OeffnenDialogClass {
 	private final Main window;
 
 	private void oeffnen() {
-		FileFilter filter = new FileNameExtensionFilter("Leveldateien", "xml");
+		try {
+			FileFilter filter = new FileNameExtensionFilter("Leveldateien",
+					"xml");
 
-		JFileChooser chooser = new JFileChooser(new File(
-				System.getProperty("user.dir")));
-		chooser.setDialogType(JFileChooser.OPEN_DIALOG);
-		chooser.addChoosableFileFilter(filter);
+			JFileChooser chooser = new JFileChooser(new File(
+					System.getProperty("user.dir")));
+			chooser.setDialogType(JFileChooser.OPEN_DIALOG);
+			chooser.addChoosableFileFilter(filter);
 
-		// chooser.setVisible(true);
-		int rueckgabe = chooser.showOpenDialog(null);
-		String Levelname = chooser.getSelectedFile().getName();
-		if (rueckgabe == JFileChooser.APPROVE_OPTION) {
-			if (Levelname.endsWith(".xml")) {
-				System.out.println("Level:" + Levelname);
-			} else {
-				System.out
-						.println("Ungültige Datei, bitte .xml-Datei auswählen.");
-				oeffnen();
+			// chooser.setVisible(true);
+			int rueckgabe = chooser.showOpenDialog(null);
+			String Levelname = chooser.getSelectedFile().getName();
+			if (rueckgabe == JFileChooser.APPROVE_OPTION) {
+				if (Levelname.endsWith(".xml")) {
+					System.out.println("Level:" + Levelname);
+				} else {
+					System.out
+							.println("Ungültige Datei, bitte .xml-Datei auswählen.");
+					oeffnen();
+				}
 			}
+		} catch (NullPointerException n) {
+			System.out.println("You failed!");
 		}
-
 	}
 
 	public OeffnenDialogClass(Main parent) {
