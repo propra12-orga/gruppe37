@@ -70,7 +70,7 @@ public class Main extends JFrame {
 		gamepanel.setLayout(null);
 		add(gamepanel);
 		gamepanel.XMLFeld();
-		gamepanel.zeichnen();
+
 	}
 
 	public static void main(String[] args) {
