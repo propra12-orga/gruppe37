@@ -58,13 +58,7 @@ public class XMLReader {
 			NodeList nodeList = element.getElementsByTagName(tagName)
 					.item(breite).getChildNodes();
 			Node node = nodeList.item(0);
-			if (breite == 0) {
-				value.append("Höhe: " + hoehe + " Breite: " + breite
-						+ " Status: " + node.getTextContent());
-			} else {
-				value.append("\n" + "Höhe: " + hoehe + " Breite: " + breite
-						+ " Status: " + node.getTextContent());
-			}
+
 			if (node.getTextContent().equals("Solid")) {
 				xmlStatus[hoehe][breite] = solid;
 			} else if (node.getTextContent().equals("Ground")) {

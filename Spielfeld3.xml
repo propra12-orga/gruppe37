@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Map>
+	<Line>
+			<Status>Solid</Status>
+			<Status>Solid</Status>
+			<Status>Solid</Status>
+			<Status>Solid</Status>
+			<Status>Solid</Status>
+	</Line>
+	
+	<Line>
+			<Status>Solid</Status>
+			<Status>Ground</Status>
+			<Status>Ground</Status>
+			<Status>Breakblock</Status>
+			<Status>Solid</Status>
+	</Line>
+	
+	<Line>
+			<Status>Solid</Status>
+			<Status>Ground</Status>
+			<Status>Solid</Status>
+			<Status>Ground</Status>
+			<Status>Solid</Status>
+	</Line>
+	
+	<Line>
+			<Status>Solid</Status>
+			<Status>Breakblock</Status>
+			<Status>Ground</Status>
+			<Status>Ground</Status>
+			<Status>Solid</Status>
+	</Line>	
+	<Line>
+			<Status>Solid</Status>
+			<Status>Solid</Status>
+			<Status>Solid</Status>
+			<Status>Solid</Status>
+			<Status>Solid</Status>
+	</Line>
+</Map>
+
