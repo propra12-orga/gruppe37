@@ -133,8 +133,8 @@ public class Spielfeld extends JPanel {
 	/** Gibt an, ob der 2. Spieler am Leben ist */
 	public static boolean player2alive = true;
 
-	/** Gibt an, ob ein zerstörbarer block vorhanden ist */
-	public static boolean Breakblock_vorhanden = false;
+	/** Gibt an, ob ein Portal vorhanden ist */
+	public static boolean Portal_vorhanden = false;
 
 	private final Main window;
 
@@ -299,6 +299,7 @@ public class Spielfeld extends JPanel {
 		blockStatus[x2][y2] = spieler2;
 		player1alive = true;
 		player2alive = true;
+		Portal_vorhanden = false;
 	}
 
 	/***********************************************************************
@@ -926,18 +927,22 @@ public class Spielfeld extends JPanel {
 	 * erstellt ein Portal unter einem zufälligen zerstörbaren Block *
 	 *****************************************************************/
 	private void zufallsPortal() {
+		if (Portal_vorhanden == false) {
+			Random r = new Random();
+			int random_x = r.nextInt(Feldgroesse_x);
+			int random_y = r.nextInt(Feldgroesse_y);
 
-		Random r = new Random();
-		int random_x = r.nextInt(Feldgroesse_x);
-		int random_y = r.nextInt(Feldgroesse_y);
-
-		if (blockStatus[random_x][random_y] == breakblock) {
-			blockStatus[random_x][random_y] = versteckterausgang;
-		} else if (blockStatus[random_x][random_y] == ground) {
-			blockStatus[random_x][random_y] = ausgang;
-		} else {
-			zufallsPortal();
+			if (blockStatus[random_x][random_y] == breakblock) {
+				blockStatus[random_x][random_y] = versteckterausgang;
+				Portal_vorhanden = true;
+			} else if (blockStatus[random_x][random_y] == ground) {
+				blockStatus[random_x][random_y] = ausgang;
+				Portal_vorhanden = true;
+			} else {
+				zufallsPortal();
+			}
 		}
+
 	}
 
 	/***********************************
