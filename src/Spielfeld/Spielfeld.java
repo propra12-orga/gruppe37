@@ -59,72 +59,72 @@ public class Spielfeld extends JPanel {
 	public JPanel panel1 = new JPanel();
 
 	/** horizontale Feldgröße */
-	public int Feldgroesse_x = 100;
+	private int Feldgroesse_x = 100;
 	/** vertikale Feldgröße */
-	public int Feldgroesse_y = 100;
+	private int Feldgroesse_y = 100;
 
 	/** Dichte der zerstörbaren Blöcke */
-	public double Blockdichte = 0.7;
+	private double Blockdichte = 0.7;
 
 	/** Array in dem das Feld erstellt wird */
 	private final JLabel fblock[][] = new JLabel[Feldgroesse_x][Feldgroesse_y];
 
 	/** Definition der einzelnen Spielfeldelemente */
-	public final int blockStatus[][] = new int[Feldgroesse_x][Feldgroesse_y];
+	private final int blockStatus[][] = new int[Feldgroesse_x][Feldgroesse_y];
 
 	/** horizontale Koordinate des Spielfelds */
-	public int m = 0;
+	private int m = 0;
 	/** horizontale Koordinate von Spieler 1 */
-	public int x = 1;
+	private int x = 1;
 	/** vertikale Koordinate von Spieler 1 */
-	public int y = 1;
+	private int y = 1;
 	/** horizontale Koordiante von Spieler 2 */
-	public int x2 = (Feldgroesse_x - 2);
+	private int x2 = (Feldgroesse_x - 2);
 	/** vertikale Koordinate von Spieler 2 */
-	public int y2 = (Feldgroesse_y - 2);
+	private int y2 = (Feldgroesse_y - 2);
 	/** vertikale Koordinate des Spielfelds */
-	public int n = 0;
+	private int n = 0;
 	/** horizontale Koordinate der Bombe von Spieler 1 */
-	public int a1;
+	private int a1;
 	/** horizontale Koordinate der Bombe von Spieler 2 */
-	public int a2;
+	private int a2;
 	/** vertikale Koordinate der Bombe von Spieler 1 */
-	public int b1;
+	private int b1;
 	/** vertikale Koordinate der Bombe von Spieler 2 */
-	public int b2;
+	private int b2;
 
 	// Radien der beiden bomben
 	/** Radius der Bombe von Spieler 1 */
-	public int radius1 = 6;
+	private final int radius1 = 6;
 	/** Radius der Bombe von Spieler 2 */
-	public int radius2 = 6;
+	private final int radius2 = 6;
 
 	/** freies Bodenfeld */
-	public int ground = 0;
+	private final int ground = 0;
 	/** unzerstörbarer Block */
-	public int solid = 1;
+	private final int solid = 1;
 	/** zerstörbarer Block */
-	public int breakblock = 2;
+	private final int breakblock = 2;
 	/** Bombe auf einem freien Feld */
-	public int bombesetzen = 3;
+	private final int bombesetzen = 3;
 	/** Spieler 1 auf seiner Bombe */
-	public int spieler_bombe = 4;
+	private final int spieler_bombe = 4;
 	/** Mittelpunkt der Explosion */
-	public int explosion_mitte = 5;
+	private final int explosion_mitte = 5;
 	/** horizontale Komponente der Explosion */
-	public int explosion_horizontal = 6;
+	private final int explosion_horizontal = 6;
 	/** vertikale Komponente der Explosion */
-	public int explosion_vertikal = 7;
+	private final int explosion_vertikal = 7;
 	/** Spielfigur von Spieler 1 */
-	public int spieler = 8;
+	private final int spieler = 8;
 	/** Ausgang unter einem zerstörbaren Block */
-	public int versteckterausgang = 9;
+	private final int versteckterausgang = 9;
 	/** offengelegter Ausgang */
-	public int ausgang = 10;
+	private final int ausgang = 10;
 	/** Spielfigur von Spieler 2 */
-	public int spieler2 = 11;
+	private final int spieler2 = 11;
 	/** Spieler 2 auf seiner Bombe */
-	public int spieler2_bombe = 12;
+	private final int spieler2_bombe = 12;
 
 	/*
 	 * Fähigkeit Bomben zu legen wird ermöglicht
@@ -138,12 +138,12 @@ public class Spielfeld extends JPanel {
 	 * Festlegung, dass die Spielfiguren am Leben sind
 	 */
 	/** Gibt an, ob der 1. Spieler am Leben ist */
-	public static boolean player1alive = true;
+	private static boolean player1alive = true;
 	/** Gibt an, ob der 2. Spieler am Leben ist */
-	public static boolean player2alive = true;
+	private static boolean player2alive = true;
 
 	/** Gibt an, ob ein Portal vorhanden ist */
-	public static boolean Portal_vorhanden = false;
+	private static boolean Portal_vorhanden = false;
 
 	private final Main window;
 
@@ -194,7 +194,7 @@ public class Spielfeld extends JPanel {
 	 ******************************/
 	public void XMLInit() throws SAXException, IOException,
 			ParserConfigurationException {
-		File field = new File("Beispielfeld.xml");
+		File field = new File("Battlefield.xml");
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory
 				.newInstance();
 		DocumentBuilder documentBuilder = documentBuilderFactory
@@ -234,7 +234,6 @@ public class Spielfeld extends JPanel {
 				} else if (XMLReader.xmlStatus[breite][hoehe] == XMLReader.ground) {
 					blockStatus[breite][hoehe] = ground;
 				}
-				// System.out.println(XMLReader.xmlStatus[breite][hoehe]);
 			}
 		}
 

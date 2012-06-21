@@ -53,22 +53,21 @@ public class XMLReader {
 
 	private static String TextTagHandler(String tagName, Element element) {
 		StringBuffer value = new StringBuffer();
-		for (breite = 0; breite < element.getElementsByTagName(tagName)
-				.getLength(); breite++) {
+		for (hoehe = 0; hoehe < element.getElementsByTagName(tagName)
+				.getLength(); hoehe++) {
 			NodeList nodeList = element.getElementsByTagName(tagName)
-					.item(breite).getChildNodes();
+					.item(hoehe).getChildNodes();
 			Node node = nodeList.item(0);
 
 			if (node.getTextContent().equals("Solid")) {
-				xmlStatus[hoehe][breite] = solid;
+				xmlStatus[breite][hoehe] = solid;
 			} else if (node.getTextContent().equals("Ground")) {
-				xmlStatus[hoehe][breite] = ground;
+				xmlStatus[breite][hoehe] = ground;
 			} else if (node.getTextContent().equals("Breakblock")) {
-				xmlStatus[hoehe][breite] = breakblock;
-
+				xmlStatus[breite][hoehe] = breakblock;
 			}
-			if (breite == element.getElementsByTagName(tagName).getLength() - 1) {
-				hoehe++;
+			if (hoehe == element.getElementsByTagName(tagName).getLength() - 1) {
+				breite++;
 			}
 		}
 
