@@ -22,10 +22,10 @@ public class XMLReader {
 	public static int hoehe = 0;
 	public static int breite = 0;
 
-	public static int hoehe_max = 9;
-	public static int breite_max = 6;
+	public static int hoehe_max = 100;
+	public static int breite_max = 100;
 
-	public static int ground = 0;
+	public static int ground = 3;
 	public static int solid = 1;
 	public static int breakblock = 2;
 

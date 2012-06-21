@@ -8,6 +8,7 @@ import java.util.Random;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -58,12 +59,12 @@ public class Spielfeld extends JPanel {
 	public JPanel panel1 = new JPanel();
 
 	/** horizontale Feldgröße */
-	public int Feldgroesse_x = Gui.Einstellungen.breite;
+	public int Feldgroesse_x = 100;
 	/** vertikale Feldgröße */
-	public int Feldgroesse_y = Gui.Einstellungen.hoehe;
+	public int Feldgroesse_y = 100;
 
 	/** Dichte der zerstörbaren Blöcke */
-	public double Blockdichte = (Gui.Einstellungen.dichte * 0.01);
+	public double Blockdichte = 0.7;
 
 	/** Array in dem das Feld erstellt wird */
 	private final JLabel fblock[][] = new JLabel[Feldgroesse_x][Feldgroesse_y];
@@ -154,10 +155,8 @@ public class Spielfeld extends JPanel {
 		// Fenstereinstellungen
 		window = parent;
 		window.getContentPane().add(panel1);
-		window.setSize(((Feldgroesse_x * 30) + 10), ((Feldgroesse_y * 30) + 50));
 		window.setVisible(true);
 		panel1.setLayout(null);
-		panel1.setBounds(0, 0, Feldgroesse_x * 30, Feldgroesse_y * 30);
 		window.setResizable(false);
 
 		/*******************************************
@@ -221,6 +220,13 @@ public class Spielfeld extends JPanel {
 
 		for (int breite = 0; breite < Feldgroesse_x; breite++) {
 			for (int hoehe = 0; hoehe < Feldgroesse_y; hoehe++) {
+				if (XMLReader.xmlStatus[breite][hoehe] == 0) {
+					JOptionPane
+							.showMessageDialog(
+									null,
+									"Spielfeld enthält ungewollte BlockStati. Bitte Datei überarbeiten oder anderes Spielfeld auswählen. ");
+					return;
+				}
 				if (XMLReader.xmlStatus[breite][hoehe] == XMLReader.solid) {
 					blockStatus[breite][hoehe] = solid;
 				} else if (XMLReader.xmlStatus[breite][hoehe] == XMLReader.breakblock) {
@@ -276,6 +282,11 @@ public class Spielfeld extends JPanel {
 	 */
 
 	public void standardfeld() {
+		Blockdichte = (Gui.Einstellungen.dichte * 0.01);
+		Feldgroesse_x = Gui.Einstellungen.breite;
+		Feldgroesse_y = Gui.Einstellungen.hoehe;
+		window.setSize(((Feldgroesse_x * 30) + 10), ((Feldgroesse_y * 30) + 50));
+		panel1.setBounds(0, 0, Feldgroesse_x * 30, Feldgroesse_y * 30);
 
 		for (n = 0; n < Feldgroesse_y; n++) {
 			for (m = 0; m < Feldgroesse_x; m++) {
