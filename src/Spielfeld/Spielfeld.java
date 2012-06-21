@@ -160,6 +160,8 @@ public class Spielfeld extends JPanel {
 
 		standardfeld();
 		// XMLFeld();
+		control();
+		control2();
 		zeichnen();
 	}
 
