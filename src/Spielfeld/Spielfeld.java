@@ -2,11 +2,19 @@ package Spielfeld;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.Random;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
 import Gui.Main;
 import Objects.Steuerung;
@@ -156,8 +164,8 @@ public class Spielfeld extends JPanel {
 		 * Starten und erstellen eines Spielfeldes *
 		 *******************************************/
 
-		standardfeld();
-		// XMLFeld();
+		// standardfeld();
+		XMLFeld();
 		zeichnen();
 	}
 
@@ -182,16 +190,37 @@ public class Spielfeld extends JPanel {
 		bothplayerdead = new ImageIcon("Images/BothPlayerDead.jpg");
 	}
 
-	/****************************************************************
-	 * Standardspielfeld mit variabler Groesse und zufälligem Aufbau aus
-	 * zerstörbaren und freien Blöcken in Array schreiben *
-	 ****************************************************************/
+	/*******************************
+	 * Initialisieren der XML-Datei*
+	 ******************************/
+	public void XMLInit() throws SAXException, IOException,
+			ParserConfigurationException {
+		File field = new File("Beispielfeld.xml");
+		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory
+				.newInstance();
+		DocumentBuilder documentBuilder = documentBuilderFactory
+				.newDocumentBuilder();
+		Document dok = documentBuilder.parse(field);
+		XMLReader.handleChannelTag(dok);
+
+	}
+
 	public void XMLFeld() {
-		new XMLInit();
-		// int hoehe = XMLReader.hoehe;
-		// int breite = XMLReader.breite;
-		for (int breite = 0; breite < Feldgroesse_y; breite++) {
-			for (int hoehe = 0; hoehe < Feldgroesse_x; hoehe++) {
+		try {
+			XMLInit();
+		} catch (SAXException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		}
+
+		Feldgroesse_x = XMLReader.breite_max;
+		Feldgroesse_y = XMLReader.hoehe_max;
+
+		for (int breite = 0; breite < Feldgroesse_x; breite++) {
+			for (int hoehe = 0; hoehe < Feldgroesse_y; hoehe++) {
 				if (XMLReader.xmlStatus[breite][hoehe] == XMLReader.solid) {
 					blockStatus[breite][hoehe] = solid;
 				} else if (XMLReader.xmlStatus[breite][hoehe] == XMLReader.breakblock) {
@@ -199,12 +228,15 @@ public class Spielfeld extends JPanel {
 				} else if (XMLReader.xmlStatus[breite][hoehe] == XMLReader.ground) {
 					blockStatus[breite][hoehe] = ground;
 				}
+				// System.out.println(XMLReader.xmlStatus[breite][hoehe]);
 			}
 		}
 
 		/*******************************************************
 		 * Sicherstellung, dass die Startpositionen frei sind. *
 		 *******************************************************/
+		window.setSize(((Feldgroesse_x * 30) + 10), ((Feldgroesse_y * 30) + 50));
+		panel1.setBounds(0, 0, Feldgroesse_x * 30, Feldgroesse_y * 30);
 
 		// Oben links
 		blockStatus[1][1] = ground;

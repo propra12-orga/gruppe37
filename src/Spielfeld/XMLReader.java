@@ -22,11 +22,14 @@ public class XMLReader {
 	public static int hoehe = 0;
 	public static int breite = 0;
 
+	public static int hoehe_max = 9;
+	public static int breite_max = 6;
+
 	public static int ground = 0;
 	public static int solid = 1;
 	public static int breakblock = 2;
 
-	public static int xmlStatus[][] = new int[hoehe][breite];
+	public static int xmlStatus[][] = new int[breite_max][hoehe_max];
 
 	public static void handleChannelTag(Document dok) {
 		NodeList nodeList = dok.getElementsByTagName("Line");
@@ -42,29 +45,31 @@ public class XMLReader {
 			}
 			System.out.println("");
 		}
+
+		hoehe_max = hoehe;
+		breite_max = breite;
+
 	}
 
 	private static String TextTagHandler(String tagName, Element element) {
 		StringBuffer value = new StringBuffer();
-		for (int breite = 0; breite < element.getElementsByTagName(tagName)
+		for (breite = 0; breite < element.getElementsByTagName(tagName)
 				.getLength(); breite++) {
 			NodeList nodeList = element.getElementsByTagName(tagName)
 					.item(breite).getChildNodes();
 			Node node = nodeList.item(0);
 			if (breite == 0) {
 				value.append("Höhe: " + hoehe + " Breite: " + breite
-						+ " Status: " + node.getNodeValue());
+						+ " Status: " + node.getTextContent());
 			} else {
 				value.append("\n" + "Höhe: " + hoehe + " Breite: " + breite
-						+ " Status: " + node.getNodeValue());
+						+ " Status: " + node.getTextContent());
 			}
-			if (node.getNodeValue() == "Solid") {
+			if (node.getTextContent().equals("Solid")) {
 				xmlStatus[hoehe][breite] = solid;
-
-			} else if (node.getNodeValue() == "Ground") {
+			} else if (node.getTextContent().equals("Ground")) {
 				xmlStatus[hoehe][breite] = ground;
-
-			} else if (node.getNodeValue() == "Breakblock") {
+			} else if (node.getTextContent().equals("Breakblock")) {
 				xmlStatus[hoehe][breite] = breakblock;
 
 			}
@@ -72,7 +77,8 @@ public class XMLReader {
 				hoehe++;
 			}
 		}
-		return value.toString();
-	}
 
+		return value.toString();
+
+	}
 }
