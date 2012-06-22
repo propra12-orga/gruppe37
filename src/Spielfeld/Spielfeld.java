@@ -917,7 +917,7 @@ public class Spielfeld extends JPanel {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					if (player1alive == true && player2alive == false) {
-						// window.setSize(340, 200);
+						window.setSize(340, 200);
 						JLabel endscreen;
 						panel1.removeAll();
 						endscreen = new JLabel(player1wins);
@@ -927,7 +927,7 @@ public class Spielfeld extends JPanel {
 					}
 
 					if (player2alive == true && player1alive == false) {
-						// window.setSize(340, 200);
+						window.setSize(340, 200);
 						JLabel endscreen;
 						panel1.removeAll();
 						endscreen = new JLabel(player2wins);
@@ -936,7 +936,7 @@ public class Spielfeld extends JPanel {
 					}
 
 					if (player1alive == false && player2alive == false) {
-						// window.setSize(340, 200);
+						window.setSize(340, 200);
 						JLabel endscreen;
 						panel1.removeAll();
 						endscreen = new JLabel(bothplayerdead);

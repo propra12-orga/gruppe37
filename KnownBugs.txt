@@ -1,5 +1,10 @@
-- XML Pfad (Ordner XML bei Dateibrowser als Standardverzeichnis)
+Bughunting.setTitle("Mission: Bug suchen!");
+Bughunting.setMotivation("Mission accepted");
+
 - Keine Bewegung nach gemachten Einstellungen
 - Level auswählen, xml verwenden, wieder level auswählen => Spielfelder werden nebeneinander dargestellt
 - Endscreen Größe
 - Einstellung Slider reset auf init wert trotz voriger Änderung 
+- Dateibrowser: Unglaubliche NullPointerException bei Abbruch?! 
+
+Bughunting.setResult("Trololololololololololololol");
