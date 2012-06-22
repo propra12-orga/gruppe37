@@ -57,9 +57,6 @@ public class Spielfeld extends JPanel {
 	private ImageIcon player2wins;
 	private ImageIcon bothplayerdead;
 
-	/** Panel in dem das Spiel dargestellt wird */
-	public JPanel panel1 = new JPanel();
-
 	/** horizontale Feldgröße */
 	private int Feldgroesse_x = 100;
 
@@ -157,10 +154,6 @@ public class Spielfeld extends JPanel {
 
 		// Fenstereinstellungen
 		window = parent;
-		window.getContentPane().add(panel1);
-		window.setVisible(true);
-		panel1.setLayout(null);
-		window.setResizable(false);
 	}
 
 	/****************************************
@@ -241,7 +234,8 @@ public class Spielfeld extends JPanel {
 		 * Sicherstellung, dass die Startpositionen frei sind. *
 		 *******************************************************/
 		window.setSize(((Feldgroesse_x * 30) + 10), ((Feldgroesse_y * 30) + 50));
-		panel1.setBounds(0, 0, Feldgroesse_x * 30, Feldgroesse_y * 30);
+		window.gamepanel
+				.setBounds(0, 0, Feldgroesse_x * 30, Feldgroesse_y * 30);
 
 		// Oben links
 		blockStatus[1][1] = ground;
@@ -292,7 +286,8 @@ public class Spielfeld extends JPanel {
 		Blockdichte = (Gui.Einstellungen.dichte * 0.01);
 
 		window.setSize(((Feldgroesse_x * 30) + 10), ((Feldgroesse_y * 30) + 50));
-		panel1.setBounds(0, 0, Feldgroesse_x * 30, Feldgroesse_y * 30);
+		window.gamepanel
+				.setBounds(0, 0, Feldgroesse_x * 30, Feldgroesse_y * 30);
 		for (n = 0; n < Feldgroesse_y; n++) {
 			for (m = 0; m < Feldgroesse_x; m++) {
 				if (m % 2 != 1 && n % 2 != 1 || m == 0 || n == 0
@@ -352,24 +347,24 @@ public class Spielfeld extends JPanel {
 	 * Auslesen der Blockstati und zuordnung der passenden Icons zu diesen *
 	 ***********************************************************************/
 	public void zeichnen() {
-		panel1.removeAll();
+		window.gamepanel.removeAll();
 		for (m = 0; m < Feldgroesse_x; m++) {
 			for (n = 0; n < Feldgroesse_y; n++) {
 				if (blockStatus[m][n] == ground) {
 					fblock[m][n] = new JLabel(grndBlock);
-					panel1.add(fblock[m][n]);
+					window.gamepanel.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 				}
 
 				else if (blockStatus[m][n] == solid) {
 					fblock[m][n] = new JLabel(solidBlock);
-					panel1.add(fblock[m][n]);
+					window.gamepanel.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 				}
 
 				else if (blockStatus[m][n] == breakblock) {
 					fblock[m][n] = new JLabel(brkbleBlock);
-					panel1.add(fblock[m][n]);
+					window.gamepanel.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 				}
 				/*
@@ -377,32 +372,32 @@ public class Spielfeld extends JPanel {
 				 */
 				else if (blockStatus[m][n] == bombesetzen) {
 					fblock[m][n] = new JLabel(bombe);
-					panel1.add(fblock[m][n]);
+					window.gamepanel.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 
 				} else if (blockStatus[m][n] == spieler_bombe) {
 					fblock[m][n] = new JLabel(playeronbomb);
-					panel1.add(fblock[m][n]);
+					window.gamepanel.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 
 				} else if (blockStatus[m][n] == spieler2_bombe) {
 					fblock[m][n] = new JLabel(player2onbomb);
-					panel1.add(fblock[m][n]);
+					window.gamepanel.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 
 				} else if (blockStatus[m][n] == explosion_mitte) {
 					fblock[m][n] = new JLabel(exp_m);
-					panel1.add(fblock[m][n]);
+					window.gamepanel.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 
 				} else if (blockStatus[m][n] == explosion_horizontal) {
 					fblock[m][n] = new JLabel(exp_h);
-					panel1.add(fblock[m][n]);
+					window.gamepanel.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 
 				} else if (blockStatus[m][n] == explosion_vertikal) {
 					fblock[m][n] = new JLabel(exp_v);
-					panel1.add(fblock[m][n]);
+					window.gamepanel.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 				}
 
@@ -411,7 +406,7 @@ public class Spielfeld extends JPanel {
 				 */
 				else if (blockStatus[m][n] == spieler) {
 					fblock[m][n] = new JLabel(player);
-					panel1.add(fblock[m][n]);
+					window.gamepanel.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 				}
 
@@ -420,7 +415,7 @@ public class Spielfeld extends JPanel {
 				 */
 				else if (blockStatus[m][n] == spieler2) {
 					fblock[m][n] = new JLabel(player2);
-					panel1.add(fblock[m][n]);
+					window.gamepanel.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 
 				}
@@ -430,11 +425,11 @@ public class Spielfeld extends JPanel {
 				 */
 				else if (blockStatus[m][n] == ausgang) {
 					fblock[m][n] = new JLabel(portal);
-					panel1.add(fblock[m][n]);
+					window.gamepanel.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 				} else if (blockStatus[m][n] == versteckterausgang) {
 					fblock[m][n] = new JLabel(brkbleBlock);
-					panel1.add(fblock[m][n]);
+					window.gamepanel.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 				}
 			}
@@ -921,9 +916,9 @@ public class Spielfeld extends JPanel {
 					if (player1alive == true && player2alive == false) {
 						window.setSize(340, 200);
 						JLabel endscreen;
-						panel1.removeAll();
+						window.gamepanel.removeAll();
 						endscreen = new JLabel(player1wins);
-						panel1.add(endscreen);
+						window.gamepanel.add(endscreen);
 						endscreen.setBounds(0, 0, 340, 200);
 
 					}
@@ -931,18 +926,18 @@ public class Spielfeld extends JPanel {
 					if (player2alive == true && player1alive == false) {
 						window.setSize(340, 200);
 						JLabel endscreen;
-						panel1.removeAll();
+						window.gamepanel.removeAll();
 						endscreen = new JLabel(player2wins);
-						panel1.add(endscreen);
+						window.gamepanel.add(endscreen);
 						endscreen.setBounds(0, 0, 340, 200);
 					}
 
 					if (player1alive == false && player2alive == false) {
 						window.setSize(340, 200);
 						JLabel endscreen;
-						panel1.removeAll();
+						window.gamepanel.removeAll();
 						endscreen = new JLabel(bothplayerdead);
-						panel1.add(endscreen);
+						window.gamepanel.add(endscreen);
 						endscreen.setBounds(0, 0, 340, 200);
 					}
 					x = 1;
