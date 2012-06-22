@@ -3,6 +3,7 @@ package Spielfeld;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Random;
 
@@ -188,7 +189,8 @@ public class Spielfeld extends JPanel {
 	 ******************************/
 
 	public void XMLInit() throws SAXException, IOException,
-			ParserConfigurationException, NullPointerException {
+			ParserConfigurationException, NullPointerException,
+			FileNotFoundException {
 		OeffnenDialogClass oeffne = new OeffnenDialogClass(null);
 		File field = new File(oeffne.getLevelName());
 

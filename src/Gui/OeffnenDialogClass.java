@@ -3,13 +3,11 @@ package Gui;
 import java.io.File;
 
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class OeffnenDialogClass {
 	private String Levelname;
-	private final Main window;
 
 	private void oeffnen() {
 		try {
@@ -19,14 +17,13 @@ public class OeffnenDialogClass {
 					System.getProperty("user.dir") + File.separator + "XML"));
 
 			chooser.setDialogType(JFileChooser.OPEN_DIALOG);
-			chooser.addChoosableFileFilter(filter);
+			chooser.setFileFilter(filter);
 
 			int rueckgabe = chooser.showOpenDialog(null);
 			Levelname = chooser.getSelectedFile().getName();
+			System.out.println(Levelname);
 			if (rueckgabe == JFileChooser.APPROVE_OPTION) {
 				if (!Levelname.endsWith(".xml")) {
-					JOptionPane.showMessageDialog(null,
-							"Bitte eine xml Datei auswählen");
 					oeffnen();
 				}
 			} else if (rueckgabe == JFileChooser.CANCEL_OPTION) {
@@ -38,7 +35,6 @@ public class OeffnenDialogClass {
 	}
 
 	public OeffnenDialogClass(Main parent) {
-		window = parent;
 		oeffnen();
 	}
 
