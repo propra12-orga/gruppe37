@@ -6,5 +6,7 @@ Bughunting.setMotivation("Mission accepted");
 - Endscreen Größe
 - Einstellung Slider reset auf init wert trotz voriger Änderung 
 - Dateibrowser: Unglaubliche NullPointerException bei Abbruch?! 
+- Fehler beim Einlesen von Dateien aus dem XML Ordner.
+- Fehlermeldungen des Dateibrowsers überarbeiten!
 
 Bughunting.setResult("Trololololololololololololol");
