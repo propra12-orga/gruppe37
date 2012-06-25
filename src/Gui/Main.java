@@ -58,6 +58,7 @@ public class Main extends JFrame {
 		add(gamepanel);
 		gamepanel.standardfeld();
 		gamepanel.zeichnen();
+		requestFocusInWindow();
 
 	}
 
