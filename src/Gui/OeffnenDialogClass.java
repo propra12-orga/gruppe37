@@ -15,12 +15,11 @@ public class OeffnenDialogClass {
 					"xml");
 			JFileChooser chooser = new JFileChooser(new File(
 					System.getProperty("user.dir") + File.separator + "XML"));
-
 			chooser.setDialogType(JFileChooser.OPEN_DIALOG);
 			chooser.setFileFilter(filter);
 
 			int rueckgabe = chooser.showOpenDialog(null);
-			Levelname = chooser.getSelectedFile().getName();
+			Levelname = chooser.getSelectedFile().getPath();
 			System.out.println(Levelname);
 			if (rueckgabe == JFileChooser.APPROVE_OPTION) {
 				if (!Levelname.endsWith(".xml")) {

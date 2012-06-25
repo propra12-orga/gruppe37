@@ -51,6 +51,19 @@ public class XMLReader {
 
 	}
 
+	static void Reset() {
+		hoehe = 0;
+		breite = 0;
+
+		hoehe_max = 100;
+		breite_max = 100;
+
+		ground = 3;
+		solid = 1;
+		breakblock = 2;
+
+	}
+
 	private static String TextTagHandler(String tagName, Element element) {
 		StringBuffer value = new StringBuffer();
 		for (hoehe = 0; hoehe < element.getElementsByTagName(tagName)

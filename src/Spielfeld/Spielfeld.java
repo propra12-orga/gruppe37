@@ -218,7 +218,6 @@ public class Spielfeld extends JPanel {
 							.showMessageDialog(
 									null,
 									"Spielfeld entspricht nicht dem vorgegeben Format. Bitte Datei überarbeiten oder anderes Spielfeld auswählen");
-					return;
 				}
 				if (XMLReader.xmlStatus[breite][hoehe] == XMLReader.solid) {
 					blockStatus[breite][hoehe] = solid;
@@ -268,6 +267,7 @@ public class Spielfeld extends JPanel {
 		player1alive = true;
 		player2alive = true;
 		zeichnen();
+		XMLReader.Reset();
 	}
 
 	/*
@@ -914,31 +914,31 @@ public class Spielfeld extends JPanel {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					if (player1alive == true && player2alive == false) {
-						window.setSize(340, 200);
+						window.setSize(320, 230);
 						JLabel endscreen;
 						window.gamepanel.removeAll();
 						endscreen = new JLabel(player1wins);
 						window.gamepanel.add(endscreen);
-						endscreen.setBounds(0, 0, 340, 200);
+						endscreen.setBounds(0, 0, 320, 180);
 
 					}
 
 					if (player2alive == true && player1alive == false) {
-						window.setSize(340, 200);
+						window.setSize(330, 230);
 						JLabel endscreen;
 						window.gamepanel.removeAll();
 						endscreen = new JLabel(player2wins);
 						window.gamepanel.add(endscreen);
-						endscreen.setBounds(0, 0, 340, 200);
+						endscreen.setBounds(0, 0, 320, 180);
 					}
 
 					if (player1alive == false && player2alive == false) {
-						window.setSize(340, 200);
+						window.setSize(330, 230);
 						JLabel endscreen;
 						window.gamepanel.removeAll();
 						endscreen = new JLabel(bothplayerdead);
 						window.gamepanel.add(endscreen);
-						endscreen.setBounds(0, 0, 340, 200);
+						endscreen.setBounds(0, 0, 320, 180);
 					}
 					x = 1;
 					y = 1;
