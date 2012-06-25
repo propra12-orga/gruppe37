@@ -20,7 +20,7 @@ public class OeffnenDialogClass {
 			chooser.setFileFilter(filter);
 
 			int rueckgabe = chooser.showOpenDialog(null);
-			Levelname = chooser.getSelectedFile().getName();
+			Levelname = chooser.getSelectedFile().getPath();
 			System.out.println(Levelname);
 			if (rueckgabe == JFileChooser.APPROVE_OPTION) {
 				if (!Levelname.endsWith(".xml")) {
