@@ -98,24 +98,43 @@ public class Menue extends JPanel {
 
 			}
 		});
+		/**
+		 * Vierter Button - Leveleditor
+		 */
 
+		JMenuItem fileItem4 = new JMenuItem("Karteneditor");
+
+		fileItem4.addActionListener(new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent e) {
+
+				try {
+					window.Leveleditor();
+
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+
+			}
+		});
 		/*************************
-		 * Vierter Button - Exit *
+		 * Fünfter Button - Exit *
 		 *************************/
-		JMenuItem fileItem4 = new JMenuItem("Schliessen");
-		fileItem4.setMnemonic('x');
-		fileItem4.addActionListener(new ActionListener() {
+		JMenuItem fileItem5 = new JMenuItem("Schliessen");
+		fileItem5.setMnemonic('x');
+		fileItem5.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
 			}
 		});
 
-		fileItem4.add(new JSeparator());
+		fileItem5.add(new JSeparator());
 		filemenu.add(fileItem1);
 		filemenu.add(fileItem2);
 		filemenu.add(fileItem3);
 		filemenu.add(fileItem4);
+		filemenu.add(fileItem5);
 		menubar.add(filemenu);
 
 	}

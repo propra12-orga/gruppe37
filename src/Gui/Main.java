@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 
 import Objects.Steuerung;
 import Objects.Steuerung2;
+import Spielfeld.Karteneditor;
 import Spielfeld.Spielfeld;
 
 /** Main Klasse, die das gesamte Spiel beinhaltet */
@@ -11,6 +12,9 @@ public class Main extends JFrame {
 
 	/** Spielfeld in dem das Spiel stattfindet */
 	public Spielfeld gamepanel;
+
+	/** Spielfeld in dem das Spiel stattfindet */
+	public Karteneditor gameedit;
 
 	/** Menüleiste des Programms */
 	public Menue gamemenue;
@@ -54,6 +58,18 @@ public class Main extends JFrame {
 		add(gamepanel);
 		gamepanel.standardfeld();
 		gamepanel.zeichnen();
+
+	}
+
+	public void Leveleditor() {
+
+		getContentPane().removeAll();
+		gameedit = new Karteneditor(this);
+		gameedit.setVisible(true);
+		gameedit.setLayout(null);
+		add(gameedit);
+		gameedit.promt();
+		gameedit.zeichnen();
 
 	}
 
