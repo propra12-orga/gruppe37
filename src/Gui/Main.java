@@ -69,7 +69,7 @@ public class Main extends JFrame {
 		gameedit.setVisible(true);
 		gameedit.setLayout(null);
 		add(gameedit);
-		gameedit.promt();
+		gameedit.standardfeld();
 		gameedit.zeichnen();
 
 	}

@@ -1,32 +1,21 @@
 package Spielfeld;
 
-import java.awt.Dimension;
-import java.awt.Insets;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.PointerInfo;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.File;
-import java.io.IOException;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
+import javax.swing.JToggleButton;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
 
 import Gui.Main;
 
@@ -57,9 +46,6 @@ public class Karteneditor extends JPanel implements ChangeListener,
 	private ImageIcon portal;
 	private ImageIcon blank_field;
 
-	/** Panel in dem das Spiel dargestellt wird */
-	public JPanel panel1 = new JPanel();
-
 	/** horizontale Koordinate des Spielfelds */
 	private int m = 0;
 	/** vertikale Koordinate des Spielfelds */
@@ -72,6 +58,12 @@ public class Karteneditor extends JPanel implements ChangeListener,
 	private final int versteckterausgang = 9;
 	private final int ausgang = 10;
 	private final int spieler2 = 11;
+
+	boolean brkbleButton_on;
+	boolean solidButton_on;
+	boolean grndButton_on;
+	boolean playerButton_on;
+	boolean player2Button_on;
 
 	static final int hoehe_MIN = 5;
 	static final int hoehe_MAX = 30;
@@ -96,6 +88,19 @@ public class Karteneditor extends JPanel implements ChangeListener,
 			hoehe_INIT);
 	private final JSlider breite_s = new JSlider(breite_MIN, breite_MAX,
 			breite_INIT);
+	JLabel nameSolid = new JLabel("Solid");
+	JLabel namePlayer2 = new JLabel("Spieler2");
+	JLabel nameBrkble = new JLabel("Zerstörbar");
+	JLabel namePlayer1 = new JLabel("Spieler1");
+	JLabel nameGrnd = new JLabel("Boden");
+	JLabel nameHoehe = new JLabel("Hoehe");
+	JLabel nameBreite = new JLabel("Breite");
+
+	final JToggleButton solidButton = new JToggleButton(solidBlock);
+	final JToggleButton player2Button = new JToggleButton(player2);
+	final JToggleButton playerButton = new JToggleButton(player);
+	final JToggleButton brkbleButton = new JToggleButton(brkbleBlock);
+	final JToggleButton grndButton = new JToggleButton(grndBlock);
 
 	private final Main window;
 
@@ -103,16 +108,9 @@ public class Karteneditor extends JPanel implements ChangeListener,
 	public Karteneditor(Main parent) {
 
 		window = parent;
-		window.getContentPane().add(panel1);
-		window.setVisible(true);
-		panel1.setLayout(null);
 		window.setResizable(false);
 		window.addMouseListener(this);
 
-		/*******************************************
-		 * Starten und erstellen eines Spielfeldes *
-		 *******************************************/
-		// zeichnen();
 		loadContentImages();
 	}
 
@@ -129,191 +127,53 @@ public class Karteneditor extends JPanel implements ChangeListener,
 		blank_field = new ImageIcon("Images/bg.png");
 	}
 
-	/*******************************
-	 * Initialisieren der XML-Datei*
-	 ******************************/
-	public void XMLInit() throws SAXException, IOException,
-			ParserConfigurationException {
-		File field = new File("Beispielfeld.xml");
-		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory
-				.newInstance();
-		DocumentBuilder documentBuilder = documentBuilderFactory
-				.newDocumentBuilder();
-		Document dok = documentBuilder.parse(field);
-		XMLReader.handleChannelTag(dok);
-
-	}
-
-	public void XMLFeld() {
-		try {
-			XMLInit();
-		} catch (SAXException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-		}
-
-		Feldgroesse_x = XMLReader.breite_max;
-		Feldgroesse_y = XMLReader.hoehe_max;
-
-		for (int breite = 0; breite < Feldgroesse_x; breite++) {
-			for (int hoehe = 0; hoehe < Feldgroesse_y; hoehe++) {
-				if (XMLReader.xmlStatus[breite][hoehe] == 0) {
-					JOptionPane
-							.showMessageDialog(
-									null,
-									"Spielfeld enthält ungewollte BlockStati. Bitte Datei überarbeiten oder anderes Spielfeld auswählen. ");
-					return;
-				}
-				if (XMLReader.xmlStatus[breite][hoehe] == XMLReader.solid) {
-					blockStatus[breite][hoehe] = solid;
-				} else if (XMLReader.xmlStatus[breite][hoehe] == XMLReader.breakblock) {
-					blockStatus[breite][hoehe] = breakblock;
-				} else if (XMLReader.xmlStatus[breite][hoehe] == XMLReader.ground) {
-					blockStatus[breite][hoehe] = ground;
-				}
-			}
-		}
-
-		/*******************************************************
-		 * Sicherstellung, dass die Startpositionen frei sind. *
-		 *******************************************************/
-		window.setSize(((Feldgroesse_x * 30) + 10), ((Feldgroesse_y * 30) + 50));
-		panel1.setBounds(0, 0, Feldgroesse_x * 30, Feldgroesse_y * 30);
-		zeichnen();
-	}
-
 	public void standardfeld() {
+		remove();
 		Feldgroesse_x = breite;
 		Feldgroesse_y = hoehe;
-		window.setSize(((Feldgroesse_x * 30) + 10), ((Feldgroesse_y * 30) + 50));
-		panel1.setBounds(0, 0, Feldgroesse_x * 30, Feldgroesse_y * 30);
+		window.setSize(((Feldgroesse_x * 30) + 160),
+				((Feldgroesse_y * 30) + 50));
+		window.gameedit.setBounds(0, 0, Feldgroesse_x * 30, Feldgroesse_y * 30);
 
 		for (n = 0; n < Feldgroesse_y; n++) {
 			for (m = 0; m < Feldgroesse_x; m++) {
-				blockStatus[m][n] = blank;
-
+				if (m == 0 || n == 0 || n == Feldgroesse_y - 1
+						|| m == Feldgroesse_x - 1) {
+					blockStatus[m][n] = solid;
+				} else if (blockStatus[m][n] == 0) {
+					blockStatus[m][n] = blank;
+				}
 			}
 
 		}
+		Button();
+		Slider();
+		// updateUI();
 		zeichnen();
 
 	}
 
-	public void promt() {
-		Insets mmInsets = window.getInsets();
-		Dimension sizeMmInn = null;
-		window.setLayout(null);
-
-		/*
-		 * Einstellungen fuer Hoehen-Slider
-		 */
-		hoehe_s.setPreferredSize(new Dimension(500, 50));
-		sizeMmInn = hoehe_s.getPreferredSize();
-		hoehe_s.setBounds(80 + mmInsets.left, 16 + mmInsets.top,
-				sizeMmInn.width, sizeMmInn.height);
-		hoehe_s.addChangeListener(this);
-		hoehe_s.setPaintTicks(true);
-		hoehe_s.setMajorTickSpacing(5);
-		hoehe_s.setMinorTickSpacing(1);
-		hoehe_s.setPaintLabels(true);
-
-		final JLabel nameHoehe = new JLabel("Hoehe");
-		nameHoehe.setBounds(10 + mmInsets.left, mmInsets.top, sizeMmInn.width,
-				sizeMmInn.height);
-		nameHoehe.setToolTipText("Die Hoehe des Spielfelds in Bausteinen");
-
-		/*
-		 * Einstellungen fuer Breiten-Slider
-		 */
-		breite_s.setPreferredSize(new Dimension(500, 50));
-		sizeMmInn = breite_s.getPreferredSize();
-		breite_s.setBounds(80 + mmInsets.left, 116 + mmInsets.top,
-				sizeMmInn.width, sizeMmInn.height);
-		breite_s.addChangeListener(this);
-		breite_s.setPaintTicks(true);
-		breite_s.setMajorTickSpacing(5);
-		breite_s.setMinorTickSpacing(1);
-		breite_s.setPaintLabels(true);
-
-		final JLabel nameBreite = new JLabel("Breite");
-		nameBreite.setBounds(10 + mmInsets.left, 100 + mmInsets.top,
-				sizeMmInn.width, sizeMmInn.height);
-		nameBreite.setToolTipText("Die Breite des Spielfelds in Bausteinen");
-
-		/*
-		 * BUTTON
-		 */
-		final JButton okButton = new JButton("OK");
-		okButton.setBounds(50, 248, 150, 50);
-		okButton.setText("Raster erzeugen");
-
-		okButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				window.getContentPane().remove(okButton);
-				window.getContentPane().remove(breite_s);
-				window.getContentPane().remove(hoehe_s);
-				window.getContentPane().remove(nameBreite);
-				window.getContentPane().remove(nameHoehe);
-				standardfeld();
-				// XMLFeld();
-			}
-		});
-
-		/*
-		 * Hinzufuegen der Slider und Namen
-		 */
-
-		window.add(okButton);
-		window.add(breite_s);
-		window.add(hoehe_s);
-		window.add(nameBreite);
-		window.add(nameHoehe);
-
-		window.setResizable(false);
-		window.setSize(new Dimension(600, 400));
-		window.setVisible(true);
-
-	}
-
-	@Override
-	public void stateChanged(ChangeEvent e) {
-		JSlider source = (JSlider) e.getSource();
-
-		if (!source.getValueIsAdjusting()) {
-			breite = breite_s.getValue();
-			hoehe = hoehe_s.getValue();
-		}
-
-	}
-
-	JLabel jlbPicture;
-
 	public void zeichnen() {
-		panel1.removeAll();
+		window.gameedit.removeAll();
 		for (m = 0; m < Feldgroesse_x; m++) {
 			for (n = 0; n < Feldgroesse_y; n++) {
 				if (blockStatus[m][n] == ground) {
 					fblock[m][n] = new JLabel(grndBlock);
-					panel1.add(fblock[m][n]);
+					window.gameedit.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 
 				}
 
 				else if (blockStatus[m][n] == solid) {
 					fblock[m][n] = new JLabel(solidBlock);
-					panel1.add(fblock[m][n]);
+					window.gameedit.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 
 				}
 
 				else if (blockStatus[m][n] == breakblock) {
 					fblock[m][n] = new JLabel(brkbleBlock);
-					panel1.add(fblock[m][n]);
+					window.gameedit.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 
 				}
@@ -322,7 +182,7 @@ public class Karteneditor extends JPanel implements ChangeListener,
 				 */
 				else if (blockStatus[m][n] == spieler) {
 					fblock[m][n] = new JLabel(player);
-					panel1.add(fblock[m][n]);
+					window.gameedit.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 
 				}
@@ -332,7 +192,7 @@ public class Karteneditor extends JPanel implements ChangeListener,
 				 */
 				else if (blockStatus[m][n] == spieler2) {
 					fblock[m][n] = new JLabel(player2);
-					panel1.add(fblock[m][n]);
+					window.gameedit.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 
 				}
@@ -342,17 +202,17 @@ public class Karteneditor extends JPanel implements ChangeListener,
 				 */
 				else if (blockStatus[m][n] == ausgang) {
 					fblock[m][n] = new JLabel(portal);
-					panel1.add(fblock[m][n]);
+					window.gameedit.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 
 				} else if (blockStatus[m][n] == versteckterausgang) {
 					fblock[m][n] = new JLabel(brkbleBlock);
-					panel1.add(fblock[m][n]);
+					window.gameedit.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 
 				} else if (blockStatus[m][n] == blank) {
 					fblock[m][n] = new JLabel(blank_field);
-					panel1.add(fblock[m][n]);
+					window.gameedit.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 
 				}
@@ -360,56 +220,60 @@ public class Karteneditor extends JPanel implements ChangeListener,
 		}
 	}
 
-	public void Dropdown() {
+	public void Blocksetzen() {
 
-		/*
-		 * Dropdown
-		 */
-
-		// Combobox
-		String[] bloecke = { "ground", "solid", "breakable", "spieler",
-				"spieler2" };
-		JComboBox Blockwahl = new JComboBox(bloecke);
-		Blockwahl.setSelectedIndex(0);
-		Blockwahl.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-				JComboBox Blockwahl = (JComboBox) e.getSource();
-				String Status = (String) Blockwahl.getSelectedItem();
-				if (Blockwahl.getSelectedItem().equals("solid")) {
-					blockStatus[m][n] = solid;
-				} else if (Blockwahl.getSelectedItem().equals("ground")) {
-					blockStatus[m][n] = ground;
-				} else if (Blockwahl.getSelectedItem().equals("breakable")) {
-					blockStatus[m][n] = breakblock;
-				} else if (Blockwahl.getSelectedItem().equals("spieler")) {
-					blockStatus[m][n] = spieler;
-				} else if (Blockwahl.getSelectedItem().equals("spieler2")) {
-					blockStatus[m][n] = spieler2;
-				}
-				window.remove(Blockwahl);
-				zeichnen();
+		if (m == 0 || n == 0 || n == Feldgroesse_y - 1
+				|| m == Feldgroesse_x - 1) {
+			if (brkbleButton_on == true || solidButton_on == true
+					|| grndButton_on == true || playerButton_on == true
+					|| player2Button_on == true) {
+				JOptionPane.showMessageDialog(null,
+						"Verändern der Randblöcke nicht möglich.");
 			}
+		} else {
+			if (solidButton_on == true) {
+				blockStatus[m][n] = solid;
+			} else if (grndButton_on == true) {
+				blockStatus[m][n] = ground;
+			} else if (brkbleButton_on == true) {
+				blockStatus[m][n] = breakblock;
+			} else if (playerButton_on == true) {
+				for (int x = 0; x < Feldgroesse_y; x++) {
+					for (int y = 0; y < Feldgroesse_x; y++) {
+						if (blockStatus[x][y] == spieler) {
+							blockStatus[x][y] = blank;
+						}
+					}
 
-		});
-		window.add(Blockwahl);
-		Blockwahl.setBounds(m * 30, n * 30, 30, 30);
+				}
+				blockStatus[m][n] = spieler;
+			} else if (player2Button_on == true) {
+				for (int x = 0; x < Feldgroesse_y; x++) {
+					for (int y = 0; y < Feldgroesse_x; y++) {
+						if (blockStatus[x][y] == spieler2) {
+							blockStatus[x][y] = blank;
+						}
+					}
 
+				}
+				blockStatus[m][n] = spieler2;
+			}
+			zeichnen();
+		}
 	}
 
 	public void mausposi() {
 		PointerInfo info = MouseInfo.getPointerInfo();
 		Point location = info.getLocation();
-		m = Math.round((location.x - 10) / 30);
-		n = Math.round((location.y - 50) / 30);
+		m = Math.round((location.x - 5) / 30);
+		n = Math.round((location.y - 45) / 30);
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		mausposi();
 		if (m < Feldgroesse_x && n < Feldgroesse_y) {
-			Dropdown();
+			Blocksetzen();
 		}
 	}
 
@@ -437,36 +301,235 @@ public class Karteneditor extends JPanel implements ChangeListener,
 
 	}
 
+	public void Slider() {
+		window.setLayout(null);
+
+		/*
+		 * Einstellungen fuer Hoehen-Slider
+		 */
+		hoehe_s.setBounds(((Feldgroesse_x * 30) + 20), 210, 120, 50);
+		hoehe_s.addChangeListener(this);
+		hoehe_s.setPaintTicks(true);
+		hoehe_s.setMajorTickSpacing(5);
+		hoehe_s.setMinorTickSpacing(1);
+		hoehe_s.setPaintLabels(true);
+
+		nameHoehe.setBounds(((Feldgroesse_x * 30) + 20), 200, 80, 10);
+		nameHoehe.setToolTipText("Die Hoehe des Spielfelds in Bausteinen");
+
+		/*
+		 * Einstellungen fuer Breiten-Slider
+		 */
+		breite_s.setBounds(((Feldgroesse_x * 30) + 20), 270, 120, 50);
+		breite_s.addChangeListener(this);
+		breite_s.setPaintTicks(true);
+		breite_s.setMajorTickSpacing(5);
+		breite_s.setMinorTickSpacing(1);
+		breite_s.setPaintLabels(true);
+
+		nameBreite.setBounds(((Feldgroesse_x * 30) + 20), 260, 80, 10);
+		nameBreite.setToolTipText("Die Breite des Spielfelds in Bausteinen");
+
+		window.add(breite_s);
+		window.add(hoehe_s);
+		window.add(nameBreite);
+		window.add(nameHoehe);
+
+	}
+
+	@Override
+	public void stateChanged(ChangeEvent e) {
+		JSlider source = (JSlider) e.getSource();
+
+		if (!source.getValueIsAdjusting()) {
+			for (n = 0; n < Feldgroesse_y; n++) {
+				for (m = 0; m < Feldgroesse_x; m++) {
+					if (m == 0 || n == 0 || n == Feldgroesse_y - 1
+							|| m == Feldgroesse_x - 1) {
+						blockStatus[m][n] = blank;
+					}
+				}
+			}
+			breite = breite_s.getValue();
+			hoehe = hoehe_s.getValue();
+			Feldgroesse_x = breite;
+			Feldgroesse_y = hoehe;
+			window.setSize(((Feldgroesse_x * 30) + 160),
+					((Feldgroesse_y * 30) + 50));
+			window.gameedit.setBounds(0, 0, Feldgroesse_x * 30,
+					Feldgroesse_y * 30);
+			standardfeld();
+		}
+
+	}
+
 	public void Button() {
 		/*
 		 * BUTTON
 		 */
-		final JButton readButton = new JButton("OK");
-		readButton.setBounds(50, ((Feldgroesse_x * 30) + 10), 50, 50);
-		readButton.setText("XML Laden");
 
-		readButton.addActionListener(new ActionListener() {
+		solidButton.setIcon(solidBlock);
+		player2Button.setIcon(player2);
+		playerButton.setIcon(player);
+		brkbleButton.setIcon(brkbleBlock);
+		grndButton.setIcon(grndBlock);
+		grndButton.setBounds(((Feldgroesse_x * 30) + 20), 20, 30, 30);
+		grndButton.addItemListener(new ItemListener() {
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				XMLFeld();
+			public void itemStateChanged(ItemEvent e) {
+				if (grndButton.isSelected()) {
+					brkbleButton.setEnabled(false);
+					solidButton.setEnabled(false);
+					playerButton.setEnabled(false);
+					player2Button.setEnabled(false);
+					grndButton_on = true;
+				} else {
+					brkbleButton.setEnabled(true);
+					solidButton.setEnabled(true);
+					grndButton.setEnabled(true);
+					playerButton.setEnabled(true);
+					player2Button.setEnabled(true);
+					grndButton_on = false;
+				}
 			}
 		});
 		/*
 		 * BUTTON
 		 */
-		final JButton read2Button = new JButton("OK");
-		read2Button.setBounds(50, ((Feldgroesse_x * 30) + 10), 50, 50);
-		read2Button.setText("standard Raster erzeugen");
 
-		read2Button.addActionListener(new ActionListener() {
+		brkbleButton.setBounds(((Feldgroesse_x * 30) + 20), 70, 30, 30);
+		brkbleButton.addItemListener(new ItemListener() {
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				standardfeld();
+			public void itemStateChanged(ItemEvent e) {
+				if (brkbleButton.isSelected()) {
+					solidButton.setEnabled(false);
+					grndButton.setEnabled(false);
+					playerButton.setEnabled(false);
+					player2Button.setEnabled(false);
+					brkbleButton_on = true;
+
+				} else {
+					brkbleButton.setEnabled(true);
+					solidButton.setEnabled(true);
+					grndButton.setEnabled(true);
+					playerButton.setEnabled(true);
+					player2Button.setEnabled(true);
+					brkbleButton_on = false;
+				}
 			}
 		});
-		window.add(readButton);
-		window.add(read2Button);
+		/*
+		 * BUTTON
+		 */
+
+		playerButton.setBounds(((Feldgroesse_x * 30) + 90), 20, 30, 30);
+		playerButton.addItemListener(new ItemListener() {
+
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				if (playerButton.isSelected()) {
+					brkbleButton.setEnabled(false);
+					solidButton.setEnabled(false);
+					grndButton.setEnabled(false);
+					player2Button.setEnabled(false);
+					playerButton_on = true;
+				} else {
+					brkbleButton.setEnabled(true);
+					solidButton.setEnabled(true);
+					grndButton.setEnabled(true);
+					playerButton.setEnabled(true);
+					player2Button.setEnabled(true);
+					playerButton_on = false;
+				}
+			}
+		});
+		/*
+		 * BUTTON
+		 */
+		player2Button.setBounds(((Feldgroesse_x * 30) + 90), 70, 30, 30);
+		player2Button.addItemListener(new ItemListener() {
+
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				if (player2Button.isSelected()) {
+					brkbleButton.setEnabled(false);
+					solidButton.setEnabled(false);
+					grndButton.setEnabled(false);
+					playerButton.setEnabled(false);
+					player2Button_on = true;
+				} else {
+					brkbleButton.setEnabled(true);
+					solidButton.setEnabled(true);
+					grndButton.setEnabled(true);
+					playerButton.setEnabled(true);
+					player2Button.setEnabled(true);
+					player2Button_on = false;
+				}
+			}
+		});
+		/*
+		 * BUTTON
+		 */
+
+		solidButton.setBounds(((Feldgroesse_x * 30) + 20), 120, 30, 30);
+		solidButton.addItemListener(new ItemListener() {
+
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				if (solidButton.isSelected()) {
+					brkbleButton.setEnabled(false);
+					grndButton.setEnabled(false);
+					playerButton.setEnabled(false);
+					player2Button.setEnabled(false);
+					solidButton_on = true;
+				} else {
+					brkbleButton.setEnabled(true);
+					solidButton.setEnabled(true);
+					grndButton.setEnabled(true);
+					playerButton.setEnabled(true);
+					player2Button.setEnabled(true);
+					solidButton_on = false;
+				}
+			}
+		});
+		nameSolid.setBounds(((Feldgroesse_x * 30) + 20), 105, 80, 10);
+		nameBrkble.setBounds(((Feldgroesse_x * 30) + 20), 55, 80, 10);
+		namePlayer1.setBounds(((Feldgroesse_x * 30) + 90), 5, 80, 10);
+		namePlayer2.setBounds(((Feldgroesse_x * 30) + 90), 55, 80, 10);
+
+		nameGrnd.setBounds(((Feldgroesse_x * 30) + 20), 5, 80, 10);
+
+		window.add(nameSolid);
+		window.add(nameGrnd);
+		window.add(nameBrkble);
+		window.add(namePlayer1);
+		window.add(namePlayer2);
+
+		window.add(solidButton);
+		window.add(grndButton);
+		window.add(brkbleButton);
+		window.add(playerButton);
+		window.add(player2Button);
 	}
+
+	public void remove() {
+
+		window.getContentPane().remove(breite_s);
+		window.getContentPane().remove(hoehe_s);
+		window.getContentPane().remove(nameBreite);
+		window.getContentPane().remove(nameHoehe);
+		window.getContentPane().remove(nameSolid);
+		window.getContentPane().remove(nameGrnd);
+		window.getContentPane().remove(nameBrkble);
+		window.getContentPane().remove(namePlayer1);
+		window.getContentPane().remove(namePlayer2);
+		window.getContentPane().remove(solidButton);
+		window.getContentPane().remove(grndButton);
+		window.getContentPane().remove(brkbleButton);
+		window.getContentPane().remove(playerButton);
+		window.getContentPane().remove(player2Button);
+	}
+
 }
