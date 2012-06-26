@@ -28,8 +28,8 @@ public class OeffnenDialogClass {
 			} else if (rueckgabe == JFileChooser.CANCEL_OPTION) {
 				return;
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (NullPointerException e) {
+
 		}
 	}
 

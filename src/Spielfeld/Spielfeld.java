@@ -198,76 +198,81 @@ public class Spielfeld extends JPanel {
 	public void XMLFeld() {
 		try {
 			XMLInit();
-		} catch (SAXException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-		} catch (NullPointerException e) {
-			e.printStackTrace();
-		}
 
-		Feldgroesse_x = XMLReader.breite_max;
-		Feldgroesse_y = XMLReader.hoehe_max;
+			Feldgroesse_x = XMLReader.breite_max;
+			Feldgroesse_y = XMLReader.hoehe_max;
 
-		for (int breite = 0; breite < Feldgroesse_x; breite++) {
-			for (int hoehe = 0; hoehe < Feldgroesse_y; hoehe++) {
-				if (XMLReader.xmlStatus[breite][hoehe] == 0) {
-					JOptionPane
-							.showMessageDialog(
-									null,
-									"Spielfeld entspricht nicht dem vorgegeben Format. Bitte Datei überarbeiten oder anderes Spielfeld auswählen");
+			for (int breite = 0; breite < Feldgroesse_x; breite++) {
+				for (int hoehe = 0; hoehe < Feldgroesse_y; hoehe++) {
+					if (XMLReader.xmlStatus[breite][hoehe] == 0) {
+						JOptionPane
+								.showMessageDialog(
+										null,
+										"Spielfeld entspricht nicht dem vorgegeben Format. Bitte Datei überarbeiten oder anderes Spielfeld auswählen");
+						XMLInit();
+					}
+					if (XMLReader.xmlStatus[breite][hoehe] == XMLReader.solid) {
+						blockStatus[breite][hoehe] = solid;
+					} else if (XMLReader.xmlStatus[breite][hoehe] == XMLReader.breakblock) {
+						blockStatus[breite][hoehe] = breakblock;
+					} else if (XMLReader.xmlStatus[breite][hoehe] == XMLReader.ground) {
+						blockStatus[breite][hoehe] = ground;
+					}
+
 				}
-				if (XMLReader.xmlStatus[breite][hoehe] == XMLReader.solid) {
-					blockStatus[breite][hoehe] = solid;
-				} else if (XMLReader.xmlStatus[breite][hoehe] == XMLReader.breakblock) {
-					blockStatus[breite][hoehe] = breakblock;
-				} else if (XMLReader.xmlStatus[breite][hoehe] == XMLReader.ground) {
-					blockStatus[breite][hoehe] = ground;
-				}
+
 			}
+
+			/*******************************************************
+			 * Sicherstellung, dass die Startpositionen frei sind. *
+			 *******************************************************/
+			window.setSize(((Feldgroesse_x * 30) + 10),
+					((Feldgroesse_y * 30) + 50));
+			window.gamepanel.setBounds(0, 0, Feldgroesse_x * 30,
+					Feldgroesse_y * 30);
+
+			// Oben links
+			blockStatus[1][1] = ground;
+			blockStatus[1][2] = ground;
+			blockStatus[2][1] = ground;
+			// Oben rechts
+			blockStatus[Feldgroesse_x - 2][1] = ground;
+			blockStatus[Feldgroesse_x - 2][2] = ground;
+			blockStatus[Feldgroesse_x - 3][1] = ground;
+			// Unten links
+			blockStatus[1][Feldgroesse_y - 2] = ground;
+			blockStatus[1][Feldgroesse_y - 3] = ground;
+			blockStatus[2][Feldgroesse_y - 2] = ground;
+			// Unten rechts
+			blockStatus[Feldgroesse_x - 2][Feldgroesse_y - 2] = ground;
+			blockStatus[Feldgroesse_x - 2][Feldgroesse_y - 3] = ground;
+			blockStatus[Feldgroesse_x - 3][Feldgroesse_y - 2] = ground;
+
+			// Spieler setzen und Positions-Reset bei Neustart
+			/** horizontale Position von Spieler 1 */
+			x = 1;
+			/** vertikale Position von Spieler 1 */
+			y = 1;
+			/** horizontale Position von Spieler 2 */
+			x2 = (Feldgroesse_x - 2);
+			/** vertikale Position von Spieler 2 */
+			y2 = (Feldgroesse_y - 2);
+			blockStatus[x][y] = spieler;
+			blockStatus[x2][y2] = spieler2;
+			player1alive = true;
+			player2alive = true;
+			zeichnen();
+			XMLReader.Reset();
+
+		} catch (SAXException e) {
+
+		} catch (IOException e) {
+
+		} catch (ParserConfigurationException e) {
+
+		} catch (NullPointerException e) {
+
 		}
-
-		/*******************************************************
-		 * Sicherstellung, dass die Startpositionen frei sind. *
-		 *******************************************************/
-		window.setSize(((Feldgroesse_x * 30) + 10), ((Feldgroesse_y * 30) + 50));
-		window.gamepanel
-				.setBounds(0, 0, Feldgroesse_x * 30, Feldgroesse_y * 30);
-
-		// Oben links
-		blockStatus[1][1] = ground;
-		blockStatus[1][2] = ground;
-		blockStatus[2][1] = ground;
-		// Oben rechts
-		blockStatus[Feldgroesse_x - 2][1] = ground;
-		blockStatus[Feldgroesse_x - 2][2] = ground;
-		blockStatus[Feldgroesse_x - 3][1] = ground;
-		// Unten links
-		blockStatus[1][Feldgroesse_y - 2] = ground;
-		blockStatus[1][Feldgroesse_y - 3] = ground;
-		blockStatus[2][Feldgroesse_y - 2] = ground;
-		// Unten rechts
-		blockStatus[Feldgroesse_x - 2][Feldgroesse_y - 2] = ground;
-		blockStatus[Feldgroesse_x - 2][Feldgroesse_y - 3] = ground;
-		blockStatus[Feldgroesse_x - 3][Feldgroesse_y - 2] = ground;
-
-		// Spieler setzen und Positions-Reset bei Neustart
-		/** horizontale Position von Spieler 1 */
-		x = 1;
-		/** vertikale Position von Spieler 1 */
-		y = 1;
-		/** horizontale Position von Spieler 2 */
-		x2 = (Feldgroesse_x - 2);
-		/** vertikale Position von Spieler 2 */
-		y2 = (Feldgroesse_y - 2);
-		blockStatus[x][y] = spieler;
-		blockStatus[x2][y2] = spieler2;
-		player1alive = true;
-		player2alive = true;
-		zeichnen();
-		XMLReader.Reset();
 	}
 
 	/*
