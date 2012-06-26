@@ -619,6 +619,7 @@ public class Spielfeld extends JPanel {
 					blockStatus[a1][b1] = explosion_mitte;
 					zeichnen();
 					explosion1_ende.start();
+					Sound.soundeffekt("Audio/boom.wav");
 
 					explosion1_zeichnen.stop();
 
@@ -853,6 +854,7 @@ public class Spielfeld extends JPanel {
 					blockStatus[a2][b2] = explosion_mitte;
 					zeichnen();
 					explosion2_ende.start();
+					Sound.soundeffekt("Audio/boom.wav");
 
 					explosion2_zeichnen.stop();
 
