@@ -1,3 +1,10 @@
+Menü:
+
+Starten eines neuen Spiels durch "Neues Spiel".
+Verändern des Standardspielfelds durch klicken auf "Einstellungen". 
+Hier können die Höhe ,die Breite und die Blockdichte verändert werden.
+Mit "Level auswählen" können verschieden Karten im XML-Format eingelesen werden.
+ 
 Steuerung:
 
 Spieler 1:
