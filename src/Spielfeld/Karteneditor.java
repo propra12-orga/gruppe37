@@ -1,8 +1,6 @@
 package Spielfeld;
 
-import java.awt.MouseInfo;
 import java.awt.Point;
-import java.awt.PointerInfo;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
@@ -263,10 +261,11 @@ public class Karteneditor extends JPanel implements ChangeListener,
 	}
 
 	public void mausposi() {
-		PointerInfo info = MouseInfo.getPointerInfo();
-		Point location = info.getLocation();
-		m = Math.round((location.x - 5) / 30);
-		n = Math.round((location.y - 45) / 30);
+
+		Point location = window.gameedit.getMousePosition();
+		m = Math.round(location.x / 30);
+		n = Math.round(location.y / 30);
+
 	}
 
 	@Override
