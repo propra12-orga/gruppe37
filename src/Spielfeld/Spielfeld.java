@@ -542,7 +542,8 @@ public class Spielfeld extends JPanel {
 										+ z1][b1] == ground)) {
 									blockStatus[a1 + z1][b1] = explosion_horizontal;
 								}
-								if ((blockStatus[a1 + z1][b1] == bombesetzen)) {
+								if ((blockStatus[a1 + z1][b1] == bombesetzen || blockStatus[a1
+										+ z1][b1] == spieler2_bombe)) {
 									explosion2.stop();
 									explosion2_zeichnen.start();
 								}
@@ -563,7 +564,8 @@ public class Spielfeld extends JPanel {
 										- z1][b1] == ground)) {
 									blockStatus[a1 - z1][b1] = explosion_horizontal;
 								}
-								if ((blockStatus[a1 - z1][b1] == bombesetzen)) {
+								if ((blockStatus[a1 - z1][b1] == bombesetzen || blockStatus[a1
+										- z1][b1] == spieler2_bombe)) {
 									explosion2.stop();
 									explosion2_zeichnen.start();
 								}
@@ -584,7 +586,8 @@ public class Spielfeld extends JPanel {
 										- z1] == ground)) {
 									blockStatus[a1][b1 - z1] = explosion_vertikal;
 								}
-								if ((blockStatus[a1][b1 - z1] == bombesetzen)) {
+								if ((blockStatus[a1][b1 - z1] == bombesetzen || blockStatus[a1][b1
+										- z1] == spieler2_bombe)) {
 									explosion2.stop();
 									explosion2_zeichnen.start();
 								}
@@ -605,7 +608,8 @@ public class Spielfeld extends JPanel {
 										+ z1] == ground)) {
 									blockStatus[a1][b1 + z1] = explosion_vertikal;
 								}
-								if ((blockStatus[a1][b1 + z1] == bombesetzen)) {
+								if ((blockStatus[a1][b1 + z1] == bombesetzen || blockStatus[a1][b1
+										+ z1] == spieler2_bombe)) {
 									explosion2.stop();
 									explosion2_zeichnen.start();
 								}
@@ -619,7 +623,7 @@ public class Spielfeld extends JPanel {
 					blockStatus[a1][b1] = explosion_mitte;
 					zeichnen();
 					explosion1_ende.start();
-					Sound.soundeffekt("Audio/boom.wav");
+					Sound.soundeffekt("Audio/boom.au");
 
 					explosion1_zeichnen.stop();
 
@@ -777,7 +781,8 @@ public class Spielfeld extends JPanel {
 										+ z2][b2] == ground)) {
 									blockStatus[a2 + z2][b2] = explosion_horizontal;
 								}
-								if ((blockStatus[a2 + z2][b2] == bombesetzen)) {
+								if ((blockStatus[a2 + z2][b2] == bombesetzen || blockStatus[a2
+										+ z2][b2] == spieler_bombe)) {
 									explosion1.stop();
 									explosion1_zeichnen.start();
 								}
@@ -798,7 +803,8 @@ public class Spielfeld extends JPanel {
 										- z2][b2] == ground)) {
 									blockStatus[a2 - z2][b2] = explosion_horizontal;
 								}
-								if ((blockStatus[a2 - z2][b2] == bombesetzen)) {
+								if ((blockStatus[a2 - z2][b2] == bombesetzen || blockStatus[a2
+										- z2][b2] == spieler_bombe)) {
 									explosion1.stop();
 									explosion1_zeichnen.start();
 								}
@@ -819,7 +825,8 @@ public class Spielfeld extends JPanel {
 										- z2] == ground)) {
 									blockStatus[a2][b2 - z2] = explosion_vertikal;
 								}
-								if ((blockStatus[a2][b2 - z2] == bombesetzen)) {
+								if ((blockStatus[a2][b2 - z2] == bombesetzen || blockStatus[a2][b2
+										- z2] == spieler_bombe)) {
 									explosion1.stop();
 									explosion1_zeichnen.start();
 								}
@@ -840,7 +847,8 @@ public class Spielfeld extends JPanel {
 										+ z2] == ground)) {
 									blockStatus[a2][b2 + z2] = explosion_vertikal;
 								}
-								if ((blockStatus[a2][b2 + z2] == bombesetzen)) {
+								if ((blockStatus[a2][b2 + z2] == bombesetzen || blockStatus[a2][b2
+										+ z2] == spieler_bombe)) {
 									explosion1.stop();
 									explosion1_zeichnen.start();
 								}
@@ -854,7 +862,7 @@ public class Spielfeld extends JPanel {
 					blockStatus[a2][b2] = explosion_mitte;
 					zeichnen();
 					explosion2_ende.start();
-					Sound.soundeffekt("Audio/boom.wav");
+					Sound.soundeffekt("Audio/boom.au");
 
 					explosion2_zeichnen.stop();
 
@@ -927,6 +935,7 @@ public class Spielfeld extends JPanel {
 						endscreen = new JLabel(player1wins);
 						window.gamepanel.add(endscreen);
 						endscreen.setBounds(0, 0, 320, 180);
+						Sound.soundeffekt("Audio/player1wins.au");
 
 					}
 
@@ -937,6 +946,7 @@ public class Spielfeld extends JPanel {
 						endscreen = new JLabel(player2wins);
 						window.gamepanel.add(endscreen);
 						endscreen.setBounds(0, 0, 320, 180);
+						Sound.soundeffekt("Audio/player2wins.au");
 					}
 
 					if (player1alive == false && player2alive == false) {
@@ -946,6 +956,7 @@ public class Spielfeld extends JPanel {
 						endscreen = new JLabel(bothplayerdead);
 						window.gamepanel.add(endscreen);
 						endscreen.setBounds(0, 0, 320, 180);
+						Sound.soundeffekt("Audio/bothplayersdead.au");
 					}
 					x = 1;
 					y = 1;

@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 import Objects.Steuerung;
 import Objects.Steuerung2;
 import Spielfeld.Karteneditor;
+import Spielfeld.Sound;
 import Spielfeld.Spielfeld;
 
 /** Main Klasse, die das gesamte Spiel beinhaltet */
@@ -31,6 +32,7 @@ public class Main extends JFrame {
 	public Main() {
 
 		super("Bomberman");
+		Sound.hintergrundmusik();
 		/************************
 		 * Fenstereinstellungen *
 		 ************************/
