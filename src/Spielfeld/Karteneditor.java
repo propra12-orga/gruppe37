@@ -271,15 +271,15 @@ public class Karteneditor extends JPanel implements ChangeListener,
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		mausposi();
-		if (m < Feldgroesse_x && n < Feldgroesse_y) {
-			Blocksetzen();
-		}
+
 	}
 
 	@Override
 	public void mousePressed(MouseEvent paramMouseEvent) {
-		// TODO Auto-generated method stub
+		mausposi();
+		if (m < Feldgroesse_x && n < Feldgroesse_y) {
+			Blocksetzen();
+		}
 
 	}
 
