@@ -59,9 +59,9 @@ public class Menue extends JPanel {
 			}
 		});
 
-		/**
-		 * Zweiter Button - Level einlesen
-		 */
+		/*************************************
+		 * Zweiter Button - Level auswählen *
+		 *************************************/
 
 		JMenuItem fileItem2 = new JMenuItem("Level auswählen");
 
@@ -80,10 +80,30 @@ public class Menue extends JPanel {
 		});
 
 		/*************************************
-		 * Dritter Button - Einstellungsmenue*
+		 * Dritter Button - Speichern *
 		 *************************************/
 
-		JMenuItem fileItem3 = new JMenuItem("Einstellungen");
+		JMenuItem fileItem3 = new JMenuItem("Speichern");
+
+		fileItem3.addActionListener(new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent e) {
+
+				try {
+					window.Save();
+
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+
+			}
+		});
+
+		/*************************************
+		 * Vierter Button - Einstellungsmenue *
+		 *************************************/
+
+		JMenuItem fileItem4 = new JMenuItem("Einstellungen");
 
 		fileItem3.addActionListener(new java.awt.event.ActionListener() {
 			@Override
@@ -98,11 +118,12 @@ public class Menue extends JPanel {
 
 			}
 		});
-		/**
-		 * Vierter Button - Leveleditor
-		 */
 
-		JMenuItem fileItem4 = new JMenuItem("Karteneditor");
+		/*************************************
+		 * Fünfter Button - Karteneditor *
+		 *************************************/
+
+		JMenuItem fileItem5 = new JMenuItem("Karteneditor");
 
 		fileItem4.addActionListener(new java.awt.event.ActionListener() {
 			@Override
@@ -117,10 +138,11 @@ public class Menue extends JPanel {
 
 			}
 		});
+
 		/*************************
-		 * Fünfter Button - Exit *
+		 * Sechster Button - Exit *
 		 *************************/
-		JMenuItem fileItem5 = new JMenuItem("Schliessen");
+		JMenuItem fileItem6 = new JMenuItem("Schliessen");
 		fileItem5.setMnemonic('x');
 		fileItem5.addActionListener(new ActionListener() {
 			@Override
@@ -129,12 +151,13 @@ public class Menue extends JPanel {
 			}
 		});
 
-		fileItem5.add(new JSeparator());
+		fileItem6.add(new JSeparator());
 		filemenu.add(fileItem1);
 		filemenu.add(fileItem2);
 		filemenu.add(fileItem3);
 		filemenu.add(fileItem4);
 		filemenu.add(fileItem5);
+		filemenu.add(fileItem6);
 		menubar.add(filemenu);
 
 	}

@@ -57,10 +57,10 @@ public class Spielfeld extends JPanel {
 	private ImageIcon bothplayerdead;
 
 	/** horizontale Feldgröße */
-	private int Feldgroesse_x = 100;
+	protected static int Feldgroesse_x = 100;
 
 	/** vertikale Feldgröße */
-	private int Feldgroesse_y = 100;
+	protected static int Feldgroesse_y = 100;
 
 	/** Dichte der zerstörbaren Blöcke */
 	private double Blockdichte = 0.7;
@@ -69,7 +69,7 @@ public class Spielfeld extends JPanel {
 	private final JLabel fblock[][] = new JLabel[Feldgroesse_x][Feldgroesse_y];
 
 	/** Definition der einzelnen Spielfeldelemente */
-	private final int blockStatus[][] = new int[Feldgroesse_x][Feldgroesse_y];
+	private final static int blockStatus[][] = new int[Feldgroesse_x][Feldgroesse_y];
 
 	/** horizontale Koordinate des Spielfelds */
 	private int m = 0;
@@ -95,7 +95,7 @@ public class Spielfeld extends JPanel {
 	private final int radius2 = 6;
 
 	/** freies Bodenfeld */
-	private final int ground = 0;
+	private final int ground = 13;
 	/** unzerstörbarer Block */
 	private final int solid = 1;
 	/** zerstörbarer Block */
@@ -1103,7 +1103,17 @@ public class Spielfeld extends JPanel {
 		}
 	}
 
-	// Ansatz für Get/ Set Methoden zu übermittelung der aktuellen werte an die
-	// Klassen die Später Bombe und Spieler darstellen
+	// Getter - Setter
+	public static int getFeldgroesse_x() {
+		return Feldgroesse_x;
+	}
+
+	public static int getFeldgroesse_y() {
+		return Feldgroesse_y;
+	}
+
+	public static int[][] getBlockStatus() {
+		return blockStatus;
+	}
 
 }

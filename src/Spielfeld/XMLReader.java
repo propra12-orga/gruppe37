@@ -8,13 +8,9 @@ import org.w3c.dom.NodeList;
 /**
  * TODO
  * 
- * - Die Werte aus der XML übergeben und verarbeiten. => Hat bisher nicht
- * wirklich geklappt und es kam zu grauenvollen Fehlern
+ * Spielerposi verarbeiten
  * 
- * - Da bisher keine wirkliche Funktionalität, ist diese Klasse vom Spiel
- * abgetrennt.
- * 
- * @author Gruppe 37
+ * @author Dario
  */
 
 public class XMLReader {

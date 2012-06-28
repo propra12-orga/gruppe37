@@ -86,7 +86,15 @@ public class Main extends JFrame {
 		gamepanel.setLayout(null);
 		add(gamepanel);
 		gamepanel.XMLFeld();
+	}
 
+	public void Save() {
+		getContentPane().removeAll();
+		gamepanel = new Spielfeld(this);
+		gamepanel.setVisible(true);
+		gamepanel.setLayout(null);
+		add(gamepanel);
+		new Save();
 	}
 
 	public static void main(String[] args) {

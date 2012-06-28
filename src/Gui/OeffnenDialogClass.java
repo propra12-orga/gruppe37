@@ -11,8 +11,8 @@ public class OeffnenDialogClass {
 
 	private void oeffnen() {
 		try {
-			FileFilter filter = new FileNameExtensionFilter("Leveldateien",
-					"xml");
+			FileFilter filter = new FileNameExtensionFilter(
+					"Leveldateien .xml", "xml");
 			JFileChooser chooser = new JFileChooser(new File(
 					System.getProperty("user.dir") + File.separator + "XML"));
 			chooser.setDialogType(JFileChooser.OPEN_DIALOG);
