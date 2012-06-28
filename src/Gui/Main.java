@@ -40,6 +40,8 @@ public class Main extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 		setResizable(false);
+		Spieler1 = new Spieler(this, 0);
+		Spieler2 = new Spieler(this, 1);
 
 	}
 
@@ -56,8 +58,6 @@ public class Main extends JFrame {
 		gamepanel.standardfeld();
 		gamepanel.zeichnen();
 		requestFocusInWindow();
-		Spieler1 = new Spieler(this, 0);
-		Spieler2 = new Spieler(this, 1);
 
 	}
 

@@ -131,7 +131,8 @@ public class Einstellungen implements ChangeListener {
 	}
 
 	public void dropdown() {
-		String[] lang = { "", "ImperialMarch", "Amaranth", "Fratzengeballer" };
+		String[] lang = { "-Auswahl-", "ImperialMarch", "Amaranth",
+				"Fratzengeballer" };
 		// Erste Combo-Box
 		JComboBox combo1 = new JComboBox();
 		for (String s : lang)

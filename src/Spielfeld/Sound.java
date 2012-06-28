@@ -47,12 +47,13 @@ public class Sound {
 	}
 
 	public static void loopen() {
-
-		clip.loop(Clip.LOOP_CONTINUOUSLY);
+		if (clip != null)
+			clip.loop(Clip.LOOP_CONTINUOUSLY);
 	}
-	
+
 	public static void mutean() {
-		BooleanControl muteControl = (BooleanControl)clip.getControl(BooleanControl.Type.MUTE);
+		BooleanControl muteControl = (BooleanControl) clip
+				.getControl(BooleanControl.Type.MUTE);
 		muteControl.setValue(true);
 	}
 }

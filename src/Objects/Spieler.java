@@ -121,6 +121,11 @@ public class Spieler implements KeyListener {
 
 		}
 		window.gamepanel.control(playerNR);
+		moveUp = false;
+		moveDown = false;
+		moveLeft = false;
+		moveRight = false;
+		bomb = false;
 	}
 
 	@Override
