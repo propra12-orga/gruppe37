@@ -2,11 +2,16 @@ package Gui;
 
 import java.awt.Dimension;
 import java.awt.Insets;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import Spielfeld.Sound;
 
 public class Einstellungen implements ChangeListener {
 
@@ -125,10 +130,35 @@ public class Einstellungen implements ChangeListener {
 
 	}
 
+	public void dropdown() {
+		String[] lang = { "", "ImperialMarch", "Amaranth", "Fratzengeballer" };
+		// Erste Combo-Box
+		JComboBox combo1 = new JComboBox();
+		for (String s : lang)
+			combo1.addItem(s);
+		combo1.setBounds(140, 10, 120, 20);
+		combo1.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				JComboBox selectedChoice = (JComboBox) e.getSource();
+				String Auswahl = selectedChoice.getSelectedItem().toString();
+				Sound.stoppen();
+				Sound.hintergrundmusik(Auswahl);
+			}
+		});
+
+		JLabel nameDrop = new JLabel("Hintergrundmusik:");
+		nameDrop.setBounds(10, 10, 120, 20);
+		nameDrop.setToolTipText("Wähle eine Hintergrundmusik.");
+		window.add(combo1);
+		window.add(nameDrop);
+	}
+
 	public Einstellungen(Main parent) {
 		window = parent;
 
 		initUI();
+		dropdown();
 
 	}
 }

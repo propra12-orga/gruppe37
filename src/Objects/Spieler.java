@@ -1,138 +1,134 @@
 package Objects;
 
-import javax.swing.JPanel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
+import Gui.Main;
 import Spielfeld.Spielfeld;
 
-public class Spieler extends JPanel {
+public class Spieler implements KeyListener {
 
-	private static final long serialVersionUID = 1L;
+	public int[][] controlSets = {
+			{ KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D,
+					KeyEvent.VK_SPACE },
+			{ KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT,
+					KeyEvent.VK_RIGHT, KeyEvent.VK_CONTROL } };
 
-	private final Spielfeld panel;
+	public final int playerNR;
 
-	public static int ground = 0;
-	public static int solid = 1;
-	public static int breakblock = 2;
-	public static int bombesetzen = 3;
-	public static int spieler_bombe = 4;
-	public static int explosion_mitte = 5;
-	public static int explosion_horizontal = 6;
-	public static int explosion_vertikal = 7;
-	public static int spieler = 8;
-	public static int versteckterausgang = 9;
-	public static int ausgang = 10;
-	public static int spieler2 = 11;
-	public static int spieler2_bombe = 12;
+	/**
+         *
+         */
+	/**
+	 * Klasse für die Steuerung der Spielfigur mit Übergabe der Tastendrücke
+	 * 
+	 * @author Gruppe 37
+	 * @version 1
+	 * 
+	 */
+	/** Bewegung nach rechts */
+	public static boolean moveRight = false;
+	/** Bewegung nach links */
+	public static boolean moveLeft = false;
+	/** Bewegung nach unten */
+	public static boolean moveDown = false;
+	/** Bewegung nach oben */
+	public static boolean moveUp = false;
+	/** Bombe legen */
+	public static boolean bomb = false;
 
-	public Spieler(Spielfeld parent) {
-		panel = parent;
+	private final Main window;
 
+	/** Steuerungseingabe wird in Mainpanel implementiert */
+	public Spieler(Main parent, int controlType) {
+		playerNR = controlType;
+		window = parent;
+		window.addKeyListener(this);
 	}
 
-	public void moveRight() {
-		boolean moveRight = Steuerung.moveRight;
-
-		int x = this.getX();
-		int y = this.getY();
-		int nextStatus = panel.getBlockStatus1(x + 1, y);
-		int currentBlock = panel.getBlockStatus1(x, y);
-
-		if (moveRight == true && Spielfeld.player2alive == true
-				&& nextStatus == ground || nextStatus == ausgang) {
-
-			if (nextStatus == ausgang) { // game_over.start();
-			}
-		} else if
-
-		(currentBlock == spieler2_bombe) {
-			panel.setBlockStatus1(x, y, bombesetzen);
-		} else {
-			panel.setBlockStatus1(x, y, ground);
+	/*
+	 * Timer mit 1sec um zu verhindern, dass der spieler durchgehend neue Bomben
+	 * legt
+	 */
+	javax.swing.Timer delay = new javax.swing.Timer(1000, new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			bomb = false;
+			delay.stop();
 		}
-		x++;
-		panel.setBlockStatus1(x, y, spieler);
-		System.out.println("bla");
+	});
+
+	/*
+	 * Methoden zum erkennen der Tastendrücke für die Steuerung des ersten
+	 * Spielers
+	 */
+	@Override
+	/** Loslassen einer Taste */
+	public void keyReleased(KeyEvent e) {
+		if ((e.getKeyCode()) == (controlSets[playerNR][0]))
+			moveUp = false;
+		else if ((e.getKeyCode()) == (controlSets[playerNR][1]))
+			moveDown = false;
+
+		else if ((e.getKeyCode()) == (controlSets[playerNR][2]))
+			moveLeft = false;
+
+		else if ((e.getKeyCode()) == (controlSets[playerNR][3]))
+			moveRight = false;
+
 	}
 
-	public void moveLeft() {
-		boolean moveLeft = Steuerung.moveLeft;
-
-		int x = this.getX();
-		int y = this.getY();
-		int nextStatus = panel.getBlockStatus1(x - 1, y);
-		int currentBlock = panel.getBlockStatus1(x, y);
-
-		if (moveLeft == true && Spielfeld.player2alive == true
-				&& nextStatus == ground || nextStatus == ausgang) {
-
-			if (nextStatus == ausgang) { // game_over.start();
-			} else if
-
-			(currentBlock == spieler2_bombe) {
-				panel.setBlockStatus1(x, y, bombesetzen);
-			} else {
-				panel.setBlockStatus1(x, y, ground);
-			}
-			x--;
-			panel.setBlockStatus1(x, y, spieler);
-			System.out.println("bla");
+	@Override
+	/** Drücken (und Halten) einer Taste */
+	public void keyPressed(KeyEvent e) {
+		// move player up with UP-ARROW key
+		if ((e.getKeyCode()) == (controlSets[playerNR][0])) {
+			moveUp = true;
+			moveDown = false;
+			moveLeft = false;
+			moveRight = false;
 		}
-	}
 
-	public void moveUp() {
-		boolean moveUp = Steuerung.moveUp;
-
-		int x = this.getX();
-		int y = this.getY();
-		int nextStatus = panel.getBlockStatus1(x, y - 1);
-		int currentBlock = panel.getBlockStatus1(x, y);
-
-		if (moveUp == true && Spielfeld.player2alive == true
-				&& nextStatus == ground || nextStatus == ausgang) {
-
-			if (nextStatus == ausgang) { // game_over.start();
-			} else if
-
-			(currentBlock == spieler2_bombe) {
-				panel.setBlockStatus1(x, y, bombesetzen);
-			} else {
-				panel.setBlockStatus1(x, y, ground);
-			}
-			y--;
-			panel.setBlockStatus1(x, y, spieler);
-			System.out.println("bla");
+		// move player down with DOWN-ARROW key
+		else if ((e.getKeyCode()) == (controlSets[playerNR][1])) {
+			moveUp = false;
+			moveDown = true;
+			moveLeft = false;
+			moveRight = false;
 		}
-	}
-
-	public void moveDown() {
-		boolean moveDown = Steuerung.moveDown;
-
-		int x = this.getX();
-		int y = this.getY();
-		int nextStatus = panel.getBlockStatus1(x, y + 1);
-		int currentBlock = panel.getBlockStatus1(x, y);
-
-		if (moveDown == true && Spielfeld.player2alive == true
-				&& nextStatus == ground || nextStatus == ausgang) {
-
-			if (nextStatus == ausgang) { // game_over.start();
-
-			} else if (currentBlock == spieler2_bombe) {
-				panel.setBlockStatus1(x, y, bombesetzen);
-			} else {
-				panel.setBlockStatus1(x, y, ground);
-			}
-			y++;
-			panel.setBlockStatus1(x, y, spieler);
-			System.out.println("bla");
+		// move player left with LEFT-ARROW key
+		else if ((e.getKeyCode()) == (controlSets[playerNR][2])) {
+			moveLeft = true;
+			moveRight = false;
+			moveUp = false;
+			moveDown = false;
 		}
+		// move player right with RIGHT-ARROW key
+		else if ((e.getKeyCode()) == (controlSets[playerNR][3])) {
+			moveRight = true;
+			moveLeft = false;
+			moveUp = false;
+			moveDown = false;
+
+		}
+		// bomb with CONTROL key
+		else if ((e.getKeyCode()) == (controlSets[playerNR][4])
+				&& Spielfeld.nextbomb[playerNR] == true) {
+			bomb = true;
+			delay.start();
+
+		}
+		window.gamepanel.control(playerNR);
 	}
 
-	// public void bomb() {
-	//
-	// boolean bomb2 = Steuerung2.bomb2; } if (bomb2 == true &&
-	// Spielfeld.player2alive == true && Spielfeld.nextbomb2 == true) {
-	// nextbomb2 = false; blockStatus[x2][y2] = spieler2_bombe; a2 = x2; b2 =
-	// y2; zeichnen(); explosion2.start(); }
+	@Override
+	public void keyTyped(KeyEvent e) {
 
+	}
+
+	/***********************************
+	 * Methode fuer die erste Steurung *
+	 **********************************/
 }

@@ -2,10 +2,8 @@ package Gui;
 
 import javax.swing.JFrame;
 
-import Objects.Steuerung;
-import Objects.Steuerung2;
+import Objects.Spieler;
 import Spielfeld.Karteneditor;
-import Spielfeld.Sound;
 import Spielfeld.Spielfeld;
 
 /** Main Klasse, die das gesamte Spiel beinhaltet */
@@ -21,10 +19,10 @@ public class Main extends JFrame {
 	public Menue gamemenue;
 
 	/** Steuerung des 1. Spielers */
-	public Steuerung gameinput;
+	public Spieler Spieler1;
 
 	/** Steuerung des 2. Spielers */
-	public Steuerung2 gameinput2;
+	public Spieler Spieler2;
 
 	private static final long serialVersionUID = 1L;
 
@@ -32,7 +30,6 @@ public class Main extends JFrame {
 	public Main() {
 
 		super("Bomberman");
-		Sound.hintergrundmusik();
 		/************************
 		 * Fenstereinstellungen *
 		 ************************/
@@ -43,8 +40,6 @@ public class Main extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 		setResizable(false);
-		gameinput = new Steuerung(this);
-		gameinput2 = new Steuerung2(this);
 
 	}
 
@@ -61,6 +56,8 @@ public class Main extends JFrame {
 		gamepanel.standardfeld();
 		gamepanel.zeichnen();
 		requestFocusInWindow();
+		Spieler1 = new Spieler(this, 0);
+		Spieler2 = new Spieler(this, 1);
 
 	}
 
