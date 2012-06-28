@@ -105,7 +105,7 @@ public class Menue extends JPanel {
 
 		JMenuItem fileItem4 = new JMenuItem("Einstellungen");
 
-		fileItem3.addActionListener(new java.awt.event.ActionListener() {
+		fileItem4.addActionListener(new java.awt.event.ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 
@@ -125,7 +125,7 @@ public class Menue extends JPanel {
 
 		JMenuItem fileItem5 = new JMenuItem("Karteneditor");
 
-		fileItem4.addActionListener(new java.awt.event.ActionListener() {
+		fileItem5.addActionListener(new java.awt.event.ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 
@@ -143,8 +143,8 @@ public class Menue extends JPanel {
 		 * Sechster Button - Exit *
 		 *************************/
 		JMenuItem fileItem6 = new JMenuItem("Schliessen");
-		fileItem5.setMnemonic('x');
-		fileItem5.addActionListener(new ActionListener() {
+		fileItem6.setMnemonic('x');
+		fileItem6.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
