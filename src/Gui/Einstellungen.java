@@ -17,15 +17,15 @@ public class Einstellungen implements ChangeListener {
 
 	static final int hoehe_MIN = 5;
 	static final int hoehe_MAX = 30;
-	static final int hoehe_INIT = 11;
+	static int hoehe_INIT = 11;
 
 	static final int breite_MIN = 5;
 	static final int breite_MAX = 30;
-	static final int breite_INIT = 11;
+	static int breite_INIT = 11;
 
 	static final int dichte_MIN = 0;
 	static final int dichte_MAX = 100;
-	static final int dichte_INIT = 70;
+	static int dichte_INIT = 70;
 
 	public static int breite = breite_INIT;
 	public static int dichte = dichte_INIT;
@@ -126,6 +126,9 @@ public class Einstellungen implements ChangeListener {
 			dichte = dichte_s.getValue();
 			breite = breite_s.getValue();
 			hoehe = hoehe_s.getValue();
+			dichte_INIT = dichte;
+			breite_INIT = breite;
+			hoehe_INIT = hoehe;
 		}
 
 	}

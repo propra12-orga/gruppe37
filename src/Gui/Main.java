@@ -68,8 +68,9 @@ public class Main extends JFrame {
 		gameedit.setVisible(true);
 		gameedit.setLayout(null);
 		add(gameedit);
-		gameedit.standardfeld();
+		gameedit.blankfield();
 		gameedit.zeichnen();
+		requestFocusInWindow();
 
 	}
 
@@ -94,10 +95,10 @@ public class Main extends JFrame {
 		gamepanel.setVisible(true);
 		gamepanel.setLayout(null);
 		add(gamepanel);
-		new Save();
+		new Save(this);
 	}
 
 	public static void main(String[] args) {
-		Main m = new Main();
+		new Main();
 	}
 }

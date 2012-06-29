@@ -15,6 +15,9 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import Gui.Main;
+import Gui.Save;
+
 public class XMLWriter {
 	/** horizontale Feldgröße */
 	protected int Feldgroesse_x = 100;
@@ -29,12 +32,22 @@ public class XMLWriter {
 	private final int spieler2 = 11;
 	private String fieldType;
 
-	private final int[][] blockStatus = Spielfeld.getBlockStatus();
+	private final Main window;
+	private int[][] blockStatus;
 
-	public XMLWriter(String addr) {
-		Feldgroesse_x = Spielfeld.getFeldgroesse_x();
-		Feldgroesse_y = Spielfeld.getFeldgroesse_y();
+	public XMLWriter(Main parent, String addr) {
+		window = parent;
 
+		if (Save.getCaller().contains("editor")) {
+			blockStatus = Karteneditor.getBlockStatus();
+			Feldgroesse_x = Karteneditor.getFeldgroesse_x();
+			Feldgroesse_y = Karteneditor.getFeldgroesse_y();
+
+		} else {
+			blockStatus = window.gamepanel.getBlockStatus();
+			Feldgroesse_x = window.gamepanel.getFeldgroesse_x();
+			Feldgroesse_y = window.gamepanel.getFeldgroesse_y();
+		}
 		try {
 			DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory
 					.newInstance();
@@ -101,4 +114,5 @@ public class XMLWriter {
 			e.printStackTrace();
 		}
 	}
+
 }

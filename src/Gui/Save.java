@@ -11,8 +11,14 @@ import Spielfeld.XMLWriter;
 public class Save {
 
 	private String Savename;
+	private static String caller;
+	private final Main window;
 
-	public Save() {
+	public Save(Main parent) {
+		window = parent;
+		Throwable t = new Throwable();
+		StackTraceElement[] ste = t.getStackTrace();
+		caller = ste[1].getClassName();
 
 		try {
 			JFileChooser chooser = new JFileChooser(
@@ -28,7 +34,7 @@ public class Save {
 			Savename = chooser.getSelectedFile().getPath();
 
 			if (rueckgabe == JFileChooser.APPROVE_OPTION) {
-				new XMLWriter(Savename);
+				new XMLWriter(window, Savename);
 				return;
 			} else if (rueckgabe == JFileChooser.CANCEL_OPTION) {
 				return;
@@ -37,5 +43,9 @@ public class Save {
 		} catch (Exception e) {
 
 		}
+	}
+
+	public static String getCaller() {
+		return caller;
 	}
 }

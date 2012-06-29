@@ -23,6 +23,10 @@ public class XMLReader {
 
 	public static int ground = 3;
 	public static int solid = 1;
+	/** Spielfigur von Spieler 1 */
+	public static int spieler = 8;
+	/** Spielfigur von Spieler 2 */
+	public static int spieler2 = 11;
 	public static int breakblock = 2;
 
 	public static int xmlStatus[][] = new int[breite_max][hoehe_max];
@@ -74,6 +78,10 @@ public class XMLReader {
 				xmlStatus[breite][hoehe] = ground;
 			} else if (node.getTextContent().equals("Breakblock")) {
 				xmlStatus[breite][hoehe] = breakblock;
+			} else if (node.getTextContent().equals("Spieler")) {
+				xmlStatus[breite][hoehe] = spieler;
+			} else if (node.getTextContent().equals("Spieler2")) {
+				xmlStatus[breite][hoehe] = spieler2;
 			}
 			if (hoehe == element.getElementsByTagName(tagName).getLength() - 1) {
 				breite++;

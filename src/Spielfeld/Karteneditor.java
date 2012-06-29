@@ -1,12 +1,16 @@
 package Spielfeld;
 
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -14,6 +18,9 @@ import javax.swing.JSlider;
 import javax.swing.JToggleButton;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
 
 import Gui.Main;
 
@@ -32,6 +39,9 @@ public class Karteneditor extends JPanel implements ChangeListener,
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+
+	private ActionListener saveListener = null;
+	private ActionListener loadListener = null;
 	/**
 	 * Variablen der verschiedenen Stati eines Spielfeldblocks und der Grafiken
 	 * bei Spielende
@@ -51,7 +61,7 @@ public class Karteneditor extends JPanel implements ChangeListener,
 	private final int blank = 0;
 	private final int solid = 1;
 	private final int breakblock = 2;
-	private final int ground = 3;
+	private final int ground = 13;
 	private final int spieler = 8;
 	private final int versteckterausgang = 9;
 	private final int ausgang = 10;
@@ -63,24 +73,28 @@ public class Karteneditor extends JPanel implements ChangeListener,
 	boolean playerButton_on;
 	boolean player2Button_on;
 
+	private boolean Spieler1_vorhanden;
+	private boolean Spieler2_vorhanden;
+	private boolean blank_vorhanden;
+
 	static final int hoehe_MIN = 5;
 	static final int hoehe_MAX = 30;
-	static final int hoehe_INIT = 11;
+	static int hoehe_INIT = 11;
 
 	static final int breite_MIN = 5;
 	static final int breite_MAX = 30;
-	static final int breite_INIT = 11;
+	static int breite_INIT = 11;
 
 	public static int breite = breite_INIT;
 	public static int hoehe = hoehe_INIT;
 
-	private int Feldgroesse_x = breite;
-	private int Feldgroesse_y = hoehe;
+	private static int Feldgroesse_x = breite;
+	private static int Feldgroesse_y = hoehe;
 
 	/** Array in dem das Feld erstellt wird */
 	private final JLabel fblock[][] = new JLabel[breite_MAX][hoehe_MAX];
 	/** Definition der einzelnen Spielfeldelemente */
-	private final int blockStatus[][] = new int[breite_MAX][hoehe_MAX];
+	private final static int blockStatus[][] = new int[breite_MAX][hoehe_MAX];
 
 	private final JSlider hoehe_s = new JSlider(hoehe_MIN, hoehe_MAX,
 			hoehe_INIT);
@@ -99,6 +113,8 @@ public class Karteneditor extends JPanel implements ChangeListener,
 	final JToggleButton playerButton = new JToggleButton(player);
 	final JToggleButton brkbleButton = new JToggleButton(brkbleBlock);
 	final JToggleButton grndButton = new JToggleButton(grndBlock);
+	final JButton saveButton = new JButton();
+	final JButton loadButton = new JButton();
 
 	private final Main window;
 
@@ -125,13 +141,20 @@ public class Karteneditor extends JPanel implements ChangeListener,
 		blank_field = new ImageIcon("Images/bg.png");
 	}
 
-	public void standardfeld() {
+	public void blankfield() {
+		Spieler1_vorhanden = false;
+		Spieler2_vorhanden = false;
 		remove();
 		Feldgroesse_x = breite;
 		Feldgroesse_y = hoehe;
-		window.setSize(((Feldgroesse_x * 30) + 160),
-				((Feldgroesse_y * 30) + 50));
-		window.gameedit.setBounds(0, 0, Feldgroesse_x * 30, Feldgroesse_y * 30);
+		if (Feldgroesse_y <= 10) {
+			window.setSize(((Feldgroesse_x * 30) + 160), ((11 * 30) + 80));
+		} else {
+			window.setSize(((Feldgroesse_x * 30) + 160),
+					((Feldgroesse_y * 30) + 80));
+		}
+		window.gameedit
+				.setBounds(0, 30, Feldgroesse_x * 30, Feldgroesse_y * 30);
 
 		for (n = 0; n < Feldgroesse_y; n++) {
 			for (m = 0; m < Feldgroesse_x; m++) {
@@ -146,8 +169,8 @@ public class Karteneditor extends JPanel implements ChangeListener,
 		}
 		Button();
 		Slider();
-		// updateUI();
 		zeichnen();
+		return;
 
 	}
 
@@ -275,9 +298,14 @@ public class Karteneditor extends JPanel implements ChangeListener,
 
 	@Override
 	public void mousePressed(MouseEvent paramMouseEvent) {
-		mausposi();
-		if (m < Feldgroesse_x && n < Feldgroesse_y) {
-			Blocksetzen();
+
+		try {
+			mausposi();
+			if (m < Feldgroesse_x && n < Feldgroesse_y) {
+				Blocksetzen();
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
 		}
 
 	}
@@ -290,13 +318,11 @@ public class Karteneditor extends JPanel implements ChangeListener,
 
 	@Override
 	public void mouseEntered(MouseEvent paramMouseEvent) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void mouseExited(MouseEvent paramMouseEvent) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -306,27 +332,27 @@ public class Karteneditor extends JPanel implements ChangeListener,
 		/*
 		 * Einstellungen fuer Hoehen-Slider
 		 */
-		hoehe_s.setBounds(((Feldgroesse_x * 30) + 20), 210, 120, 50);
+		hoehe_s.setBounds(((Feldgroesse_x * 30) + 20), 230, 120, 50);
 		hoehe_s.addChangeListener(this);
 		hoehe_s.setPaintTicks(true);
 		hoehe_s.setMajorTickSpacing(5);
 		hoehe_s.setMinorTickSpacing(1);
 		hoehe_s.setPaintLabels(true);
 
-		nameHoehe.setBounds(((Feldgroesse_x * 30) + 20), 200, 80, 10);
+		nameHoehe.setBounds(((Feldgroesse_x * 30) + 20), 215, 80, 10);
 		nameHoehe.setToolTipText("Die Hoehe des Spielfelds in Bausteinen");
 
 		/*
 		 * Einstellungen fuer Breiten-Slider
 		 */
-		breite_s.setBounds(((Feldgroesse_x * 30) + 20), 270, 120, 50);
+		breite_s.setBounds(((Feldgroesse_x * 30) + 20), 295, 120, 50);
 		breite_s.addChangeListener(this);
 		breite_s.setPaintTicks(true);
 		breite_s.setMajorTickSpacing(5);
 		breite_s.setMinorTickSpacing(1);
 		breite_s.setPaintLabels(true);
 
-		nameBreite.setBounds(((Feldgroesse_x * 30) + 20), 260, 80, 10);
+		nameBreite.setBounds(((Feldgroesse_x * 30) + 20), 285, 80, 10);
 		nameBreite.setToolTipText("Die Breite des Spielfelds in Bausteinen");
 
 		window.add(breite_s);
@@ -353,11 +379,15 @@ public class Karteneditor extends JPanel implements ChangeListener,
 			hoehe = hoehe_s.getValue();
 			Feldgroesse_x = breite;
 			Feldgroesse_y = hoehe;
-			window.setSize(((Feldgroesse_x * 30) + 160),
-					((Feldgroesse_y * 30) + 50));
-			window.gameedit.setBounds(0, 0, Feldgroesse_x * 30,
+			if (Feldgroesse_y <= 10) {
+				window.setSize(((Feldgroesse_x * 30) + 160), ((11 * 30) + 80));
+			} else {
+				window.setSize(((Feldgroesse_x * 30) + 160),
+						((Feldgroesse_y * 30) + 80));
+			}
+			window.gameedit.setBounds(0, 30, Feldgroesse_x * 30,
 					Feldgroesse_y * 30);
-			standardfeld();
+			blankfield();
 		}
 
 	}
@@ -372,7 +402,7 @@ public class Karteneditor extends JPanel implements ChangeListener,
 		playerButton.setIcon(player);
 		brkbleButton.setIcon(brkbleBlock);
 		grndButton.setIcon(grndBlock);
-		grndButton.setBounds(((Feldgroesse_x * 30) + 20), 20, 30, 30);
+		grndButton.setBounds(((Feldgroesse_x * 30) + 20), 50, 30, 30);
 		grndButton.addItemListener(new ItemListener() {
 
 			@Override
@@ -397,7 +427,7 @@ public class Karteneditor extends JPanel implements ChangeListener,
 		 * BUTTON
 		 */
 
-		brkbleButton.setBounds(((Feldgroesse_x * 30) + 20), 70, 30, 30);
+		brkbleButton.setBounds(((Feldgroesse_x * 30) + 20), 100, 30, 30);
 		brkbleButton.addItemListener(new ItemListener() {
 
 			@Override
@@ -423,7 +453,7 @@ public class Karteneditor extends JPanel implements ChangeListener,
 		 * BUTTON
 		 */
 
-		playerButton.setBounds(((Feldgroesse_x * 30) + 90), 20, 30, 30);
+		playerButton.setBounds(((Feldgroesse_x * 30) + 90), 50, 30, 30);
 		playerButton.addItemListener(new ItemListener() {
 
 			@Override
@@ -447,7 +477,7 @@ public class Karteneditor extends JPanel implements ChangeListener,
 		/*
 		 * BUTTON
 		 */
-		player2Button.setBounds(((Feldgroesse_x * 30) + 90), 70, 30, 30);
+		player2Button.setBounds(((Feldgroesse_x * 30) + 90), 100, 30, 30);
 		player2Button.addItemListener(new ItemListener() {
 
 			@Override
@@ -472,7 +502,7 @@ public class Karteneditor extends JPanel implements ChangeListener,
 		 * BUTTON
 		 */
 
-		solidButton.setBounds(((Feldgroesse_x * 30) + 20), 120, 30, 30);
+		solidButton.setBounds(((Feldgroesse_x * 30) + 20), 150, 30, 30);
 		solidButton.addItemListener(new ItemListener() {
 
 			@Override
@@ -493,12 +523,33 @@ public class Karteneditor extends JPanel implements ChangeListener,
 				}
 			}
 		});
-		nameSolid.setBounds(((Feldgroesse_x * 30) + 20), 105, 80, 10);
-		nameBrkble.setBounds(((Feldgroesse_x * 30) + 20), 55, 80, 10);
-		namePlayer1.setBounds(((Feldgroesse_x * 30) + 90), 5, 80, 10);
-		namePlayer2.setBounds(((Feldgroesse_x * 30) + 90), 55, 80, 10);
 
-		nameGrnd.setBounds(((Feldgroesse_x * 30) + 20), 5, 80, 10);
+		saveButton.setBounds(140, 0, 120, 30);
+		saveButton.setText("Karte speichern");
+
+		saveListener = new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Konsistenzabfrage();
+			}
+		};
+		saveButton.addActionListener(saveListener);
+		loadButton.setBounds(0, 0, 120, 30);
+		loadButton.setText("Karte laden");
+		loadListener = new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				XMLFeld();
+			}
+
+		};
+		loadButton.addActionListener(loadListener);
+
+		nameSolid.setBounds(((Feldgroesse_x * 30) + 20), 135, 80, 10);
+		nameBrkble.setBounds(((Feldgroesse_x * 30) + 20), 85, 80, 10);
+		namePlayer1.setBounds(((Feldgroesse_x * 30) + 90), 35, 80, 10);
+		namePlayer2.setBounds(((Feldgroesse_x * 30) + 90), 85, 80, 10);
+		nameGrnd.setBounds(((Feldgroesse_x * 30) + 20), 35, 80, 10);
 
 		window.add(nameSolid);
 		window.add(nameGrnd);
@@ -511,6 +562,114 @@ public class Karteneditor extends JPanel implements ChangeListener,
 		window.add(brkbleButton);
 		window.add(playerButton);
 		window.add(player2Button);
+		window.add(loadButton);
+		window.add(saveButton);
+
+	}
+
+	public void Konsistenzabfrage() {
+
+		for (n = 0; n < Feldgroesse_y; n++) {
+			for (m = 0; m < Feldgroesse_x; m++) {
+				if (blockStatus[m][n] == blank) {
+					blank_vorhanden = true;
+				} else if (blockStatus[m][n] == spieler) {
+					Spieler1_vorhanden = true;
+				} else if (blockStatus[m][n] == spieler2) {
+					Spieler2_vorhanden = true;
+				}
+			}
+
+		}
+		if ((Spieler1_vorhanden == false || Spieler2_vorhanden == false)
+				&& blank_vorhanden == true) {
+			blank_vorhanden = false;
+			Spieler1_vorhanden = false;
+			Spieler2_vorhanden = false;
+			JOptionPane
+					.showMessageDialog(
+							null,
+							"Spielfeld kann nicht gespeichert werden ,da sowohl Felder als auch Spieler fehlen.");
+
+		} else if ((Spieler1_vorhanden == false || Spieler2_vorhanden == false)
+				&& blank_vorhanden == false) {
+			Spieler1_vorhanden = false;
+			Spieler2_vorhanden = false;
+
+			JOptionPane
+					.showMessageDialog(null,
+							"Spielfeld kann nicht gespeichert werden ,da mindestens ein Spieler fehlt!");
+		} else if ((Spieler1_vorhanden == true || Spieler2_vorhanden == true)
+				&& blank_vorhanden == true) {
+			blank_vorhanden = false;
+			Spieler1_vorhanden = false;
+			Spieler2_vorhanden = false;
+
+			JOptionPane
+					.showMessageDialog(null,
+							"Spielfeld kann nicht gespeichert werden ,da mindestens ein Feld fehlt!");
+		} else {
+			new Gui.Save(window);
+		}
+	}
+
+	public void XMLFeld() {
+		try {
+			Spielfeld.XMLInit();
+			remove();
+			Spieler1_vorhanden = false;
+			Spieler2_vorhanden = false;
+			blank_vorhanden = false;
+			Feldgroesse_x = XMLReader.breite_max;
+			Feldgroesse_y = XMLReader.hoehe_max;
+			breite_INIT = Feldgroesse_x;
+			hoehe_INIT = Feldgroesse_y;
+
+			if (Feldgroesse_y <= 10) {
+				window.setSize(((Feldgroesse_x * 30) + 160), ((11 * 30) + 80));
+			} else {
+				window.setSize(((Feldgroesse_x * 30) + 160),
+						((Feldgroesse_y * 30) + 80));
+			}
+			window.gameedit.setBounds(0, 30, Feldgroesse_x * 30,
+					Feldgroesse_y * 30);
+
+			for (int breite = 0; breite < Feldgroesse_x; breite++) {
+				for (int hoehe = 0; hoehe < Feldgroesse_y; hoehe++) {
+					if (XMLReader.xmlStatus[breite][hoehe] == XMLReader.solid) {
+						blockStatus[breite][hoehe] = solid;
+					} else if (XMLReader.xmlStatus[breite][hoehe] == XMLReader.breakblock) {
+						blockStatus[breite][hoehe] = breakblock;
+					} else if (XMLReader.xmlStatus[breite][hoehe] == XMLReader.ground) {
+						blockStatus[breite][hoehe] = ground;
+					} else if (XMLReader.xmlStatus[breite][hoehe] == XMLReader.spieler) {
+						blockStatus[breite][hoehe] = spieler;
+					} else if (XMLReader.xmlStatus[breite][hoehe] == XMLReader.spieler2) {
+						blockStatus[breite][hoehe] = spieler2;
+					}
+
+					else {
+						blockStatus[breite][hoehe] = blank;
+					}
+
+				}
+
+			}
+			Button();
+			Slider();
+			zeichnen();
+			XMLReader.Reset();
+			return;
+
+		} catch (SAXException e) {
+
+		} catch (IOException e) {
+
+		} catch (ParserConfigurationException e) {
+
+		} catch (NullPointerException e) {
+
+		}
 	}
 
 	public void remove() {
@@ -529,6 +688,22 @@ public class Karteneditor extends JPanel implements ChangeListener,
 		window.getContentPane().remove(brkbleButton);
 		window.getContentPane().remove(playerButton);
 		window.getContentPane().remove(player2Button);
+		loadButton.removeActionListener(loadListener);
+		saveButton.removeActionListener(saveListener);
+		window.getContentPane().remove(loadButton);
+		window.getContentPane().remove(saveButton);
+
 	}
 
+	public static int getFeldgroesse_x() {
+		return Feldgroesse_x;
+	}
+
+	public static int getFeldgroesse_y() {
+		return Feldgroesse_y;
+	}
+
+	public static int[][] getBlockStatus() {
+		return blockStatus;
+	}
 }

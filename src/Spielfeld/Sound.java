@@ -42,8 +42,9 @@ public class Sound {
 	}
 
 	public static void stoppen() {
-		if (clip != null)
+		if (clip != null) {
 			clip.stop();
+		}
 	}
 
 	public static void loopen() {

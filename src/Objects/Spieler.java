@@ -126,6 +126,7 @@ public class Spieler implements KeyListener {
 		moveLeft = false;
 		moveRight = false;
 		bomb = false;
+
 	}
 
 	@Override

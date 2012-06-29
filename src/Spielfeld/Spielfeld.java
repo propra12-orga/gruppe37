@@ -57,10 +57,10 @@ public class Spielfeld extends JPanel {
 	private ImageIcon bothplayerdead;
 
 	/** horizontale Feldgröße */
-	protected static int Feldgroesse_x = 100;
+	private int Feldgroesse_x = 100;
 
 	/** vertikale Feldgröße */
-	protected static int Feldgroesse_y = 100;
+	private int Feldgroesse_y = 100;
 
 	/** Dichte der zerstörbaren Blöcke */
 	private double Blockdichte = 0.7;
@@ -69,7 +69,7 @@ public class Spielfeld extends JPanel {
 	private final JLabel fblock[][] = new JLabel[Feldgroesse_x][Feldgroesse_y];
 
 	/** Definition der einzelnen Spielfeldelemente */
-	private final static int blockStatus[][] = new int[Feldgroesse_x][Feldgroesse_y];
+	private final int blockStatus[][] = new int[Feldgroesse_x][Feldgroesse_y];
 
 	/** horizontale Koordinate des Spielfelds */
 	private int m = 0;
@@ -170,7 +170,7 @@ public class Spielfeld extends JPanel {
 	 * Initialisieren der XML-Datei*
 	 ******************************/
 
-	public void XMLInit() throws SAXException, IOException,
+	public static void XMLInit() throws SAXException, IOException,
 			ParserConfigurationException, NullPointerException,
 			FileNotFoundException {
 		OeffnenDialogClass oeffne = new OeffnenDialogClass(null);
@@ -190,6 +190,10 @@ public class Spielfeld extends JPanel {
 
 			Feldgroesse_x = XMLReader.breite_max;
 			Feldgroesse_y = XMLReader.hoehe_max;
+			window.setSize(((Feldgroesse_x * 30) + 10),
+					((Feldgroesse_y * 30) + 50));
+			window.gamepanel.setBounds(0, 0, Feldgroesse_x * 30,
+					Feldgroesse_y * 30);
 
 			for (int breite = 0; breite < Feldgroesse_x; breite++) {
 				for (int hoehe = 0; hoehe < Feldgroesse_y; hoehe++) {
@@ -206,6 +210,14 @@ public class Spielfeld extends JPanel {
 						blockStatus[breite][hoehe] = breakblock;
 					} else if (XMLReader.xmlStatus[breite][hoehe] == XMLReader.ground) {
 						blockStatus[breite][hoehe] = ground;
+					} else if (XMLReader.xmlStatus[breite][hoehe] == XMLReader.spieler) {
+						blockStatus[breite][hoehe] = spieler[0];
+						x[0] = breite;
+						y[0] = hoehe;
+					} else if (XMLReader.xmlStatus[breite][hoehe] == XMLReader.spieler2) {
+						blockStatus[breite][hoehe] = spieler[1];
+						x[1] = breite;
+						y[1] = hoehe;
 					}
 
 				}
@@ -220,34 +232,7 @@ public class Spielfeld extends JPanel {
 			window.gamepanel.setBounds(0, 0, Feldgroesse_x * 30,
 					Feldgroesse_y * 30);
 
-			// Oben links
-			blockStatus[1][1] = ground;
-			blockStatus[1][2] = ground;
-			blockStatus[2][1] = ground;
-			// Oben rechts
-			blockStatus[Feldgroesse_x - 2][1] = ground;
-			blockStatus[Feldgroesse_x - 2][2] = ground;
-			blockStatus[Feldgroesse_x - 3][1] = ground;
-			// Unten links
-			blockStatus[1][Feldgroesse_y - 2] = ground;
-			blockStatus[1][Feldgroesse_y - 3] = ground;
-			blockStatus[2][Feldgroesse_y - 2] = ground;
-			// Unten rechts
-			blockStatus[Feldgroesse_x - 2][Feldgroesse_y - 2] = ground;
-			blockStatus[Feldgroesse_x - 2][Feldgroesse_y - 3] = ground;
-			blockStatus[Feldgroesse_x - 3][Feldgroesse_y - 2] = ground;
-
 			// Spieler setzen und Positions-Reset bei Neustart
-			/** horizontale Position von Spieler 1 */
-			x[0] = 1;
-			/** vertikale Position von Spieler 1 */
-			y[0] = 1;
-			/** horizontale Position von Spieler 2 */
-			x[1] = (Feldgroesse_x - 2);
-			/** vertikale Position von Spieler 2 */
-			y[1] = (Feldgroesse_y - 2);
-			blockStatus[x[0]][y[0]] = spieler[0];
-			blockStatus[x[1]][y[1]] = spieler[1];
 			player1alive = true;
 			player2alive = true;
 			zeichnen();
@@ -922,8 +907,9 @@ public class Spielfeld extends JPanel {
 						JLabel endscreen;
 						window.gamepanel.removeAll();
 						endscreen = new JLabel(player1wins);
-						window.gamepanel.add(endscreen);
 						endscreen.setBounds(0, 0, 320, 180);
+						window.gamepanel.add(endscreen);
+						Sound.stoppen();
 						Sound.soundeffekt("Audio/player1wins.au");
 
 					}
@@ -933,8 +919,9 @@ public class Spielfeld extends JPanel {
 						JLabel endscreen;
 						window.gamepanel.removeAll();
 						endscreen = new JLabel(player2wins);
-						window.gamepanel.add(endscreen);
 						endscreen.setBounds(0, 0, 320, 180);
+						window.gamepanel.add(endscreen);
+						Sound.stoppen();
 						Sound.soundeffekt("Audio/player2wins.au");
 					}
 
@@ -947,13 +934,6 @@ public class Spielfeld extends JPanel {
 						window.gamepanel.add(endscreen);
 						Sound.stoppen();
 						Sound.soundeffekt("Audio/bothplayersdead.au");
-						try {
-							Thread.sleep(3000);
-						} catch (InterruptedException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-						Sound.loopen();
 
 					}
 					x[0] = 1;
@@ -971,10 +951,11 @@ public class Spielfeld extends JPanel {
 			});
 
 	// Neustart
-	javax.swing.Timer game_over_intern = new javax.swing.Timer(5000,
+	javax.swing.Timer game_over_intern = new javax.swing.Timer(3800,
 			new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
+					Sound.loopen();
 					standardfeld();
 					zeichnen();
 					game_over_intern.stop();
@@ -1104,15 +1085,15 @@ public class Spielfeld extends JPanel {
 	}
 
 	// Getter - Setter
-	public static int getFeldgroesse_x() {
+	public int getFeldgroesse_x() {
 		return Feldgroesse_x;
 	}
 
-	public static int getFeldgroesse_y() {
+	public int getFeldgroesse_y() {
 		return Feldgroesse_y;
 	}
 
-	public static int[][] getBlockStatus() {
+	public int[][] getBlockStatus() {
 		return blockStatus;
 	}
 
