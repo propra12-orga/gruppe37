@@ -20,6 +20,7 @@ import org.xml.sax.SAXException;
 
 import Gui.Main;
 import Gui.OeffnenDialogClass;
+import Objects.Bomb;
 import Objects.Spieler;
 
 /**
@@ -73,20 +74,18 @@ public class Spielfeld extends JPanel {
 
 	/** horizontale Koordinate des Spielfelds */
 	private int m = 0;
+	/** vertikale Koordinate des Spielfelds */
+	private int n = 0;
 	/** horizontale Koordinate von Spieler 1 */
 	private final int x[] = { 1, 1 };
 	/** vertikale Koordinate von Spieler 1 */
 	private final int y[] = { 1, 1 };
-	/** vertikale Koordinate des Spielfelds */
-	private int n = 0;
+	private int bombsLeftP1 = 2;
+	private int bombsLeftP2 = 2;
 	/** horizontale Koordinate der Bombe von Spieler 1 */
-	private int a1;
-	/** horizontale Koordinate der Bombe von Spieler 2 */
-	private int a2;
-	/** vertikale Koordinate der Bombe von Spieler 1 */
-	private int b1;
-	/** vertikale Koordinate der Bombe von Spieler 2 */
-	private int b2;
+	private final int a[][] = new int[2][3];
+	/** vertikale Koo rdinate der Bombe von Spieler 1 */
+	private final int b[][] = new int[2][3];
 
 	// Radien der beiden bomben
 	/** Radius der Bombe von Spieler 1 */
@@ -416,483 +415,227 @@ public class Spielfeld extends JPanel {
 	}
 
 	/*****************
-	 * Timer / Bombe *
+	 * Bombe *
 	 *****************/
-	javax.swing.Timer explosion1 = new javax.swing.Timer(2000,
-			new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					explosion1_zeichnen.start();
-					explosion1.stop();
+	public void explozeichnen(int playerNR, int bombsLeft) {
+
+		int k = a[playerNR][bombsLeft];
+		int l = b[playerNR][bombsLeft];
+		System.out.println(k + "+" + l);
+		for (int z1 = 1; z1 <= radius1; z1++) {
+			if (blockStatus[k][l] == spieler_bombe[0]) {
+				player1alive = false;
+			}
+			if (k + z1 < Feldgroesse_x) {
+				if (blockStatus[k + z1][l] == solid) {
+					break;
+				} else {
+					if (blockStatus[k + z1][l] == spieler[0]) {
+						player1alive = false;
+					}
+					if (blockStatus[k + z1][l] == spieler[1]) {
+						player2alive = false;
+					}
 				}
-			});
-	javax.swing.Timer explosion1_zeichnen = new javax.swing.Timer(0,
-			new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
+			}
+		}
+		for (int z1 = 1; z1 <= radius1; z1++) {
+			if (k - z1 > 0) {
+				if (blockStatus[k - z1][l] == solid) {
+					break;
+				} else {
+					if (blockStatus[k - z1][l] == spieler[0]) {
+						player1alive = false;
+					}
+					if (blockStatus[k - z1][l] == spieler[1]) {
+						player2alive = false;
+					}
+				}
+			}
+		}
+		for (int z1 = 1; z1 <= radius1; z1++) {
+			if (l + z1 < Feldgroesse_y) {
+				if (blockStatus[k][l + z1] == solid) {
+					break;
+				} else {
+					if (blockStatus[k][l + z1] == spieler[0]) {
+						player1alive = false;
+					}
+					if (blockStatus[k][l + z1] == spieler[1]) {
+						player2alive = false;
+					}
+				}
+			}
+		}
+		for (int z1 = 1; z1 <= radius1; z1++) {
+			if (l - z1 > 0) {
+				if (blockStatus[k][l - z1] == solid) {
+					break;
+				} else {
+					if (blockStatus[k][l - z1] == spieler[0]) {
+						player1alive = false;
+					}
+					if (blockStatus[k][l - z1] == spieler[1]) {
+						player2alive = false;
+					}
+				}
+			}
 
-					/*******************************************************
-					 * Game_over wenn spieler von der Bombe getroffen wird *
-					 *******************************************************/
-
-					for (int z1 = 1; z1 <= radius1; z1++) {
-						if (blockStatus[a1][b1] == spieler_bombe[0]) {
-							player1alive = false;
-						}
-						if (a1 + z1 < Feldgroesse_x) {
-							if (blockStatus[a1 + z1][b1] == solid) {
-								break;
-							} else {
-								if (blockStatus[a1 + z1][b1] == spieler[0]) {
-									player1alive = false;
-								}
-								if (blockStatus[a1 + z1][b1] == spieler[1]) {
-									player2alive = false;
-								}
-							}
-						}
+		}
+		if (player1alive == false || player2alive == false) {
+			if (player1alive == false && player2alive == false) {
+				game_over.start();
+			} else {
+				zufallsPortal();
+			}
+		}
+		/**********************************************************
+		 * ersetzen der break- und spieler blocks durch explosion *
+		 **********************************************************/
+		for (int z1 = 1; z1 <= radius1; z1++) {
+			if (k + z1 < Feldgroesse_x) {
+				if (blockStatus[k + z1][l] == solid) {
+					break;
+				} else {
+					if ((blockStatus[k + z1][l] == spieler[1]
+							|| blockStatus[k + z1][l] == spieler[0]
+							|| blockStatus[k + z1][l] == breakblock || blockStatus[k
+							+ z1][l] == ground)) {
+						blockStatus[k + z1][l] = explosion_horizontal;
 					}
-					for (int z1 = 1; z1 <= radius1; z1++) {
-						if (a1 - z1 > 0) {
-							if (blockStatus[a1 - z1][b1] == solid) {
-								break;
-							} else {
-								if (blockStatus[a1 - z1][b1] == spieler[0]) {
-									player1alive = false;
-								}
-								if (blockStatus[a1 - z1][b1] == spieler[1]) {
-									player2alive = false;
-								}
-							}
-						}
+					if ((blockStatus[k + z1][l] == bombesetzen || blockStatus[k
+							+ z1][l] == spieler_bombe[1])) {
+						// explosion2.stop();
+						// explosion2_zeichnen.start();
 					}
-					for (int z1 = 1; z1 <= radius1; z1++) {
-						if (b1 + z1 < Feldgroesse_y) {
-							if (blockStatus[a1][b1 + z1] == solid) {
-								break;
-							} else {
-								if (blockStatus[a1][b1 + z1] == spieler[0]) {
-									player1alive = false;
-								}
-								if (blockStatus[a1][b1 + z1] == spieler[1]) {
-									player2alive = false;
-								}
-							}
-						}
+					if ((blockStatus[k + z1][l] == versteckterausgang)) {
+						blockStatus[k + z1][l] = ausgang;
 					}
-					for (int z1 = 1; z1 <= radius1; z1++) {
-						if (b1 - z1 > 0) {
-							if (blockStatus[a1][b1 - z1] == solid) {
-								break;
-							} else {
-								if (blockStatus[a1][b1 - z1] == spieler[0]) {
-									player1alive = false;
-								}
-								if (blockStatus[a1][b1 - z1] == spieler[1]) {
-									player2alive = false;
-								}
-							}
-						}
-
+				}
+			}
+		}
+		for (int z1 = 1; z1 <= radius1; z1++) {
+			if (k - z1 > 0) {
+				if (blockStatus[k - z1][l] == solid) {
+					break;
+				} else {
+					if ((blockStatus[k - z1][l] == spieler[1]
+							|| blockStatus[k - z1][l] == spieler[0]
+							|| blockStatus[k - z1][l] == breakblock || blockStatus[k
+							- z1][l] == ground)) {
+						blockStatus[k - z1][l] = explosion_horizontal;
 					}
-					if (player1alive == false || player2alive == false) {
-						if (player1alive == false && player2alive == false) {
-							game_over.start();
-						} else {
-							zufallsPortal();
-						}
+					if ((blockStatus[k - z1][l] == bombesetzen || blockStatus[k
+							- z1][l] == spieler_bombe[1])) {
+						// explosion2.stop();
+						// explosion2_zeichnen.start();
 					}
-					/**********************************************************
-					 * ersetzen der break- und spieler blocks durch explosion *
-					 **********************************************************/
-					for (int z1 = 1; z1 <= radius1; z1++) {
-						if (a1 + z1 < Feldgroesse_x) {
-							if (blockStatus[a1 + z1][b1] == solid) {
-								break;
-							} else {
-								if ((blockStatus[a1 + z1][b1] == spieler[1]
-										|| blockStatus[a1 + z1][b1] == spieler[0]
-										|| blockStatus[a1 + z1][b1] == breakblock || blockStatus[a1
-										+ z1][b1] == ground)) {
-									blockStatus[a1 + z1][b1] = explosion_horizontal;
-								}
-								if ((blockStatus[a1 + z1][b1] == bombesetzen || blockStatus[a1
-										+ z1][b1] == spieler_bombe[1])) {
-									explosion2.stop();
-									explosion2_zeichnen.start();
-								}
-								if ((blockStatus[a1 + z1][b1] == versteckterausgang)) {
-									blockStatus[a1 + z1][b1] = ausgang;
-								}
-							}
-						}
+					if ((blockStatus[k - z1][l] == versteckterausgang)) {
+						blockStatus[k - z1][l] = ausgang;
 					}
-					for (int z1 = 1; z1 <= radius1; z1++) {
-						if (a1 - z1 > 0) {
-							if (blockStatus[a1 - z1][b1] == solid) {
-								break;
-							} else {
-								if ((blockStatus[a1 - z1][b1] == spieler[1]
-										|| blockStatus[a1 - z1][b1] == spieler[0]
-										|| blockStatus[a1 - z1][b1] == breakblock || blockStatus[a1
-										- z1][b1] == ground)) {
-									blockStatus[a1 - z1][b1] = explosion_horizontal;
-								}
-								if ((blockStatus[a1 - z1][b1] == bombesetzen || blockStatus[a1
-										- z1][b1] == spieler_bombe[1])) {
-									explosion2.stop();
-									explosion2_zeichnen.start();
-								}
-								if ((blockStatus[a1 - z1][b1] == versteckterausgang)) {
-									blockStatus[a1 - z1][b1] = ausgang;
-								}
-							}
-						}
+				}
+			}
+		}
+		for (int z1 = 1; z1 <= radius1; z1++) {
+			if (l - z1 > 0) {
+				if (blockStatus[k][l - z1] == solid) {
+					break;
+				} else {
+					if ((blockStatus[k][l - z1] == spieler[1]
+							|| blockStatus[k][l - z1] == spieler[0]
+							|| blockStatus[k][l - z1] == breakblock || blockStatus[k][l
+							- z1] == ground)) {
+						blockStatus[k][l - z1] = explosion_vertikal;
 					}
-					for (int z1 = 1; z1 <= radius1; z1++) {
-						if (b1 - z1 > 0) {
-							if (blockStatus[a1][b1 - z1] == solid) {
-								break;
-							} else {
-								if ((blockStatus[a1][b1 - z1] == spieler[1]
-										|| blockStatus[a1][b1 - z1] == spieler[0]
-										|| blockStatus[a1][b1 - z1] == breakblock || blockStatus[a1][b1
-										- z1] == ground)) {
-									blockStatus[a1][b1 - z1] = explosion_vertikal;
-								}
-								if ((blockStatus[a1][b1 - z1] == bombesetzen || blockStatus[a1][b1
-										- z1] == spieler_bombe[1])) {
-									explosion2.stop();
-									explosion2_zeichnen.start();
-								}
-								if ((blockStatus[a1][b1 - z1] == versteckterausgang)) {
-									blockStatus[a1][b1 - z1] = ausgang;
-								}
-							}
-						}
+					if ((blockStatus[k][l - z1] == bombesetzen || blockStatus[k][l
+							- z1] == spieler_bombe[1])) {
+						// explosion2.stop();
+						// explosion2_zeichnen.start();
 					}
-					for (int z1 = 1; z1 <= radius1; z1++) {
-						if (b1 + z1 < Feldgroesse_y) {
-							if (blockStatus[a1][b1 + z1] == solid) {
-								break;
-							} else {
-								if ((blockStatus[a1][b1 + z1] == spieler[1]
-										|| blockStatus[a1][b1 + z1] == spieler[0]
-										|| blockStatus[a1][b1 + z1] == breakblock || blockStatus[a1][b1
-										+ z1] == ground)) {
-									blockStatus[a1][b1 + z1] = explosion_vertikal;
-								}
-								if ((blockStatus[a1][b1 + z1] == bombesetzen || blockStatus[a1][b1
-										+ z1] == spieler_bombe[1])) {
-									explosion2.stop();
-									explosion2_zeichnen.start();
-								}
-								if ((blockStatus[a1][b1 + z1] == versteckterausgang)) {
-									blockStatus[a1][b1 + z1] = ausgang;
-								}
-
-							}
-						}
+					if ((blockStatus[k][l - z1] == versteckterausgang)) {
+						blockStatus[k][l - z1] = ausgang;
 					}
-					blockStatus[a1][b1] = explosion_mitte;
-					zeichnen();
-					explosion1_ende.start();
-					Sound.soundeffekt("Audio/boom.au");
-
-					explosion1_zeichnen.stop();
+				}
+			}
+		}
+		for (int z1 = 1; z1 <= radius1; z1++) {
+			if (l + z1 < Feldgroesse_y) {
+				if (blockStatus[k][l + z1] == solid) {
+					break;
+				} else {
+					if ((blockStatus[k][l + z1] == spieler[1]
+							|| blockStatus[k][l + z1] == spieler[0]
+							|| blockStatus[k][l + z1] == breakblock || blockStatus[k][l
+							+ z1] == ground)) {
+						blockStatus[k][l + z1] = explosion_vertikal;
+					}
+					if ((blockStatus[k][l + z1] == bombesetzen || blockStatus[k][l
+							+ z1] == spieler_bombe[1])) {
+						// explosion2.stop();
+						// explosion2_zeichnen.start();
+					}
+					if ((blockStatus[k][l + z1] == versteckterausgang)) {
+						blockStatus[k][l + z1] = ausgang;
+					}
 
 				}
-			});
-	/**********************************************
-	 * ersetzen der explosion durch ground-Blocks *
-	 **********************************************/
-	javax.swing.Timer explosion1_ende = new javax.swing.Timer(500,
-			new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					for (int z1 = 1; z1 <= radius1; z1++) {
-						if (a1 + z1 < Feldgroesse_x) {
-							if (blockStatus[a1 + (z1 - 1)][b1] != solid) {
-								if ((blockStatus[a1 + z1][b1] == explosion_horizontal)) {
-									blockStatus[a1 + z1][b1] = ground;
-								}
+			}
+		}
+		blockStatus[k][l] = explosion_mitte;
+		zeichnen();
+		Sound.soundeffekt("Audio/boom.au");
 
-							}
-						}
-						if (a1 - z1 > 0) {
-							if (blockStatus[a1 - (z1 - 1)][b1] != solid) {
-								if ((blockStatus[a1 - z1][b1] == explosion_horizontal)) {
-									blockStatus[a1 - z1][b1] = ground;
-								}
+	}
 
-							}
-						}
-						if (b1 - z1 > 0) {
-							if (blockStatus[a1][b1 - (z1 - 1)] != solid) {
-								if ((blockStatus[a1][b1 - z1] == explosion_vertikal)) {
-									blockStatus[a1][b1 - z1] = ground;
-								}
+	public void exploende(int playerNR, int bombs) {
 
-							}
-						}
-						if (b1 + z1 < Feldgroesse_y) {
-							if (blockStatus[a1][b1 + (z1 - 1)] != solid) {
-								if ((blockStatus[a1][b1 + z1] == explosion_vertikal)) {
-									blockStatus[a1][b1 + z1] = ground;
-								}
-
-							}
-						}
+		int k = a[playerNR][bombs];
+		int l = b[playerNR][bombs];
+		for (int z1 = 1; z1 <= radius1; z1++) {
+			if (k + z1 < Feldgroesse_x) {
+				if (blockStatus[k + (z1 - 1)][l] != solid) {
+					if ((blockStatus[k + z1][l] == explosion_horizontal)) {
+						blockStatus[k + z1][l] = ground;
 					}
-					blockStatus[a1][b1] = ground;
-					zeichnen();
-
-					explosion1_ende.stop();
-					nextbomb[0] = true;
 
 				}
-			});
-
-	/*
-	 * Timer / Bombe2
-	 */
-	javax.swing.Timer explosion2 = new javax.swing.Timer(2000,
-			new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					explosion2_zeichnen.start();
-					explosion2.stop();
-				}
-			});
-	javax.swing.Timer explosion2_zeichnen = new javax.swing.Timer(0000,
-			new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-
-					/********************************************************
-					 * Game_over wenn spieler von der Bombe2 getroffen wird *
-					 ********************************************************/
-
-					for (int z2 = 1; z2 <= radius2; z2++) {
-						if (blockStatus[a2][b2] == spieler_bombe[1]) {
-							player2alive = false;
-
-						}
-						if (a2 + z2 < Feldgroesse_x) {
-							if (blockStatus[a2 + z2][b2] == solid) {
-								break;
-							} else {
-								if (blockStatus[a2 + z2][b2] == spieler[0]) {
-									player1alive = false;
-								}
-								if (blockStatus[a2 + z2][b2] == spieler[1]) {
-									player2alive = false;
-								}
-							}
-						}
+			}
+			if (k - z1 > 0) {
+				if (blockStatus[k - (z1 - 1)][l] != solid) {
+					if ((blockStatus[k - z1][l] == explosion_horizontal)) {
+						blockStatus[k - z1][l] = ground;
 					}
-					for (int z2 = 1; z2 <= radius2; z2++) {
-						if (a2 - z2 > 0) {
-							if (blockStatus[a2 - z2][b2] == solid) {
-								break;
-							} else {
-								if (blockStatus[a2 - z2][b2] == spieler[0]) {
-									player1alive = false;
-								}
-								if (blockStatus[a2 - z2][b2] == spieler[1]) {
-									player2alive = false;
-								}
-							}
-						}
-					}
-					for (int z2 = 1; z2 <= radius2; z2++) {
-						if (b2 + z2 < Feldgroesse_y) {
-							if (blockStatus[a2][b2 + z2] == solid) {
-								break;
-							} else {
-								if (blockStatus[a2][b2 + z2] == spieler[0]) {
-									player1alive = false;
-								}
-								if (blockStatus[a2][b2 + z2] == spieler[1]) {
-									player2alive = false;
-								}
-							}
-						}
-					}
-					for (int z2 = 1; z2 <= radius2; z2++) {
-						if (b2 - z2 > 0) {
-							if (blockStatus[a2][b2 - z2] == solid) {
-								break;
-							} else {
-								if (blockStatus[a2][b2 - z2] == spieler[0]) {
-									player1alive = false;
-								}
-								if (blockStatus[a2][b2 - z2] == spieler[1]) {
-									player2alive = false;
-								}
-							}
-						}
-
-					}
-					if (player1alive == false || player2alive == false) {
-						if (player1alive == false && player2alive == false) {
-							game_over.start();
-						} else {
-							zufallsPortal();
-						}
-					}
-					/**********************************************************
-					 * ersetzen der break- und spieler blocks durch explosion *
-					 **********************************************************/
-					for (int z2 = 1; z2 <= radius2; z2++) {
-						if (a2 + z2 < Feldgroesse_x) {
-							if (blockStatus[a2 + z2][b2] == solid) {
-								break;
-							} else {
-								if ((blockStatus[a2 + z2][b2] == spieler[1]
-										|| blockStatus[a2 + z2][b2] == spieler[0]
-										|| blockStatus[a2 + z2][b2] == breakblock || blockStatus[a2
-										+ z2][b2] == ground)) {
-									blockStatus[a2 + z2][b2] = explosion_horizontal;
-								}
-								if ((blockStatus[a2 + z2][b2] == bombesetzen || blockStatus[a2
-										+ z2][b2] == spieler_bombe[0])) {
-									explosion1.stop();
-									explosion1_zeichnen.start();
-								}
-								if ((blockStatus[a2 + z2][b2] == versteckterausgang)) {
-									blockStatus[a2 + z2][b2] = ausgang;
-								}
-							}
-						}
-					}
-					for (int z2 = 1; z2 <= radius2; z2++) {
-						if (a2 - z2 > 0) {
-							if (blockStatus[a2 - z2][b2] == solid) {
-								break;
-							} else {
-								if ((blockStatus[a2 - z2][b2] == spieler[1]
-										|| blockStatus[a2 - z2][b2] == spieler[0]
-										|| blockStatus[a2 - z2][b2] == breakblock || blockStatus[a2
-										- z2][b2] == ground)) {
-									blockStatus[a2 - z2][b2] = explosion_horizontal;
-								}
-								if ((blockStatus[a2 - z2][b2] == bombesetzen || blockStatus[a2
-										- z2][b2] == spieler_bombe[0])) {
-									explosion1.stop();
-									explosion1_zeichnen.start();
-								}
-								if ((blockStatus[a2 - z2][b2] == versteckterausgang)) {
-									blockStatus[a2 - z2][b2] = ausgang;
-								}
-							}
-						}
-					}
-					for (int z2 = 1; z2 <= radius2; z2++) {
-						if (b2 - z2 > 0) {
-							if (blockStatus[a2][b2 - z2] == solid) {
-								break;
-							} else {
-								if ((blockStatus[a2][b2 - z2] == spieler[1]
-										|| blockStatus[a2][b2 - z2] == spieler[0]
-										|| blockStatus[a2][b2 - z2] == breakblock || blockStatus[a2][b2
-										- z2] == ground)) {
-									blockStatus[a2][b2 - z2] = explosion_vertikal;
-								}
-								if ((blockStatus[a2][b2 - z2] == bombesetzen || blockStatus[a2][b2
-										- z2] == spieler_bombe[0])) {
-									explosion1.stop();
-									explosion1_zeichnen.start();
-								}
-								if ((blockStatus[a2][b2 - z2] == versteckterausgang)) {
-									blockStatus[a2][b2 - z2] = ausgang;
-								}
-							}
-						}
-					}
-					for (int z2 = 1; z2 <= radius2; z2++) {
-						if (b2 + z2 < Feldgroesse_y) {
-							if (blockStatus[a2][b2 + z2] == solid) {
-								break;
-							} else {
-								if ((blockStatus[a2][b2 + z2] == spieler[1]
-										|| blockStatus[a2][b2 + z2] == spieler[0]
-										|| blockStatus[a2][b2 + z2] == breakblock || blockStatus[a2][b2
-										+ z2] == ground)) {
-									blockStatus[a2][b2 + z2] = explosion_vertikal;
-								}
-								if ((blockStatus[a2][b2 + z2] == bombesetzen || blockStatus[a2][b2
-										+ z2] == spieler_bombe[0])) {
-									explosion1.stop();
-									explosion1_zeichnen.start();
-								}
-								if ((blockStatus[a2][b2 + z2] == versteckterausgang)) {
-									blockStatus[a2][b2 + z2] = ausgang;
-								}
-
-							}
-						}
-					}
-					blockStatus[a2][b2] = explosion_mitte;
-					zeichnen();
-					explosion2_ende.start();
-					Sound.soundeffekt("Audio/boom.au");
-
-					explosion2_zeichnen.stop();
 
 				}
-			});
-
-	/**********************************************
-	 * ersetzen der explosion durch ground-Blocks *
-	 **********************************************/
-	javax.swing.Timer explosion2_ende = new javax.swing.Timer(500,
-			new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-
-					for (int z = 1; z <= radius2; z++) {
-						if (a2 + z < Feldgroesse_x) {
-							if (blockStatus[a2 + (z - 1)][b2] != solid) {
-								if ((blockStatus[a2 + z][b2] == explosion_horizontal)) {
-									blockStatus[a2 + z][b2] = ground;
-								}
-
-							}
-						}
-						if (a2 - z > 0) {
-							if (blockStatus[a2 - (z - 1)][b2] != solid) {
-								if ((blockStatus[a2 - z][b2] == explosion_horizontal)) {
-									blockStatus[a2 - z][b2] = ground;
-								}
-
-							}
-						}
-						if (b2 - z > 0) {
-							if (blockStatus[a2][b2 - (z - 1)] != solid) {
-								if ((blockStatus[a2][b2 - z] == explosion_vertikal)) {
-									blockStatus[a2][b2 - z] = ground;
-								}
-
-							}
-						}
-						if (b2 + z < Feldgroesse_y) {
-							if (blockStatus[a2][b2 + (z - 1)] != solid) {
-								if ((blockStatus[a2][b2 + z] == explosion_vertikal)) {
-									blockStatus[a2][b2 + z] = ground;
-								}
-
-							}
-						}
+			}
+			if (l - z1 > 0) {
+				if (blockStatus[k][l - (z1 - 1)] != solid) {
+					if ((blockStatus[k][l - z1] == explosion_vertikal)) {
+						blockStatus[k][l - z1] = ground;
 					}
-					blockStatus[a2][b2] = ground;
-					zeichnen();
-
-					explosion2_ende.stop();
-					nextbomb[1] = true;
 
 				}
-			});
+			}
+			if (l + z1 < Feldgroesse_y) {
+				if (blockStatus[k][l + (z1 - 1)] != solid) {
+					if ((blockStatus[k][l + z1] == explosion_vertikal)) {
+						blockStatus[k][l + z1] = ground;
+					}
+
+				}
+			}
+		}
+		blockStatus[k][l] = ground;
+		zeichnen();
+
+		nextbomb[0] = true;
+		if (playerNR == 0)
+			bombsLeftP1++;
+
+		if (playerNR == 1)
+			bombsLeftP2++;
+
+	}
 
 	/*********************************************************************
 	 * Timer für eine kurze verzögerung vor neustart bei sieg/niederlage *
@@ -1066,20 +809,33 @@ public class Spielfeld extends JPanel {
 			zeichnen();
 		}
 
-		if (bomb == true && playeralive[playerNR] == true
-				&& nextbomb[playerNR] == true) {
-			nextbomb[playerNR] = false;
-			blockStatus[x[playerNR]][y[playerNR]] = spieler_bombe[playerNR];
-			if (playerNR == 0) {
-				a1 = x[playerNR];
-				b1 = y[playerNR];
+		if (bomb == true && playeralive[playerNR] == true) {
+
+			if (playerNR == 0 && bombsLeftP1 >= 0) {
+
+				blockStatus[x[0]][y[0]] = spieler_bombe[0];
+
+				a[0][bombsLeftP1] = x[0];
+				b[0][bombsLeftP1] = y[0];
+
+				Bomb bombe = new Bomb(this, 0, bombsLeftP1);
 				zeichnen();
-				explosion1.start();
-			} else if (playerNR == 1) {
-				a2 = x[playerNR];
-				b2 = y[playerNR];
+				bombe.explosion.start();
+				bombsLeftP1--;
+
+			}
+
+			else if (playerNR == 1 && bombsLeftP2 >= 0) {
+				blockStatus[x[1]][y[1]] = spieler_bombe[1];
+
+				a[1][bombsLeftP2] = x[1];
+				b[1][bombsLeftP2] = y[1];
+
+				Bomb bombe = new Bomb(this, 1, bombsLeftP2);
 				zeichnen();
-				explosion2.start();
+				bombe.explosion.start();
+				bombsLeftP2--;
+
 			}
 		}
 	}

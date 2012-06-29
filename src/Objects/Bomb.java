@@ -7,20 +7,45 @@ import Spielfeld.Spielfeld;
 
 public class Bomb {
 
-	javax.swing.Timer explosion1 = new javax.swing.Timer(2000,
+	private final Spielfeld Feld;
+	private final int playerNR;
+	private final int bombsLeft;
+
+	public Bomb(Spielfeld parent, int playerType, int bombsCount) {
+		Feld = parent;
+		playerNR = playerType;
+		bombsLeft = bombsCount;
+
+	}
+
+	public javax.swing.Timer explosion = new javax.swing.Timer(2000,
 			new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					explosion1_zeichnen.start();
-					explosion1.stop();
+					explosion_zeichnen.start();
+					explosion.stop();
 				}
 			});
-	javax.swing.Timer explosion1_zeichnen = new javax.swing.Timer(0,
+	public javax.swing.Timer explosion_zeichnen = new javax.swing.Timer(0,
 			new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					Spielfeld.explozeichnen();
+
+					Feld.explozeichnen(playerNR, bombsLeft);
+					explosion_ende.start();
+					explosion_zeichnen.stop();
 				}
 			});
 
+	/**********************************************
+	 * ersetzen der explosion durch ground-Blocks *
+	 **********************************************/
+	public javax.swing.Timer explosion_ende = new javax.swing.Timer(500,
+			new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					Feld.exploende(playerNR, bombsLeft);
+					explosion_ende.stop();
+				}
+			});
 }

@@ -1,10 +1,8 @@
 Bughunting.setTitle("Mission: Bug suchen!");
 Bughunting.setMotivation("Mission accepted");
 
-
-- Einstellung Slider reset auf init wert trotz voriger Änderung 
 - Fehler bei Behandlung von fehlerhaften Maps. Easy fix, wenns nicht gerade 3 Uhr morgens wäre :)
-- endscreen wird zu spät eingeblendet
-
+- Fehler beim Spammen der Bombe (maximale Anzahl 3):
+	beim Legen der "4." Bombe nach der Explosion der 1. springt die 3. Bombe an die Stelle der 4. und explodiert 2x an dieser Stelle.
 
 Bughunting.setResult("Trololololololololololololol");
