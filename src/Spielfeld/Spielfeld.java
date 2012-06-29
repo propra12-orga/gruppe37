@@ -127,10 +127,8 @@ public class Spielfeld extends JPanel {
 	/**
 	 * Festlegung, dass die Spielfiguren am Leben sind
 	 */
-	/** Gibt an, ob der 1. Spieler am Leben ist */
-	private static boolean player1alive = true;
-	/** Gibt an, ob der 2. Spieler am Leben ist */
-	private static boolean player2alive = true;
+
+	boolean playeralive[] = { true, true };
 
 	/** Gibt an, ob ein Portal vorhanden ist */
 	private static boolean Portal_vorhanden = false;
@@ -141,9 +139,6 @@ public class Spielfeld extends JPanel {
 	public Spielfeld(Main parent) {
 
 		loadContentImages();
-
-		radius[0] = radius1;
-		radius[1] = radius2;
 
 		// Fenstereinstellungen
 		window = parent;
@@ -237,10 +232,12 @@ public class Spielfeld extends JPanel {
 					Feldgroesse_y * 30);
 
 			// Spieler setzen und Positions-Reset bei Neustart
-			player1alive = true;
-			player2alive = true;
 			zeichnen();
 			XMLReader.Reset();
+			playeralive[0] = true;
+			playeralive[1] = true;
+			radius[0] = radius1;
+			radius[1] = radius2;
 
 		} catch (SAXException e) {
 
@@ -321,8 +318,10 @@ public class Spielfeld extends JPanel {
 		y[1] = (Feldgroesse_y - 2);
 		blockStatus[x[0]][y[0]] = spieler[0];
 		blockStatus[x[1]][y[1]] = spieler[1];
-		player1alive = true;
-		player2alive = true;
+		playeralive[0] = true;
+		playeralive[1] = true;
+		radius[0] = radius1;
+		radius[1] = radius2;
 		Portal_vorhanden = false;
 	}
 
@@ -428,18 +427,15 @@ public class Spielfeld extends JPanel {
 		int l = b[playerNR][bombsLeft];
 		System.out.println(k + "+" + l);
 		for (int z1 = 1; z1 <= radius[playerNR]; z1++) {
-			if (blockStatus[k][l] == spieler_bombe[0]) {
-				player1alive = false;
+			if (blockStatus[k][l] == spieler_bombe[playerNR]) {
+				playeralive[playerNR] = false;
 			}
 			if (k + z1 < Feldgroesse_x) {
 				if (blockStatus[k + z1][l] == solid) {
 					break;
 				} else {
-					if (blockStatus[k + z1][l] == spieler[0]) {
-						player1alive = false;
-					}
-					if (blockStatus[k + z1][l] == spieler[1]) {
-						player2alive = false;
+					if (blockStatus[k + z1][l] == spieler[playerNR]) {
+						playeralive[playerNR] = false;
 					}
 				}
 			}
@@ -449,11 +445,8 @@ public class Spielfeld extends JPanel {
 				if (blockStatus[k - z1][l] == solid) {
 					break;
 				} else {
-					if (blockStatus[k - z1][l] == spieler[0]) {
-						player1alive = false;
-					}
-					if (blockStatus[k - z1][l] == spieler[1]) {
-						player2alive = false;
+					if (blockStatus[k - z1][l] == spieler[playerNR]) {
+						playeralive[playerNR] = false;
 					}
 				}
 			}
@@ -463,11 +456,8 @@ public class Spielfeld extends JPanel {
 				if (blockStatus[k][l + z1] == solid) {
 					break;
 				} else {
-					if (blockStatus[k][l + z1] == spieler[0]) {
-						player1alive = false;
-					}
-					if (blockStatus[k][l + z1] == spieler[1]) {
-						player2alive = false;
+					if (blockStatus[k][l + z1] == spieler[playerNR]) {
+						playeralive[playerNR] = false;
 					}
 				}
 			}
@@ -477,18 +467,15 @@ public class Spielfeld extends JPanel {
 				if (blockStatus[k][l - z1] == solid) {
 					break;
 				} else {
-					if (blockStatus[k][l - z1] == spieler[0]) {
-						player1alive = false;
-					}
-					if (blockStatus[k][l - z1] == spieler[1]) {
-						player2alive = false;
+					if (blockStatus[k][l - z1] == spieler[playerNR]) {
+						playeralive[playerNR] = false;
 					}
 				}
 			}
 
 		}
-		if (player1alive == false || player2alive == false) {
-			if (player1alive == false && player2alive == false) {
+		if (playeralive[0] == false || playeralive[1] == false) {
+			if (playeralive[0] == false && playeralive[1] == false) {
 				game_over.start();
 			} else {
 				zufallsPortal();
@@ -650,7 +637,7 @@ public class Spielfeld extends JPanel {
 			new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					if (player1alive == true && player2alive == false) {
+					if (playeralive[0] == true && playeralive[1] == false) {
 						window.setSize(320, 230);
 						JLabel endscreen;
 						window.gamepanel.removeAll();
@@ -662,7 +649,7 @@ public class Spielfeld extends JPanel {
 
 					}
 
-					if (player2alive == true && player1alive == false) {
+					if (playeralive[0] == false && playeralive[1] == true) {
 						window.setSize(330, 230);
 						JLabel endscreen;
 						window.gamepanel.removeAll();
@@ -673,7 +660,7 @@ public class Spielfeld extends JPanel {
 						Sound.soundeffekt("Audio/player2wins.au");
 					}
 
-					if (player1alive == false && player2alive == false) {
+					if (playeralive[0] == false && playeralive[1] == false) {
 						window.setSize(330, 230);
 						JLabel endscreen;
 						window.gamepanel.removeAll();
@@ -690,8 +677,8 @@ public class Spielfeld extends JPanel {
 					y[1] = (Feldgroesse_y - 2);
 					blockStatus[x[0]][y[0]] = spieler[0];
 					blockStatus[x[1]][y[1]] = spieler[1];
-					player1alive = true;
-					player2alive = true;
+					playeralive[0] = true;
+					playeralive[1] = true;
 					game_over_intern.start();
 					game_over.stop();
 
@@ -746,7 +733,6 @@ public class Spielfeld extends JPanel {
 		boolean moveUp = Spieler.moveUp;
 		/** Bombe legen */
 		boolean bomb = Spieler.bomb;
-		boolean playeralive[] = { player1alive, player2alive };
 
 		if (moveRight == true
 				&& playeralive[playerNR] == true
