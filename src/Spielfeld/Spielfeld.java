@@ -89,9 +89,11 @@ public class Spielfeld extends JPanel {
 
 	// Radien der beiden bomben
 	/** Radius der Bombe von Spieler 1 */
-	private final int radius1 = 6;
+	private final int radius1 = 2;
 	/** Radius der Bombe von Spieler 2 */
-	private final int radius2 = 6;
+	private final int radius2 = 2;
+	/** Radius von Spieler 1 und 2 für die Explosion */
+	private final int radius[] = new int[2];
 
 	/** freies Bodenfeld */
 	private final int ground = 13;
@@ -139,6 +141,9 @@ public class Spielfeld extends JPanel {
 	public Spielfeld(Main parent) {
 
 		loadContentImages();
+
+		radius[0] = radius1;
+		radius[1] = radius2;
 
 		// Fenstereinstellungen
 		window = parent;
@@ -422,7 +427,7 @@ public class Spielfeld extends JPanel {
 		int k = a[playerNR][bombsLeft];
 		int l = b[playerNR][bombsLeft];
 		System.out.println(k + "+" + l);
-		for (int z1 = 1; z1 <= radius1; z1++) {
+		for (int z1 = 1; z1 <= radius[playerNR]; z1++) {
 			if (blockStatus[k][l] == spieler_bombe[0]) {
 				player1alive = false;
 			}
@@ -439,7 +444,7 @@ public class Spielfeld extends JPanel {
 				}
 			}
 		}
-		for (int z1 = 1; z1 <= radius1; z1++) {
+		for (int z1 = 1; z1 <= radius[playerNR]; z1++) {
 			if (k - z1 > 0) {
 				if (blockStatus[k - z1][l] == solid) {
 					break;
@@ -453,7 +458,7 @@ public class Spielfeld extends JPanel {
 				}
 			}
 		}
-		for (int z1 = 1; z1 <= radius1; z1++) {
+		for (int z1 = 1; z1 <= radius[playerNR]; z1++) {
 			if (l + z1 < Feldgroesse_y) {
 				if (blockStatus[k][l + z1] == solid) {
 					break;
@@ -467,7 +472,7 @@ public class Spielfeld extends JPanel {
 				}
 			}
 		}
-		for (int z1 = 1; z1 <= radius1; z1++) {
+		for (int z1 = 1; z1 <= radius[playerNR]; z1++) {
 			if (l - z1 > 0) {
 				if (blockStatus[k][l - z1] == solid) {
 					break;
@@ -492,7 +497,7 @@ public class Spielfeld extends JPanel {
 		/**********************************************************
 		 * ersetzen der break- und spieler blocks durch explosion *
 		 **********************************************************/
-		for (int z1 = 1; z1 <= radius1; z1++) {
+		for (int z1 = 1; z1 <= radius[playerNR]; z1++) {
 			if (k + z1 < Feldgroesse_x) {
 				if (blockStatus[k + z1][l] == solid) {
 					break;
@@ -514,7 +519,7 @@ public class Spielfeld extends JPanel {
 				}
 			}
 		}
-		for (int z1 = 1; z1 <= radius1; z1++) {
+		for (int z1 = 1; z1 <= radius[playerNR]; z1++) {
 			if (k - z1 > 0) {
 				if (blockStatus[k - z1][l] == solid) {
 					break;
@@ -536,7 +541,7 @@ public class Spielfeld extends JPanel {
 				}
 			}
 		}
-		for (int z1 = 1; z1 <= radius1; z1++) {
+		for (int z1 = 1; z1 <= radius[playerNR]; z1++) {
 			if (l - z1 > 0) {
 				if (blockStatus[k][l - z1] == solid) {
 					break;
@@ -558,7 +563,7 @@ public class Spielfeld extends JPanel {
 				}
 			}
 		}
-		for (int z1 = 1; z1 <= radius1; z1++) {
+		for (int z1 = 1; z1 <= radius[playerNR]; z1++) {
 			if (l + z1 < Feldgroesse_y) {
 				if (blockStatus[k][l + z1] == solid) {
 					break;
@@ -571,8 +576,8 @@ public class Spielfeld extends JPanel {
 					}
 					if ((blockStatus[k][l + z1] == bombesetzen || blockStatus[k][l
 							+ z1] == spieler_bombe[1])) {
-						// explosion2.stop();
-						// explosion2_zeichnen.start();
+						// explosion.stop();
+						// explozeichnen(playerNR, bombsLeft);
 					}
 					if ((blockStatus[k][l + z1] == versteckterausgang)) {
 						blockStatus[k][l + z1] = ausgang;
@@ -591,7 +596,7 @@ public class Spielfeld extends JPanel {
 
 		int k = a[playerNR][bombs];
 		int l = b[playerNR][bombs];
-		for (int z1 = 1; z1 <= radius1; z1++) {
+		for (int z1 = 1; z1 <= radius[playerNR]; z1++) {
 			if (k + z1 < Feldgroesse_x) {
 				if (blockStatus[k + (z1 - 1)][l] != solid) {
 					if ((blockStatus[k + z1][l] == explosion_horizontal)) {
