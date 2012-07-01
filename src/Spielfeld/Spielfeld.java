@@ -672,7 +672,7 @@ public class Spielfeld extends JPanel {
 						endscreen.setBounds(0, 0, 320, 180);
 						window.gamepanel.add(endscreen);
 						Sound.stoppen();
-						Sound.soundeffekt("Audio/bothplayersdead.au");
+						Sound.soundeffekt("Audio/bothplayersdead2.au");
 
 					}
 					x[0] = 1;
