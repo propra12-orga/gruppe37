@@ -489,18 +489,19 @@ public class Spielfeld extends JPanel {
 				if (blockStatus[k + z1][l] == solid) {
 					break;
 				} else {
-					if ((blockStatus[k + z1][l] == spieler[1]
+					if (blockStatus[k + z1][l] == spieler[1]
 							|| blockStatus[k + z1][l] == spieler[0]
-							|| blockStatus[k + z1][l] == breakblock || blockStatus[k
-							+ z1][l] == ground)) {
+							|| blockStatus[k + z1][l] == breakblock
+							|| blockStatus[k + z1][l] == ground) {
 						blockStatus[k + z1][l] = explosion_horizontal;
 					}
-					if ((blockStatus[k + z1][l] == bombesetzen || blockStatus[k
-							+ z1][l] == spieler_bombe[1])) {
+					if (blockStatus[k + z1][l] == bombesetzen
+							|| blockStatus[k + z1][l] == spieler_bombe[1]
+							|| blockStatus[k + z1][l] == spieler_bombe[0]) {
 						// explosion2.stop();
 						// explosion2_zeichnen.start();
 					}
-					if ((blockStatus[k + z1][l] == versteckterausgang)) {
+					if (blockStatus[k + z1][l] == versteckterausgang) {
 						blockStatus[k + z1][l] = ausgang;
 					}
 				}
@@ -511,18 +512,19 @@ public class Spielfeld extends JPanel {
 				if (blockStatus[k - z1][l] == solid) {
 					break;
 				} else {
-					if ((blockStatus[k - z1][l] == spieler[1]
+					if (blockStatus[k - z1][l] == spieler[1]
 							|| blockStatus[k - z1][l] == spieler[0]
-							|| blockStatus[k - z1][l] == breakblock || blockStatus[k
-							- z1][l] == ground)) {
+							|| blockStatus[k - z1][l] == breakblock
+							|| blockStatus[k - z1][l] == ground) {
 						blockStatus[k - z1][l] = explosion_horizontal;
 					}
-					if ((blockStatus[k - z1][l] == bombesetzen || blockStatus[k
-							- z1][l] == spieler_bombe[1])) {
+					if (blockStatus[k - z1][l] == bombesetzen
+							|| blockStatus[k - z1][l] == spieler_bombe[1]
+							|| blockStatus[k - z1][l] == spieler_bombe[0]) {
 						// explosion2.stop();
 						// explosion2_zeichnen.start();
 					}
-					if ((blockStatus[k - z1][l] == versteckterausgang)) {
+					if (blockStatus[k - z1][l] == versteckterausgang) {
 						blockStatus[k - z1][l] = ausgang;
 					}
 				}
@@ -533,18 +535,19 @@ public class Spielfeld extends JPanel {
 				if (blockStatus[k][l - z1] == solid) {
 					break;
 				} else {
-					if ((blockStatus[k][l - z1] == spieler[1]
+					if (blockStatus[k][l - z1] == spieler[1]
 							|| blockStatus[k][l - z1] == spieler[0]
-							|| blockStatus[k][l - z1] == breakblock || blockStatus[k][l
-							- z1] == ground)) {
+							|| blockStatus[k][l - z1] == breakblock
+							|| blockStatus[k][l - z1] == ground) {
 						blockStatus[k][l - z1] = explosion_vertikal;
 					}
-					if ((blockStatus[k][l - z1] == bombesetzen || blockStatus[k][l
-							- z1] == spieler_bombe[1])) {
+					if (blockStatus[k][l - z1] == bombesetzen
+							|| blockStatus[k][l - z1] == spieler_bombe[1]
+							|| blockStatus[k][l - z1] == spieler_bombe[0]) {
 						// explosion2.stop();
 						// explosion2_zeichnen.start();
 					}
-					if ((blockStatus[k][l - z1] == versteckterausgang)) {
+					if (blockStatus[k][l - z1] == versteckterausgang) {
 						blockStatus[k][l - z1] = ausgang;
 					}
 				}
@@ -555,18 +558,19 @@ public class Spielfeld extends JPanel {
 				if (blockStatus[k][l + z1] == solid) {
 					break;
 				} else {
-					if ((blockStatus[k][l + z1] == spieler[1]
+					if (blockStatus[k][l + z1] == spieler[1]
 							|| blockStatus[k][l + z1] == spieler[0]
-							|| blockStatus[k][l + z1] == breakblock || blockStatus[k][l
-							+ z1] == ground)) {
+							|| blockStatus[k][l + z1] == breakblock
+							|| blockStatus[k][l + z1] == ground) {
 						blockStatus[k][l + z1] = explosion_vertikal;
 					}
-					if ((blockStatus[k][l + z1] == bombesetzen || blockStatus[k][l
-							+ z1] == spieler_bombe[1])) {
+					if (blockStatus[k][l + z1] == bombesetzen
+							|| blockStatus[k][l + z1] == spieler_bombe[1]
+							|| blockStatus[k][l + z1] == spieler_bombe[0]) {
 						// explosion.stop();
 						// explozeichnen(playerNR, bombsLeft);
 					}
-					if ((blockStatus[k][l + z1] == versteckterausgang)) {
+					if (blockStatus[k][l + z1] == versteckterausgang) {
 						blockStatus[k][l + z1] = ausgang;
 					}
 
@@ -586,7 +590,7 @@ public class Spielfeld extends JPanel {
 		for (int z1 = 1; z1 <= radius[playerNR]; z1++) {
 			if (k + z1 < Feldgroesse_x) {
 				if (blockStatus[k + (z1 - 1)][l] != solid) {
-					if ((blockStatus[k + z1][l] == explosion_horizontal)) {
+					if (blockStatus[k + z1][l] == explosion_horizontal) {
 						blockStatus[k + z1][l] = ground;
 					}
 
@@ -594,7 +598,7 @@ public class Spielfeld extends JPanel {
 			}
 			if (k - z1 > 0) {
 				if (blockStatus[k - (z1 - 1)][l] != solid) {
-					if ((blockStatus[k - z1][l] == explosion_horizontal)) {
+					if (blockStatus[k - z1][l] == explosion_horizontal) {
 						blockStatus[k - z1][l] = ground;
 					}
 
@@ -602,7 +606,7 @@ public class Spielfeld extends JPanel {
 			}
 			if (l - z1 > 0) {
 				if (blockStatus[k][l - (z1 - 1)] != solid) {
-					if ((blockStatus[k][l - z1] == explosion_vertikal)) {
+					if (blockStatus[k][l - z1] == explosion_vertikal) {
 						blockStatus[k][l - z1] = ground;
 					}
 
@@ -610,7 +614,7 @@ public class Spielfeld extends JPanel {
 			}
 			if (l + z1 < Feldgroesse_y) {
 				if (blockStatus[k][l + (z1 - 1)] != solid) {
-					if ((blockStatus[k][l + z1] == explosion_vertikal)) {
+					if (blockStatus[k][l + z1] == explosion_vertikal) {
 						blockStatus[k][l + z1] = ground;
 					}
 
