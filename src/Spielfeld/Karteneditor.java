@@ -118,7 +118,12 @@ public class Karteneditor extends JPanel implements ChangeListener,
 
 	private final Main window;
 
-	/** Spielfeld wird im Fenster Main angezeigt */
+	/**
+	 * Spielfeld wird im Mainpanel angezeigt
+	 * 
+	 * @param parent
+	 *            führt Methode im Mainwindow aus
+	 */
 	public Karteneditor(Main parent) {
 
 		window = parent;
@@ -317,7 +322,6 @@ public class Karteneditor extends JPanel implements ChangeListener,
 				Blocksetzen();
 			}
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Kein Setzen möglich");
 			// TODO: handle exception
 		}
 

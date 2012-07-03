@@ -177,6 +177,7 @@ public class Einstellungen implements ChangeListener {
 	}
 
 	/**
+	 * setzt Komponenten ins Mainwindow
 	 * 
 	 * @param parent
 	 */
