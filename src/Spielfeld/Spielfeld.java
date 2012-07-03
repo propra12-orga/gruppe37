@@ -183,6 +183,7 @@ public class Spielfeld extends JPanel {
 		XMLReader.handleChannelTag(dok);
 	}
 
+	/** liest die Daten einer XML-Datei aus und verwendet sie */
 	public void XMLFeld() {
 		try {
 			XMLInit();
@@ -595,6 +596,7 @@ public class Spielfeld extends JPanel {
 
 	}
 
+	/** beendet das Zeichnen der Explosion */
 	public void exploende(int playerNR, int bombs) {
 
 		int k = a[playerNR][bombs];
@@ -702,6 +704,7 @@ public class Spielfeld extends JPanel {
 			});
 
 	// Neustart
+	/** startet ein neues Spiel nach Sieg eines Spielers */
 	javax.swing.Timer game_over_intern = new javax.swing.Timer(3800,
 			new ActionListener() {
 				@Override
@@ -847,15 +850,17 @@ public class Spielfeld extends JPanel {
 		}
 	}
 
-	// Getter - Setter
+	/** Getter zum Abfragen der Breite des Felds */
 	public int getFeldgroesse_x() {
 		return Feldgroesse_x;
 	}
 
+	/** Getter zum Abfragen der Höhe des Felds */
 	public int getFeldgroesse_y() {
 		return Feldgroesse_y;
 	}
 
+	/** Getter zum Abfragen der einzelnen Blockstati */
 	public int[][] getBlockStatus() {
 		return blockStatus;
 	}

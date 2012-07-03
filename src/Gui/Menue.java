@@ -38,7 +38,7 @@ public class Menue extends JPanel {
 		filemenu.add(new JSeparator());
 
 		/*******************************
-		 * Erster Button - Neues Spiel *
+		 * Erster Button, gennant "Neues Spiel", startet Spiel *
 		 *******************************/
 
 		JMenuItem fileItem1 = new JMenuItem("Neues Spiel");
@@ -60,7 +60,8 @@ public class Menue extends JPanel {
 		});
 
 		/*************************************
-		 * Zweiter Button - Level auswählen *
+		 * Zweiter Button, "Level auswählen, öffnet Dateibrowser zur Auswahl
+		 * einer gültigen XML-Datei *
 		 *************************************/
 
 		JMenuItem fileItem2 = new JMenuItem("Level auswählen");

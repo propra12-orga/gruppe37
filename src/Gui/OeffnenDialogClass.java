@@ -6,9 +6,17 @@ import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+/**
+ * Definiert Parameter für den Dateibrowser
+ * 
+ */
 public class OeffnenDialogClass {
 	private String Levelname;
 
+	/**
+	 * Methode zum Öffnen einer XML Datei. Überprüft auch, ob eine gülltige
+	 * Datei gewählt wurde.
+	 */
 	private void oeffnen() {
 		try {
 			FileFilter filter = new FileNameExtensionFilter(
@@ -33,10 +41,19 @@ public class OeffnenDialogClass {
 		}
 	}
 
+	/**
+	 * Fügt den Browser zum Fenster hinzu
+	 * 
+	 * @param parent
+	 */
 	public OeffnenDialogClass(Main parent) {
 		oeffnen();
 	}
 
+	/**
+	 * 
+	 * @return liefert den Namen des Levels als String zurück
+	 */
 	public String getLevelName() {
 		return Levelname;
 	}

@@ -8,9 +8,13 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import Spielfeld.XMLWriter;
 
+/**
+ * Implementiert Speicherfunktion
+ */
 public class Save {
 
 	private String Savename;
+	/** Variable für den Namen des Spielstands */
 	private static String caller;
 	private final Main window;
 

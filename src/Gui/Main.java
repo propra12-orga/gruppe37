@@ -61,6 +61,7 @@ public class Main extends JFrame {
 
 	}
 
+	/** einfuegen des leveleditors */
 	public void Leveleditor() {
 
 		getContentPane().removeAll();
@@ -80,6 +81,7 @@ public class Main extends JFrame {
 		new Einstellungen(this);
 	}
 
+	/** implementiert den Dateibrowser zum Einlesen von XML Dateien */
 	public void Dateibrowser() {
 		getContentPane().removeAll();
 		gamepanel = new Spielfeld(this);
@@ -89,6 +91,7 @@ public class Main extends JFrame {
 		gamepanel.XMLFeld();
 	}
 
+	/** stellt Moeglichkeit bereit, ein Spiel zu speichern */
 	public void Save() {
 		getContentPane().removeAll();
 		gamepanel = new Spielfeld(this);

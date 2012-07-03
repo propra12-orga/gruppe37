@@ -8,9 +8,25 @@ import Spielfeld.Spielfeld;
 public class Bomb {
 
 	private final Spielfeld Feld;
+	/** Spielfeld */
 	private final int playerNR;
+	/** gibt an, ob Spieler 1 oder 2 gemeint ist */
 	private final int bombsLeft;
 
+	/**
+	 * Anzahl der Bomben, die ein Spieler gleichzeitig legen kann, wird weniger
+	 * mit jeder gelegten Bombe und erhöht sich, wenn eine Bombe explodiert
+	 */
+	/**
+	 * Bombe
+	 * 
+	 * @param parent
+	 *            Spielfeld
+	 * @param playerType
+	 *            Spieler 1 oder 2
+	 * @param bombsCount
+	 *            Anzahl der verfügbaren Bomben
+	 */
 	public Bomb(Spielfeld parent, int playerType, int bombsCount) {
 		Feld = parent;
 		playerNR = playerType;
@@ -18,6 +34,9 @@ public class Bomb {
 
 	}
 
+	/**
+	 * Timer für die explosion
+	 */
 	public javax.swing.Timer explosion = new javax.swing.Timer(2000,
 			new ActionListener() {
 				@Override
@@ -26,6 +45,10 @@ public class Bomb {
 					explosion.stop();
 				}
 			});
+	/**
+	 * zeichnet die explosion ins Feld in Abhängigkeit vom Spieler, der sie
+	 * gelegt hat.
+	 */
 	public javax.swing.Timer explosion_zeichnen = new javax.swing.Timer(0,
 			new ActionListener() {
 				@Override

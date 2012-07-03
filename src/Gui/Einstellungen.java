@@ -13,19 +13,31 @@ import javax.swing.event.ChangeListener;
 
 import Spielfeld.Sound;
 
+/**
+ * Legt die Komponenten des Einstellungsmenues fest
+ */
 public class Einstellungen implements ChangeListener {
 
 	static final int hoehe_MIN = 5;
+	/** legt die minimale Höhe des Spielfelds fest */
 	static final int hoehe_MAX = 30;
+	/** legt die maximale Höhe des Spielfelds fest */
 	static int hoehe_INIT = 11;
+	/** Standardwert für die Höhe */
 
 	static final int breite_MIN = 5;
+	/** legt die minimale Breite des Spielfelds fest */
 	static final int breite_MAX = 30;
+	/** legt die maximale Höhe des Spielfelds fest */
 	static int breite_INIT = 11;
+	/** Standardwet für die Breite */
 
 	static final int dichte_MIN = 0;
+	/** legt die minimale Blockdichte des Spielfelds fest */
 	static final int dichte_MAX = 100;
+	/** legt die maximale Blockdichte des Spielfelds fest */
 	static int dichte_INIT = 70;
+	/** Standardwert für die Blockdichte */
 
 	public static int breite = breite_INIT;
 	public static int dichte = dichte_INIT;
@@ -102,7 +114,7 @@ public class Einstellungen implements ChangeListener {
 				.setToolTipText("Die Dichte der zerstörbaren Blöcke auf dem Spielfeld");
 
 		/*
-		 * Hinzufuegen der Slider und Namen
+		 * Fuegt Slider mit Namen zum Window hinzu
 		 */
 		window.add(breite_s);
 		window.add(dichte_s);
@@ -117,7 +129,9 @@ public class Einstellungen implements ChangeListener {
 
 	}
 
-	/** Listen to the slider. */
+	/**
+	 * fragt den Status der Slider ab
+	 */
 	@Override
 	public void stateChanged(ChangeEvent e) {
 		JSlider source = (JSlider) e.getSource();
@@ -133,6 +147,9 @@ public class Einstellungen implements ChangeListener {
 
 	}
 
+	/**
+	 * Dropdown-Menue zur Auswahl der Hintergrundmusik
+	 */
 	public void dropdown() {
 		String[] lang = { "-Auswahl-", "ImperialMarch", "Amaranth",
 				"TwistedSister", "breakingthelaw", "heartsonfire",
@@ -159,6 +176,10 @@ public class Einstellungen implements ChangeListener {
 		window.add(nameDrop);
 	}
 
+	/**
+	 * 
+	 * @param parent
+	 */
 	public Einstellungen(Main parent) {
 		window = parent;
 

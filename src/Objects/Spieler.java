@@ -134,7 +134,4 @@ public class Spieler implements KeyListener {
 
 	}
 
-	/***********************************
-	 * Methode fuer die erste Steurung *
-	 **********************************/
 }

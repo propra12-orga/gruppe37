@@ -141,6 +141,9 @@ public class Karteneditor extends JPanel implements ChangeListener,
 		blank_field = new ImageIcon("Images/bg.png");
 	}
 
+	/**
+	 * zeichnet ein leeres Feld mit solidblocks als Umrandung
+	 */
 	public void blankfield() {
 		Spieler1_vorhanden = false;
 		Spieler2_vorhanden = false;
@@ -174,6 +177,7 @@ public class Karteneditor extends JPanel implements ChangeListener,
 
 	}
 
+	/** fragt Blockstati ab und zeichnet danach das Feld */
 	public void zeichnen() {
 		window.gameedit.removeAll();
 		for (m = 0; m < Feldgroesse_x; m++) {
@@ -241,6 +245,10 @@ public class Karteneditor extends JPanel implements ChangeListener,
 		}
 	}
 
+	/**
+	 * Blöcke durch Mausklick setzen, gibt Fehler aus, wenn versucht wird, den
+	 * Rand zu verändern
+	 */
 	public void Blocksetzen() {
 
 		if (m == 0 || n == 0 || n == Feldgroesse_y - 1
@@ -283,6 +291,10 @@ public class Karteneditor extends JPanel implements ChangeListener,
 		}
 	}
 
+	/**
+	 * lokalisiert den Mauszeiger und gibt die Position als m=vertikale Position
+	 * und n=horizontale Position an
+	 */
 	public void mausposi() {
 
 		Point location = window.gameedit.getMousePosition();
@@ -305,6 +317,7 @@ public class Karteneditor extends JPanel implements ChangeListener,
 				Blocksetzen();
 			}
 		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Kein Setzen möglich");
 			// TODO: handle exception
 		}
 
@@ -326,6 +339,7 @@ public class Karteneditor extends JPanel implements ChangeListener,
 
 	}
 
+	/** stellt die Slider für Höhe und Breite des Spielfelds bereit */
 	public void Slider() {
 		window.setLayout(null);
 
@@ -362,6 +376,7 @@ public class Karteneditor extends JPanel implements ChangeListener,
 
 	}
 
+	/** überwacht Veränderungen der Slider */
 	@Override
 	public void stateChanged(ChangeEvent e) {
 		JSlider source = (JSlider) e.getSource();
@@ -392,6 +407,7 @@ public class Karteneditor extends JPanel implements ChangeListener,
 
 	}
 
+	/** Auswahlbuttons für die einzelnen Blocks */
 	public void Button() {
 		/*
 		 * BUTTON
@@ -567,6 +583,10 @@ public class Karteneditor extends JPanel implements ChangeListener,
 
 	}
 
+	/**
+	 * prüft, ob jeder Blank gefüllt ist und ob beiden Spielern eine
+	 * Startposition zugewiesen ist
+	 */
 	public void Konsistenzabfrage() {
 
 		for (n = 0; n < Feldgroesse_y; n++) {
@@ -613,6 +633,7 @@ public class Karteneditor extends JPanel implements ChangeListener,
 		}
 	}
 
+	/** liest Level aus XML ein und ermöglicht Editierung */
 	public void XMLFeld() {
 		try {
 			Spielfeld.XMLInit();
