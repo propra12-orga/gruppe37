@@ -434,8 +434,11 @@ public class Spielfeld extends JPanel {
 				if (blockStatus[k + z1][l] == solid) {
 					break;
 				} else {
-					if (blockStatus[k + z1][l] == spieler[playerNR]) {
-						playeralive[playerNR] = false;
+					if (blockStatus[k + z1][l] == spieler[0]) {
+						playeralive[0] = false;
+					}
+					if (blockStatus[k + z1][l] == spieler[1]) {
+						playeralive[1] = false;
 					}
 				}
 			}
@@ -445,8 +448,11 @@ public class Spielfeld extends JPanel {
 				if (blockStatus[k - z1][l] == solid) {
 					break;
 				} else {
-					if (blockStatus[k - z1][l] == spieler[playerNR]) {
-						playeralive[playerNR] = false;
+					if (blockStatus[k - z1][l] == spieler[0]) {
+						playeralive[0] = false;
+					}
+					if (blockStatus[k - z1][l] == spieler[1]) {
+						playeralive[1] = false;
 					}
 				}
 			}
@@ -456,8 +462,11 @@ public class Spielfeld extends JPanel {
 				if (blockStatus[k][l + z1] == solid) {
 					break;
 				} else {
-					if (blockStatus[k][l + z1] == spieler[playerNR]) {
-						playeralive[playerNR] = false;
+					if (blockStatus[k][l + z1] == spieler[0]) {
+						playeralive[0] = false;
+					}
+					if (blockStatus[k][l + z1] == spieler[1]) {
+						playeralive[1] = false;
 					}
 				}
 			}
@@ -467,8 +476,11 @@ public class Spielfeld extends JPanel {
 				if (blockStatus[k][l - z1] == solid) {
 					break;
 				} else {
-					if (blockStatus[k][l - z1] == spieler[playerNR]) {
-						playeralive[playerNR] = false;
+					if (blockStatus[k][l - z1] == spieler[0]) {
+						playeralive[0] = false;
+					}
+					if (blockStatus[k][l - z1] == spieler[1]) {
+						playeralive[1] = false;
 					}
 				}
 			}
