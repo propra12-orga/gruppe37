@@ -39,7 +39,7 @@ public class Karteneditor extends JPanel implements ChangeListener,
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	private ActionListener newMapListener = null;
 	private ActionListener saveListener = null;
 	private ActionListener loadListener = null;
 	/**
@@ -113,6 +113,7 @@ public class Karteneditor extends JPanel implements ChangeListener,
 	final JToggleButton playerButton = new JToggleButton(player);
 	final JToggleButton brkbleButton = new JToggleButton(brkbleBlock);
 	final JToggleButton grndButton = new JToggleButton(grndBlock);
+	final JButton newMapButton = new JButton();
 	final JButton saveButton = new JButton();
 	final JButton loadButton = new JButton();
 
@@ -544,7 +545,28 @@ public class Karteneditor extends JPanel implements ChangeListener,
 			}
 		});
 
-		saveButton.setBounds(140, 0, 130, 30);
+		newMapButton.setBounds(0, 0, 120, 30);
+		newMapButton.setText("Neue Map");
+		newMapListener = new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				for (m = 0; m < Feldgroesse_x; m++) {
+					for (n = 0; n < Feldgroesse_y; n++) {
+						if (m == 0 || n == 0 || n == Feldgroesse_y - 1
+								|| m == Feldgroesse_x - 1) {
+							blockStatus[m][n] = solid;
+						} else {
+							blockStatus[m][n] = ground;
+						}
+					}
+				}
+				zeichnen();
+			}
+		};
+		newMapButton.addActionListener(newMapListener);
+
+		saveButton.setBounds(280, 0, 120, 30);
 		saveButton.setText("Karte speichern");
 
 		saveListener = new java.awt.event.ActionListener() {
@@ -554,7 +576,7 @@ public class Karteneditor extends JPanel implements ChangeListener,
 			}
 		};
 		saveButton.addActionListener(saveListener);
-		loadButton.setBounds(0, 0, 130, 30);
+		loadButton.setBounds(140, 0, 120, 30);
 		loadButton.setText("Karte laden");
 		loadListener = new java.awt.event.ActionListener() {
 			@Override
@@ -582,6 +604,7 @@ public class Karteneditor extends JPanel implements ChangeListener,
 		window.add(brkbleButton);
 		window.add(playerButton);
 		window.add(player2Button);
+		window.add(newMapButton);
 		window.add(loadButton);
 		window.add(saveButton);
 
