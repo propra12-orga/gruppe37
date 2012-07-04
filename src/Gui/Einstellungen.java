@@ -152,8 +152,7 @@ public class Einstellungen implements ChangeListener {
 	 */
 	public void dropdown() {
 		String[] lang = { "-Auswahl-", "ImperialMarch", "Amaranth",
-				"TwistedSister", "breakingthelaw", "heartsonfire",
-				"Fratzengeballer" };
+				"WereNotGonnaTakeIt", "BreakingTheLaw", "HeartsOnFire" };
 		// Erste Combo-Box
 		JComboBox combo1 = new JComboBox();
 		for (String s : lang)
@@ -170,7 +169,7 @@ public class Einstellungen implements ChangeListener {
 		});
 
 		JLabel nameDrop = new JLabel("Hintergrundmusik:");
-		nameDrop.setBounds(10, 10, 120, 20);
+		nameDrop.setBounds(10, 10, 170, 20);
 		nameDrop.setToolTipText("Wähle eine Hintergrundmusik.");
 		window.add(combo1);
 		window.add(nameDrop);

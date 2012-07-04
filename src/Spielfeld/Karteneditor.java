@@ -544,7 +544,7 @@ public class Karteneditor extends JPanel implements ChangeListener,
 			}
 		});
 
-		saveButton.setBounds(140, 0, 120, 30);
+		saveButton.setBounds(140, 0, 130, 30);
 		saveButton.setText("Karte speichern");
 
 		saveListener = new java.awt.event.ActionListener() {
@@ -554,7 +554,7 @@ public class Karteneditor extends JPanel implements ChangeListener,
 			}
 		};
 		saveButton.addActionListener(saveListener);
-		loadButton.setBounds(0, 0, 120, 30);
+		loadButton.setBounds(0, 0, 130, 30);
 		loadButton.setText("Karte laden");
 		loadListener = new java.awt.event.ActionListener() {
 			@Override
