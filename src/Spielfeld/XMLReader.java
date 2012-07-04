@@ -14,21 +14,25 @@ import org.w3c.dom.NodeList;
  */
 
 public class XMLReader {
-
+	/** hoehe */
 	public static int hoehe = 0;
+	/** breite */
 	public static int breite = 0;
-
+	/** maximale hoehe */
 	public static int hoehe_max = 100;
+	/** maximale breite */
 	public static int breite_max = 100;
-
+	/** Blockstatus ground */
 	public static int ground = 3;
+	/** Blockstatus solid */
 	public static int solid = 1;
 	/** Spielfigur von Spieler 1 */
 	public static int spieler = 8;
 	/** Spielfigur von Spieler 2 */
 	public static int spieler2 = 11;
+	/** Blockstatus breakblock */
 	public static int breakblock = 2;
-
+	/** XMLStatus Array */
 	public static int xmlStatus[][] = new int[breite_max][hoehe_max];
 
 	public static void handleChannelTag(Document dok) {
@@ -36,6 +40,7 @@ public class XMLReader {
 		mainTagHandler(nodeList);
 	}
 
+	/** Handler für die Werte */
 	private static void mainTagHandler(NodeList nodeList) {
 		for (int breite = 0; breite < nodeList.getLength(); breite++) {
 			Node node = nodeList.item(breite);
@@ -51,6 +56,7 @@ public class XMLReader {
 
 	}
 
+	/** Methode zum resetten der einzelnen Variablen */
 	static void Reset() {
 		hoehe = 0;
 		breite = 0;
@@ -64,6 +70,10 @@ public class XMLReader {
 
 	}
 
+	/**
+	 * Verarbeitet die einzelnen Zeilen und setzt den xmlStatus bzw. daraus
+	 * resultierenden Blockstatus fest
+	 */
 	private static String TextTagHandler(String tagName, Element element) {
 		StringBuffer value = new StringBuffer();
 		for (hoehe = 0; hoehe < element.getElementsByTagName(tagName)

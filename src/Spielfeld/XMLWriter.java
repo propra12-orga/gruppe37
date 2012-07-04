@@ -23,18 +23,26 @@ public class XMLWriter {
 	protected int Feldgroesse_x = 100;
 	/** vertikale Feldgröße */
 	protected int Feldgroesse_y = 100;
+	/** groundblock */
 	private final int ground = 13;
+	/** solidblock */
 	private final int solid = 1;
+	/** breakblock */
 	private final int breakblock = 2;
 	/** Spielfigur von Spieler 1 */
 	private final int spieler = 8;
 	/** Spielfigur von Spieler 2 */
 	private final int spieler2 = 11;
+	/** String für verschiedene Typen */
 	private String fieldType;
 
 	private final Main window;
 	private int[][] blockStatus;
 
+	/**
+	 * Schreibt an die jeweiligen Stellen in der XML Datei in vordefinierte Tags
+	 * den jeweiligen Status
+	 */
 	public XMLWriter(Main parent, String addr) {
 		window = parent;
 
