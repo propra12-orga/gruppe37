@@ -157,7 +157,7 @@ public class Einstellungen implements ChangeListener {
 		JComboBox combo1 = new JComboBox();
 		for (String s : lang)
 			combo1.addItem(s);
-		combo1.setBounds(140, 10, 120, 20);
+		combo1.setBounds(140, 10, 200, 20);
 		combo1.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
@@ -169,7 +169,7 @@ public class Einstellungen implements ChangeListener {
 		});
 
 		JLabel nameDrop = new JLabel("Hintergrundmusik:");
-		nameDrop.setBounds(10, 10, 170, 20);
+		nameDrop.setBounds(10, 10, 120, 20);
 		nameDrop.setToolTipText("Wähle eine Hintergrundmusik.");
 		window.add(combo1);
 		window.add(nameDrop);
