@@ -151,27 +151,30 @@ public class Einstellungen implements ChangeListener {
 	 * Dropdown-Menue zur Auswahl der Hintergrundmusik
 	 */
 	public void dropdown() {
-		String[] lang = { "-Auswahl-", "ImperialMarch", "Amaranth",
-				"WereNotGonnaTakeIt", "BreakingTheLaw", "HeartsOnFire" };
+		String[] Tracks = { "-----------", "keine Musik", "ImperialMarch",
+				"Amaranth", "WereNotGonnaTakeIt", "BreakingTheLaw",
+				"HeartsOnFire" };
 		// Erste Combo-Box
-		JComboBox combo1 = new JComboBox();
-		for (String s : lang)
-			combo1.addItem(s);
-		combo1.setBounds(140, 10, 200, 20);
-		combo1.addItemListener(new ItemListener() {
+		final JComboBox musikwahl = new JComboBox();
+		for (String s : Tracks)
+			musikwahl.addItem(s);
+
+		musikwahl.setBounds(140, 10, 200, 20);
+		musikwahl.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				JComboBox selectedChoice = (JComboBox) e.getSource();
 				String Auswahl = selectedChoice.getSelectedItem().toString();
 				Sound.stoppen();
 				Sound.hintergrundmusik(Auswahl);
+
 			}
 		});
 
 		JLabel nameDrop = new JLabel("Hintergrundmusik:");
 		nameDrop.setBounds(10, 10, 120, 20);
 		nameDrop.setToolTipText("Wähle eine Hintergrundmusik.");
-		window.add(combo1);
+		window.add(musikwahl);
 		window.add(nameDrop);
 	}
 

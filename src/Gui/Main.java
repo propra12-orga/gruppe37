@@ -110,9 +110,14 @@ public class Main extends JFrame {
 		new Main();
 	}
 
+	/** Methode zur Einblendung des Startbildes **/
+
 	public void Hintergrund() {
-		ImageIcon bg = new ImageIcon("Images/hintergrund.jpg");
-		JLabel background = new JLabel(bg);
+
+		/** Startbild **/
+		ImageIcon hintergrundbild = new ImageIcon("Images/hintergrund.jpg");
+		/** Label in dem das Bild dargestellt wird **/
+		JLabel background = new JLabel(hintergrundbild);
 		background.setBounds(0, 0, 500, 500);
 		this.add(background);
 	}
