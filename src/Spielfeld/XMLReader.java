@@ -10,7 +10,7 @@ import org.w3c.dom.NodeList;
  * 
  * Spielerposi verarbeiten
  * 
- * @author Dario
+ * @author gruppe37
  */
 
 public class XMLReader {
@@ -32,7 +32,12 @@ public class XMLReader {
 	public static int spieler2 = 11;
 	/** Blockstatus breakblock */
 	public static int breakblock = 2;
+	/** offengelegter Ausgang */
+	public static int ausgang = 10;
+	/** Blockstatus fail */
+	public static int fail = 42;
 	/** XMLStatus Array */
+
 	public static int xmlStatus[][] = new int[breite_max][hoehe_max];
 
 	public static void handleChannelTag(Document dok) {
@@ -46,9 +51,9 @@ public class XMLReader {
 			Node node = nodeList.item(breite);
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
 				Element element = (Element) node;
-				System.out.println(TextTagHandler("Status", element));
+				TextTagHandler("Status", element);
 			}
-			System.out.println("");
+
 		}
 
 		hoehe_max = hoehe;
@@ -57,7 +62,7 @@ public class XMLReader {
 	}
 
 	/** Methode zum resetten der einzelnen Variablen */
-	static void Reset() {
+	public static void Reset() {
 		hoehe = 0;
 		breite = 0;
 
@@ -74,8 +79,7 @@ public class XMLReader {
 	 * Verarbeitet die einzelnen Zeilen und setzt den xmlStatus bzw. daraus
 	 * resultierenden Blockstatus fest
 	 */
-	private static String TextTagHandler(String tagName, Element element) {
-		StringBuffer value = new StringBuffer();
+	private static void TextTagHandler(String tagName, Element element) {
 		for (hoehe = 0; hoehe < element.getElementsByTagName(tagName)
 				.getLength(); hoehe++) {
 			NodeList nodeList = element.getElementsByTagName(tagName)
@@ -92,13 +96,16 @@ public class XMLReader {
 				xmlStatus[breite][hoehe] = spieler;
 			} else if (node.getTextContent().equals("Spieler2")) {
 				xmlStatus[breite][hoehe] = spieler2;
+			} else if (node.getTextContent().equals("Ausgang")) {
+				xmlStatus[breite][hoehe] = ausgang;
+			} else {
+				xmlStatus[breite][hoehe] = fail;
 			}
 			if (hoehe == element.getElementsByTagName(tagName).getLength() - 1) {
 				breite++;
 			}
-		}
 
-		return value.toString();
+		}
 
 	}
 }

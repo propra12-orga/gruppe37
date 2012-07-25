@@ -1,14 +1,12 @@
-package Objects;
+package network.server;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import Spielfeld.Spielfeld;
+public class Network_Bomb {
 
-public class Bomb {
-
-	private final Spielfeld Feld;
-	/** Spielfeld */
+	private final Network_Spielfeld Feld;
+	/** Network_Spielfeld */
 	private final int playerNR;
 
 	/** Bombe auf einem freien Feld */
@@ -27,13 +25,13 @@ public class Bomb {
 	 * Bombe
 	 * 
 	 * @param parent
-	 *            Spielfeld
+	 *            Network_Spielfeld
 	 * @param playerType
 	 *            Spieler 1 oder 2
 	 * @param bombsCount
 	 *            Anzahl der verfügbaren Bomben
 	 */
-	public Bomb(Spielfeld parent, int playerType) {
+	public Network_Bomb(Network_Spielfeld parent, int playerType) {
 		Feld = parent;
 		playerNR = playerType;
 
@@ -85,6 +83,7 @@ public class Bomb {
 					y = Feld.getY2();
 					if (blockStatus[x[1]][y[1]] == explosion_mitte) {
 						Feld.exploende(1);
+						explosion_ende.stop();
 					}
 					if (blockStatus[x[0]][y[0]] == explosion_mitte) {
 						Feld.exploende(0);

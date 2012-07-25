@@ -4,6 +4,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import network.client.Client;
+import network.server.Network_Spieler;
+import network.server.Network_Spielfeld;
 import Objects.Spieler;
 import Spielfeld.Karteneditor;
 import Spielfeld.Spielfeld;
@@ -15,16 +18,28 @@ public class Main extends JFrame {
 	public Spielfeld gamepanel;
 
 	/** Spielfeld in dem das Spiel stattfindet */
+	public Network_Spielfeld netpanel;
+
+	/** Spielfeld in dem das Spiel stattfindet */
 	public Karteneditor gameedit;
 
 	/** Menüleiste des Programms */
 	public Menue gamemenue;
+
+	/** Menüleiste des Programms */
+	public Netzwerk network;
+
+	/** Steuerung des 3. Spielers */
+	public Network_Spieler Spieler_Net;
 
 	/** Steuerung des 1. Spielers */
 	public Spieler Spieler1;
 
 	/** Steuerung des 2. Spielers */
 	public Spieler Spieler2;
+
+	/** Steuerung des Clients */
+	public Client client;
 
 	private static final long serialVersionUID = 1L;
 
@@ -42,10 +57,22 @@ public class Main extends JFrame {
 		Hintergrund();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
-
 		setResizable(false);
+		Spieler_Net = new Network_Spieler(this, 0);
+
+		/*******************************************
+		 * Wichtig !!!!! * Für 2 Spieler-Modus Folgende aktivieren *
+		 *******************************************/
 		Spieler1 = new Spieler(this, 0);
 		Spieler2 = new Spieler(this, 1);
+		/****************************************
+		 * Wichtig !!!!! * Für Server-Modus Folgende aktivieren *
+		 ****************************************/
+		// new Server(this);
+		/****************************************
+		 * Wichtig !!!!! * Für Client-Modus Folgende aktivieren *
+		 ****************************************/
+		// client = new Client(this);
 
 	}
 
@@ -53,7 +80,6 @@ public class Main extends JFrame {
 	 * Erstellen eines Neuen Spiels und einfügen der Steuerung *
 	 ***********************************************************/
 	public void createGame() {
-
 		getContentPane().removeAll();
 		gamepanel = new Spielfeld(this);
 		gamepanel.setVisible(true);
@@ -61,6 +87,32 @@ public class Main extends JFrame {
 		add(gamepanel);
 		gamepanel.standardfeld();
 		gamepanel.zeichnen();
+		requestFocusInWindow();
+
+	}
+
+	/** einfuegen des clients */
+	public void client() {
+		getContentPane().removeAll();
+		gamepanel = new Spielfeld(this);
+		gamepanel.setVisible(true);
+		gamepanel.setLayout(null);
+		add(gamepanel);
+		gamepanel.standardfeld();
+		gamepanel.zeichnen();
+		requestFocusInWindow();
+
+	}
+
+	/** einfuegen des leveleditors */
+	public void Netzwerk() {
+		getContentPane().removeAll();
+		netpanel = new Network_Spielfeld(this);
+		netpanel.setVisible(true);
+		netpanel.setLayout(null);
+		add(netpanel);
+		netpanel.standardfeld();
+		netpanel.zeichnen();
 		requestFocusInWindow();
 
 	}
@@ -88,22 +140,8 @@ public class Main extends JFrame {
 
 	/** implementiert den Dateibrowser zum Einlesen von XML Dateien */
 	public void Dateibrowser() {
-		getContentPane().removeAll();
-		gamepanel = new Spielfeld(this);
-		gamepanel.setVisible(true);
-		gamepanel.setLayout(null);
-		add(gamepanel);
-		gamepanel.XMLFeld();
-	}
 
-	/** stellt Moeglichkeit bereit, ein Spiel zu speichern */
-	public void Save() {
-		getContentPane().removeAll();
-		gamepanel = new Spielfeld(this);
-		gamepanel.setVisible(true);
-		gamepanel.setLayout(null);
-		add(gamepanel);
-		new Save(this);
+		gamepanel.XMLFeld();
 	}
 
 	public static void main(String[] args) {

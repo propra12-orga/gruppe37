@@ -34,7 +34,7 @@
 <Status>Breakblock</Status>
 <Status>Breakblock</Status>
 <Status>Solid</Status>
-<Status>Spieler</Status>
+<Status>Ground</Status>
 <Status>Solid</Status>
 <Status>Breakblock</Status>
 <Status>Breakblock</Status>
@@ -451,7 +451,7 @@
 <Status>Breakblock</Status>
 <Status>Breakblock</Status>
 <Status>Solid</Status>
-<Status>Spieler2</Status>
+<Status>Ground</Status>
 <Status>Solid</Status>
 <Status>Breakblock</Status>
 <Status>Solid</Status>

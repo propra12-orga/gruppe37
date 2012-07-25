@@ -75,7 +75,13 @@ public class Karteneditor extends JPanel implements ChangeListener,
 
 	private boolean Spieler1_vorhanden;
 	private boolean Spieler2_vorhanden;
+	private boolean Spieler1_spielbar;
+	private boolean Spieler2_spielbar;
 	private boolean blank_vorhanden;
+	int m1;
+	int n1;
+	int m2;
+	int n2;
 
 	static final int hoehe_MIN = 5;
 	static final int hoehe_MAX = 30;
@@ -171,7 +177,7 @@ public class Karteneditor extends JPanel implements ChangeListener,
 						|| m == Feldgroesse_x - 1) {
 					blockStatus[m][n] = solid;
 				} else if (blockStatus[m][n] == 0) {
-					blockStatus[m][n] = blank;
+					blockStatus[m][n] = ground;
 				}
 			}
 
@@ -241,7 +247,7 @@ public class Karteneditor extends JPanel implements ChangeListener,
 					window.gameedit.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 
-				} else if (blockStatus[m][n] == blank) {
+				} else if (blockStatus[m][n] == ground) {
 					fblock[m][n] = new JLabel(blank_field);
 					window.gameedit.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
@@ -273,20 +279,20 @@ public class Karteneditor extends JPanel implements ChangeListener,
 			} else if (brkbleButton_on == true) {
 				blockStatus[m][n] = breakblock;
 			} else if (playerButton_on == true) {
-				for (int x = 0; x < Feldgroesse_y; x++) {
-					for (int y = 0; y < Feldgroesse_x; y++) {
+				for (int x = 0; x < Feldgroesse_x; x++) {
+					for (int y = 0; y < Feldgroesse_y; y++) {
 						if (blockStatus[x][y] == spieler) {
-							blockStatus[x][y] = blank;
+							blockStatus[x][y] = ground;
 						}
 					}
 
 				}
 				blockStatus[m][n] = spieler;
 			} else if (player2Button_on == true) {
-				for (int x = 0; x < Feldgroesse_y; x++) {
+				for (int x = 0; x < Feldgroesse_x; x++) {
 					for (int y = 0; y < Feldgroesse_x; y++) {
 						if (blockStatus[x][y] == spieler2) {
-							blockStatus[x][y] = blank;
+							blockStatus[x][y] = ground;
 						}
 					}
 
@@ -391,7 +397,7 @@ public class Karteneditor extends JPanel implements ChangeListener,
 				for (m = 0; m < Feldgroesse_x; m++) {
 					if (m == 0 || n == 0 || n == Feldgroesse_y - 1
 							|| m == Feldgroesse_x - 1) {
-						blockStatus[m][n] = blank;
+						blockStatus[m][n] = ground;
 					}
 				}
 			}
@@ -622,12 +628,17 @@ public class Karteneditor extends JPanel implements ChangeListener,
 					blank_vorhanden = true;
 				} else if (blockStatus[m][n] == spieler) {
 					Spieler1_vorhanden = true;
+					m1 = m;
+					n1 = n;
 				} else if (blockStatus[m][n] == spieler2) {
 					Spieler2_vorhanden = true;
+					m2 = m;
+					n2 = n;
 				}
 			}
 
 		}
+
 		if ((Spieler1_vorhanden == false || Spieler2_vorhanden == false)
 				&& blank_vorhanden == true) {
 			blank_vorhanden = false;
@@ -638,7 +649,9 @@ public class Karteneditor extends JPanel implements ChangeListener,
 							null,
 							"Spielfeld kann nicht gespeichert werden ,da sowohl Felder als auch Spieler fehlen.");
 
-		} else if ((Spieler1_vorhanden == false || Spieler2_vorhanden == false)
+		}
+
+		else if ((Spieler1_vorhanden == false || Spieler2_vorhanden == false)
 				&& blank_vorhanden == false) {
 			Spieler1_vorhanden = false;
 			Spieler2_vorhanden = false;
@@ -655,10 +668,160 @@ public class Karteneditor extends JPanel implements ChangeListener,
 			JOptionPane
 					.showMessageDialog(null,
 							"Spielfeld kann nicht gespeichert werden ,da mindestens ein Feld fehlt!");
-		} else {
+		} else if ((Spieler1_vorhanden == true || Spieler2_vorhanden == true)) {
+
+			if ((blockStatus[m1 - 1][n1] == ground || blockStatus[m1 + 1][n1] == ground)
+					&& (blockStatus[m1][n1 - 1] == ground || blockStatus[m1][n1 + 1] == ground)) {
+				Spieler1_spielbar = true;
+
+			}
+			for (int o1 = 1; o1 <= 30; o1++) {
+
+				if (blockStatus[m1 - o1][n1] == ground) {
+					if (blockStatus[m1 - o1][n1 - 1] == ground) {
+						Spieler1_spielbar = true;
+						break;
+					}
+					if (blockStatus[m1 - o1][n1 + 1] == ground) {
+						Spieler1_spielbar = true;
+						break;
+					}
+
+				} else {
+					break;
+
+				}
+			}
+			for (int o2 = 1; o2 <= 30; o2++) {
+				if (blockStatus[m1 + o2][n1] == ground) {
+					if (blockStatus[m1 + o2][n1 + 1] == ground) {
+						Spieler1_spielbar = true;
+						break;
+					}
+					if (blockStatus[m1 + o2][n1 - 1] == ground) {
+						Spieler1_spielbar = true;
+						break;
+					}
+				} else {
+					break;
+				}
+
+			}
+			for (int o3 = 1; o3 <= 30; o3++) {
+				if (blockStatus[m1][n1 - o3] == ground) {
+					if (blockStatus[m1 + 1][n1 - o3] == ground) {
+						Spieler1_spielbar = true;
+						break;
+					}
+					if (blockStatus[m1 - 1][n1 - o3] == ground) {
+						Spieler1_spielbar = true;
+						break;
+					}
+				} else {
+					break;
+				}
+
+			}
+			for (int o4 = 1; o4 <= 30; o4++) {
+				if (blockStatus[m1][n1 + o4] == ground) {
+					if (blockStatus[m1 + 1][n1 + o4] == ground) {
+						Spieler1_spielbar = true;
+						break;
+					}
+					if (blockStatus[m1 - 1][n1 + o4] == ground) {
+						Spieler1_spielbar = true;
+						break;
+					}
+				} else {
+					break;
+				}
+
+			}
+
+			if ((blockStatus[m2 - 1][n2] == ground || blockStatus[m2 + 1][n2] == ground)
+					&& (blockStatus[m2][n2 - 1] == ground || blockStatus[m2][n2 + 1] == ground)) {
+				Spieler2_spielbar = true;
+
+			}
+
+			for (int o6 = 1; o6 <= 30; o6++) {
+				if (blockStatus[m2 - o6][n2] == ground) {
+					if (blockStatus[m2 - o6][n2 - 1] == ground) {
+						Spieler2_spielbar = true;
+						break;
+					}
+					if (blockStatus[m2 - o6][n2 + 1] == ground) {
+						Spieler2_spielbar = true;
+						break;
+					}
+				} else {
+					break;
+				}
+
+			}
+			for (int o5 = 1; o5 <= 30; o5++) {
+				if (blockStatus[m2 + o5][n2] == ground) {
+					if (blockStatus[m2 + o5][n2 + 1] == ground) {
+						Spieler2_spielbar = true;
+						break;
+					}
+					if (blockStatus[m2 + o5][n2 - 1] == ground) {
+						Spieler2_spielbar = true;
+						break;
+					}
+				} else {
+					break;
+				}
+
+			}
+			for (int o8 = 1; o8 <= 30; o8++) {
+				if (blockStatus[m2][n2 - o8] == ground) {
+					if (blockStatus[m2 + 1][n2 - o8] == ground) {
+						Spieler2_spielbar = true;
+						break;
+					}
+					if (blockStatus[m2 - 1][n2 - o8] == ground) {
+						Spieler2_spielbar = true;
+						break;
+					}
+				} else {
+					break;
+				}
+
+			}
+			for (int o9 = 1; o9 <= 30; o9++) {
+				if (blockStatus[m2][n2 + o9] == ground) {
+					if (blockStatus[m2 + 1][n2 + o9] == ground) {
+						Spieler2_spielbar = true;
+						break;
+					}
+					if (blockStatus[m2 - 1][n2 + o9] == ground) {
+						Spieler2_spielbar = true;
+						break;
+					}
+				} else {
+					break;
+				}
+
+			}
+
+			if (Spieler2_spielbar == false || Spieler1_spielbar == false) {
+				JOptionPane
+						.showMessageDialog(
+								null,
+								"Spielerpositionen sind nicht bespielbar, da sich die Spieler selbst zerstören.");
+				Spieler1_spielbar = false;
+				Spieler2_spielbar = false;
+
+			}
+		}
+		if (Spieler2_spielbar == true && Spieler1_spielbar == true) {
+			Spieler1_spielbar = false;
+			Spieler2_spielbar = false;
 			new Gui.Save(window);
 		}
 	}
+
 
 	/** liest Level aus XML ein und ermöglicht Editierung */
 	public void XMLFeld() {
@@ -697,7 +860,7 @@ public class Karteneditor extends JPanel implements ChangeListener,
 					}
 
 					else {
-						blockStatus[breite][hoehe] = blank;
+						blockStatus[breite][hoehe] = ground;
 					}
 
 				}

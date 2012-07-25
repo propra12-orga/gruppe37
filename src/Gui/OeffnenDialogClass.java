@@ -11,13 +11,13 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  * 
  */
 public class OeffnenDialogClass {
-	private String Levelname;
+	private String Levelname = null;
 
 	/**
 	 * Methode zum Öffnen einer XML Datei. Überprüft auch, ob eine gülltige
 	 * Datei gewählt wurde.
 	 */
-	private void oeffnen() {
+	public void oeffnen() {
 		try {
 			FileFilter filter = new FileNameExtensionFilter(
 					"Leveldateien .xml", "xml");
@@ -28,7 +28,6 @@ public class OeffnenDialogClass {
 
 			int rueckgabe = chooser.showOpenDialog(null);
 			Levelname = chooser.getSelectedFile().getPath();
-			System.out.println(Levelname);
 			if (rueckgabe == JFileChooser.APPROVE_OPTION) {
 				if (!Levelname.endsWith(".xml")) {
 					oeffnen();
@@ -57,4 +56,5 @@ public class OeffnenDialogClass {
 	public String getLevelName() {
 		return Levelname;
 	}
+
 }

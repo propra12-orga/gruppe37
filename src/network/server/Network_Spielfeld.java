@@ -1,27 +1,15 @@
-package Spielfeld;
+package network.server;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Random;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
 
 import Gui.Main;
-import Gui.OeffnenDialogClass;
-import Objects.Bomb;
-import Objects.Spieler;
+import Spielfeld.Sound;
 
 /**
  * Klasse zur Erstellung des Basis-Spielfelds mit den zugewiesenen Grafiken
@@ -31,7 +19,7 @@ import Objects.Spieler;
  * @param Main
  *            parent
  */
-public class Spielfeld extends JPanel {
+public class Network_Spielfeld extends JPanel {
 
 	/**
 	 * 
@@ -58,28 +46,28 @@ public class Spielfeld extends JPanel {
 	private ImageIcon bothplayerdead;
 
 	/** horizontale Feldgröße */
-	private int Feldgroesse_x = 100;
+	private int Feldgroesse_x = 1000;
 
 	/** vertikale Feldgröße */
-	private int Feldgroesse_y = 100;
+	private int Feldgroesse_y = 1000;
 
 	/** Dichte der zerstörbaren Blöcke */
 	private double Blockdichte = 0.7;
 
 	/** Array in dem das Feld erstellt wird */
-	private final JLabel fblock[][] = new JLabel[Feldgroesse_x][Feldgroesse_y];
+	private final JLabel fblock[][] = new JLabel[1000][1000];
 
 	/** Definition der einzelnen Spielfeldelemente */
-	private final int blockStatus[][] = new int[Feldgroesse_x][Feldgroesse_y];
+	private final int blockStatus[][] = new int[1000][1000];
 
 	/** horizontale Koordinate des Spielfelds */
 	private int m = 0;
 	/** vertikale Koordinate des Spielfelds */
 	private int n = 0;
 	/** horizontale Koordinate von Spieler 1 */
-	private final int x[] = { 1, 1 };
+	private final int x[] = { 0, 1 };
 	/** vertikale Koordinate von Spieler 1 */
-	private final int y[] = { 1, 1 };
+	private final int y[] = { 0, 1 };
 	/** horizontale Koordinate von Spieler 1 */
 	private final int x2[] = { 1, 1 };
 	/** vertikale Koordinate von Spieler 1 */
@@ -140,7 +128,7 @@ public class Spielfeld extends JPanel {
 	private final Main window;
 
 	/** Spielfeld wird im Fenster Main angezeigt */
-	public Spielfeld(Main parent) {
+	public Network_Spielfeld(Main parent) {
 
 		loadContentImages();
 
@@ -169,100 +157,6 @@ public class Spielfeld extends JPanel {
 		bothplayerdead = new ImageIcon("Images/BothPlayerDead.jpg");
 	}
 
-	/*******************************
-	 * Initialisieren der XML-Datei*
-	 ******************************/
-
-	public static void XMLInit() throws SAXException, IOException,
-			ParserConfigurationException, NullPointerException,
-			FileNotFoundException {
-		XMLReader.Reset();
-		OeffnenDialogClass oeffne = new OeffnenDialogClass(null);
-		File field = new File(oeffne.getLevelName());
-
-		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory
-				.newInstance();
-		DocumentBuilder documentBuilder = documentBuilderFactory
-				.newDocumentBuilder();
-		Document dok = documentBuilder.parse(field);
-		XMLReader.handleChannelTag(dok);
-	}
-
-	/** liest die Daten einer XML-Datei aus und verwendet sie */
-	public void XMLFeld() {
-
-		try {
-			XMLInit();
-			playeralive[0] = false;
-			playeralive[1] = false;
-			Portal_vorhanden = false;
-			Feldgroesse_x = XMLReader.breite_max;
-			Feldgroesse_y = XMLReader.hoehe_max;
-
-			for (int breite = 0; breite < Feldgroesse_x; breite++) {
-				for (int hoehe = 0; hoehe < Feldgroesse_y; hoehe++) {
-					if (XMLReader.xmlStatus[breite][hoehe] == XMLReader.fail) {
-						JOptionPane.showMessageDialog(null,
-								"Spielfeld fehlerhaft");
-						XMLReader.Reset();
-						XMLFeld();
-						breite = Feldgroesse_x;
-						break;
-					}
-					if (XMLReader.xmlStatus[breite][hoehe] == XMLReader.solid) {
-						blockStatus[breite][hoehe] = solid;
-					} else if (XMLReader.xmlStatus[breite][hoehe] == XMLReader.breakblock) {
-						blockStatus[breite][hoehe] = breakblock;
-					} else if (XMLReader.xmlStatus[breite][hoehe] == XMLReader.ground) {
-						blockStatus[breite][hoehe] = ground;
-					} else if (XMLReader.xmlStatus[breite][hoehe] == XMLReader.spieler) {
-						blockStatus[breite][hoehe] = spieler[0];
-						x[0] = breite;
-						y[0] = hoehe;
-						playeralive[0] = true;
-
-					} else if (XMLReader.xmlStatus[breite][hoehe] == XMLReader.spieler2) {
-						blockStatus[breite][hoehe] = spieler[1];
-						x[1] = breite;
-						y[1] = hoehe;
-						playeralive[1] = true;
-					} else if (XMLReader.xmlStatus[breite][hoehe] == XMLReader.ausgang) {
-						blockStatus[breite][hoehe] = ausgang;
-						Portal_vorhanden = true;
-					}
-
-				}
-
-			}
-
-			/*******************************************************
-			 * Sicherstellung, dass die Startpositionen frei sind. *
-			 *******************************************************/
-
-			// Spieler setzen und Positions-Reset bei Neustart
-
-			window.setSize(((Feldgroesse_x * 30) + 10),
-					((Feldgroesse_y * 30) + 50));
-			window.gamepanel.setBounds(0, 0, Feldgroesse_x * 30,
-					Feldgroesse_y * 30);
-
-			zeichnen();
-			XMLReader.Reset();
-
-			radius[0] = radius1;
-			radius[1] = radius2;
-
-		} catch (SAXException e) {
-
-		} catch (IOException e) {
-
-		} catch (ParserConfigurationException e) {
-
-		} catch (NullPointerException e) {
-
-		}
-	}
-
 	/*
 	 * Standardspielfeld mit variabler Groesse und zufälligem aufbau aus
 	 * zerstörbare und freien Blöcken in Array schreiben
@@ -279,8 +173,7 @@ public class Spielfeld extends JPanel {
 		Blockdichte = (Gui.Einstellungen.dichte * 0.01);
 
 		window.setSize(((Feldgroesse_x * 30) + 10), ((Feldgroesse_y * 30) + 50));
-		window.gamepanel
-				.setBounds(0, 0, Feldgroesse_x * 30, Feldgroesse_y * 30);
+		window.netpanel.setBounds(0, 0, Feldgroesse_x * 30, Feldgroesse_y * 30);
 		for (n = 0; n < Feldgroesse_y; n++) {
 			for (m = 0; m < Feldgroesse_x; m++) {
 				if (m % 2 != 1 && n % 2 != 1 || m == 0 || n == 0
@@ -342,24 +235,24 @@ public class Spielfeld extends JPanel {
 	 * Auslesen der Blockstati und zuordnung der passenden Icons zu diesen *
 	 ***********************************************************************/
 	public void zeichnen() {
-		window.gamepanel.removeAll();
+		window.netpanel.removeAll();
 		for (m = 0; m < Feldgroesse_x; m++) {
 			for (n = 0; n < Feldgroesse_y; n++) {
 				if (blockStatus[m][n] == ground) {
 					fblock[m][n] = new JLabel(grndBlock);
-					window.gamepanel.add(fblock[m][n]);
+					window.netpanel.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 				}
 
 				else if (blockStatus[m][n] == solid) {
 					fblock[m][n] = new JLabel(solidBlock);
-					window.gamepanel.add(fblock[m][n]);
+					window.netpanel.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 				}
 
 				else if (blockStatus[m][n] == breakblock) {
 					fblock[m][n] = new JLabel(brkbleBlock);
-					window.gamepanel.add(fblock[m][n]);
+					window.netpanel.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 				}
 				/*
@@ -367,32 +260,32 @@ public class Spielfeld extends JPanel {
 				 */
 				else if (blockStatus[m][n] == bombesetzen) {
 					fblock[m][n] = new JLabel(bombe);
-					window.gamepanel.add(fblock[m][n]);
+					window.netpanel.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 
 				} else if (blockStatus[m][n] == spieler_bombe[0]) {
 					fblock[m][n] = new JLabel(playeronbomb);
-					window.gamepanel.add(fblock[m][n]);
+					window.netpanel.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 
 				} else if (blockStatus[m][n] == spieler_bombe[1]) {
 					fblock[m][n] = new JLabel(player2onbomb);
-					window.gamepanel.add(fblock[m][n]);
+					window.netpanel.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 
 				} else if (blockStatus[m][n] == explosion_mitte) {
 					fblock[m][n] = new JLabel(exp_m);
-					window.gamepanel.add(fblock[m][n]);
+					window.netpanel.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 
 				} else if (blockStatus[m][n] == explosion_horizontal) {
 					fblock[m][n] = new JLabel(exp_h);
-					window.gamepanel.add(fblock[m][n]);
+					window.netpanel.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 
 				} else if (blockStatus[m][n] == explosion_vertikal) {
 					fblock[m][n] = new JLabel(exp_v);
-					window.gamepanel.add(fblock[m][n]);
+					window.netpanel.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 				}
 
@@ -401,7 +294,7 @@ public class Spielfeld extends JPanel {
 				 */
 				else if (blockStatus[m][n] == spieler[0]) {
 					fblock[m][n] = new JLabel(player);
-					window.gamepanel.add(fblock[m][n]);
+					window.netpanel.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 				}
 
@@ -410,7 +303,7 @@ public class Spielfeld extends JPanel {
 				 */
 				else if (blockStatus[m][n] == spieler[1]) {
 					fblock[m][n] = new JLabel(player2);
-					window.gamepanel.add(fblock[m][n]);
+					window.netpanel.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 
 				}
@@ -420,11 +313,11 @@ public class Spielfeld extends JPanel {
 				 */
 				else if (blockStatus[m][n] == ausgang) {
 					fblock[m][n] = new JLabel(portal);
-					window.gamepanel.add(fblock[m][n]);
+					window.netpanel.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 				} else if (blockStatus[m][n] == versteckterausgang) {
 					fblock[m][n] = new JLabel(brkbleBlock);
-					window.gamepanel.add(fblock[m][n]);
+					window.netpanel.add(fblock[m][n]);
 					fblock[m][n].setBounds(m * 30, n * 30, 30, 30);
 				}
 			}
@@ -719,10 +612,10 @@ public class Spielfeld extends JPanel {
 					if (playeralive[0] == true && playeralive[1] == false) {
 						window.setSize(320, 230);
 						JLabel endscreen;
-						window.gamepanel.removeAll();
+						window.netpanel.removeAll();
 						endscreen = new JLabel(player1wins);
 						endscreen.setBounds(0, 0, 320, 180);
-						window.gamepanel.add(endscreen);
+						window.netpanel.add(endscreen);
 						Sound.stoppen();
 						Sound.soundeffekt("Audio/player1wins.au");
 
@@ -731,10 +624,10 @@ public class Spielfeld extends JPanel {
 					if (playeralive[0] == false && playeralive[1] == true) {
 						window.setSize(330, 230);
 						JLabel endscreen;
-						window.gamepanel.removeAll();
+						window.netpanel.removeAll();
 						endscreen = new JLabel(player2wins);
 						endscreen.setBounds(0, 0, 320, 180);
-						window.gamepanel.add(endscreen);
+						window.netpanel.add(endscreen);
 						Sound.stoppen();
 						Sound.soundeffekt("Audio/player2wins.au");
 					}
@@ -742,10 +635,10 @@ public class Spielfeld extends JPanel {
 					if (playeralive[0] == false && playeralive[1] == false) {
 						window.setSize(330, 230);
 						JLabel endscreen;
-						window.gamepanel.removeAll();
+						window.netpanel.removeAll();
 						endscreen = new JLabel(bothplayerdead);
 						endscreen.setBounds(0, 0, 320, 180);
-						window.gamepanel.add(endscreen);
+						window.netpanel.add(endscreen);
 						Sound.stoppen();
 						Sound.soundeffekt("Audio/bothplayersdead2.au");
 
@@ -799,119 +692,199 @@ public class Spielfeld extends JPanel {
 
 	}
 
-	/***********************************
-	 * Methode fuer die erste Steurung *
-	 **********************************/
-
 	public void control(int playerNR) {
-		boolean moveRight = Spieler.moveRight;
+		/** Bewegung nach rechts */
+		boolean moveRight2 = Server.moveRight2;
 		/** Bewegung nach links */
-		boolean moveLeft = Spieler.moveLeft;
+		boolean moveLeft2 = Server.moveLeft2;
 		/** Bewegung nach unten */
-		boolean moveDown = Spieler.moveDown;
+		boolean moveDown2 = Server.moveDown2;
 		/** Bewegung nach oben */
-		boolean moveUp = Spieler.moveUp;
+		boolean moveUp2 = Server.moveUp2;
 		/** Bombe legen */
-		boolean bomb = Spieler.bomb;
+		boolean bombe = Server.bombe;
 
-		if (moveRight == true
-				&& playeralive[playerNR] == true
-				&& (blockStatus[x[playerNR] + 1][y[playerNR]] == ground || blockStatus[x[playerNR] + 1][y[playerNR]] == ausgang)) {
-			if (blockStatus[x[playerNR] + 1][y[playerNR]] == ausgang) {
-				blockStatus[x[playerNR]][y[playerNR]] = ground;
-				game_over.start();
-			} else if (blockStatus[x[playerNR]][y[playerNR]] == spieler_bombe[playerNR]) {
-				blockStatus[x[playerNR]][y[playerNR]] = bombesetzen;
-			} else {
-				blockStatus[x[playerNR]][y[playerNR]] = ground;
-			}
-			x[playerNR]++;
-			blockStatus[x[playerNR]][y[playerNR]] = spieler[playerNR];
-			zeichnen();
-		}
-		if (moveLeft == true
-				&& playeralive[playerNR] == true
-				&& (blockStatus[x[playerNR] - 1][y[playerNR]] == ground || blockStatus[x[playerNR] - 1][y[playerNR]] == ausgang)) {
-			if (blockStatus[x[playerNR] - 1][y[playerNR]] == ausgang) {
-				blockStatus[x[playerNR]][y[playerNR]] = ground;
-				game_over.start();
-			} else if (blockStatus[x[playerNR]][y[playerNR]] == spieler_bombe[playerNR]) {
-				blockStatus[x[playerNR]][y[playerNR]] = bombesetzen;
-			} else {
-				blockStatus[x[playerNR]][y[playerNR]] = ground;
-			}
-			x[playerNR]--;
-			blockStatus[x[playerNR]][y[playerNR]] = spieler[playerNR];
+		/** Bewegung nach rechts */
+		boolean moveRight = Network_Spieler.moveRight;
+		/** Bewegung nach links */
+		boolean moveLeft = Network_Spieler.moveLeft;
+		/** Bewegung nach unten */
+		boolean moveDown = Network_Spieler.moveDown;
+		/** Bewegung nach oben */
+		boolean moveUp = Network_Spieler.moveUp;
+		/** Bombe legen */
+		boolean bomb = Network_Spieler.bomb;
 
-			zeichnen();
-		}
-		if (moveUp == true
-				&& playeralive[playerNR] == true
-				&& (blockStatus[x[playerNR]][y[playerNR] - 1] == ground || blockStatus[x[playerNR]][y[playerNR] - 1] == ausgang)) {
-			if (blockStatus[x[playerNR]][y[playerNR] - 1] == ausgang) {
-				blockStatus[x[playerNR]][y[playerNR]] = ground;
-				game_over.start();
-			} else if (blockStatus[x[playerNR]][y[playerNR]] == spieler_bombe[playerNR]) {
-				blockStatus[x[playerNR]][y[playerNR]] = bombesetzen;
-			} else {
-				blockStatus[x[playerNR]][y[playerNR]] = ground;
-			}
-			y[playerNR]--;
-			blockStatus[x[playerNR]][y[playerNR]] = spieler[playerNR];
+		try {
+			if (moveLeft2 == true
+					&& playeralive[1] == true
+					&& (blockStatus[x[1] - 1][y[1]] == ground || blockStatus[x[1] - 1][y[1]] == ausgang)) {
+				if (blockStatus[x[1] - 1][y[1]] == ausgang) {
+					blockStatus[x[1]][y[1]] = ground;
+					game_over.start();
+				} else if (blockStatus[x[1]][y[1]] == spieler_bombe[1]) {
+					blockStatus[x[1]][y[1]] = bombesetzen;
+				} else {
+					blockStatus[x[1]][y[1]] = ground;
+				}
+				x[1]--;
+				blockStatus[x[1]][y[1]] = spieler[1];
 
-			zeichnen();
-		}
-
-		if (moveDown == true
-				&& playeralive[playerNR] == true
-				&& (blockStatus[x[playerNR]][y[playerNR] + 1] == ground || blockStatus[x[playerNR]][y[playerNR] + 1] == ausgang)) {
-
-			if (blockStatus[x[playerNR]][y[playerNR] + 1] == ausgang) {
-				blockStatus[x[playerNR]][y[playerNR]] = ground;
-				game_over.start();
-			}
-			if (blockStatus[x[playerNR]][y[playerNR]] == spieler_bombe[playerNR]) {
-				blockStatus[x[playerNR]][y[playerNR]] = bombesetzen;
-			} else {
-				blockStatus[x[playerNR]][y[playerNR]] = ground;
-			}
-			y[playerNR]++;
-			blockStatus[x[playerNR]][y[playerNR]] = spieler[playerNR];
-			zeichnen();
-		}
-
-		if (bomb == true && playeralive[playerNR] == true) {
-
-			if (playerNR == 0 && bombsLeftP1 > 0) {
-
-				blockStatus[x[0]][y[0]] = spieler_bombe[0];
-
-				a[0] = x[0];
-				b[0] = y[0];
-				x2[0] = x[0];
-				y2[0] = y[0];
-
-				Bomb bombe = new Bomb(this, 0);
 				zeichnen();
-				bombe.explosion.start();
-				bombsLeftP1--;
-
 			}
+			if (moveUp2 == true
+					&& playeralive[1] == true
+					&& (blockStatus[x[1]][y[1] - 1] == ground || blockStatus[x[1]][y[1] - 1] == ausgang)) {
+				if (blockStatus[x[1]][y[1] - 1] == ausgang) {
+					blockStatus[x[1]][y[1]] = ground;
+					game_over.start();
+				} else if (blockStatus[x[1]][y[1]] == spieler_bombe[1]) {
+					blockStatus[x[1]][y[1]] = bombesetzen;
+				} else {
+					blockStatus[x[1]][y[1]] = ground;
+				}
+				y[1]--;
+				blockStatus[x[1]][y[1]] = spieler[1];
 
-			else if (playerNR == 1 && bombsLeftP2 > 0) {
-				blockStatus[x[1]][y[1]] = spieler_bombe[1];
-
-				a[1] = x[1];
-				b[1] = y[1];
-				x2[1] = x[1];
-				y2[1] = y[1];
-
-				Bomb bombe = new Bomb(this, 1);
 				zeichnen();
-				bombe.explosion.start();
-				bombsLeftP2--;
+			}
+
+			if (moveDown2 == true
+					&& playeralive[1] == true
+					&& (blockStatus[x[1]][y[1] + 1] == ground || blockStatus[x[1]][y[1] + 1] == ausgang)) {
+
+				if (blockStatus[x[1]][y[1] + 1] == ausgang) {
+					blockStatus[x[1]][y[1]] = ground;
+					game_over.start();
+				}
+				if (blockStatus[x[1]][y[1]] == spieler_bombe[1]) {
+					blockStatus[x[1]][y[1]] = bombesetzen;
+				} else {
+					blockStatus[x[1]][y[1]] = ground;
+				}
+				y[1]++;
+				blockStatus[x[1]][y[1]] = spieler[1];
+				zeichnen();
+			}
+			if (moveRight2 == true
+					&& playeralive[1] == true
+					&& (blockStatus[x[1] + 1][y[1]] == ground || blockStatus[x[1] + 1][y[1]] == ausgang)) {
+				if (blockStatus[x[1] + 1][y[1]] == ausgang) {
+					blockStatus[x[1]][y[1]] = ground;
+					game_over.start();
+				} else if (blockStatus[x[1]][y[1]] == spieler_bombe[1]) {
+					blockStatus[x[1]][y[1]] = bombesetzen;
+				} else {
+					blockStatus[x[1]][y[1]] = ground;
+				}
+				x[1]++;
+				blockStatus[x[1]][y[1]] = spieler[1];
+				zeichnen();
+			}
+			if (bombe == true && playeralive[1] == true) {
+				if (bombsLeftP2 > 0) {
+					blockStatus[x[1]][y[1]] = spieler_bombe[1];
+
+					a[1] = x[1];
+					b[1] = y[1];
+					x2[1] = x[1];
+					y2[1] = y[1];
+
+					Network_Bomb bombe2 = new Network_Bomb(this, 1);
+					zeichnen();
+					bombe2.explosion.start();
+					bombsLeftP2--;
+
+				}
+			}
+			if (moveRight == true
+					&& playeralive[0] == true
+					&& (blockStatus[x[0] + 1][y[0]] == ground || blockStatus[x[0] + 1][y[0]] == ausgang)) {
+				if (blockStatus[x[0] + 1][y[0]] == ausgang) {
+					blockStatus[x[0]][y[0]] = ground;
+					game_over.start();
+				} else if (blockStatus[x[0]][y[0]] == spieler_bombe[0]) {
+					blockStatus[x[0]][y[0]] = bombesetzen;
+				} else {
+					blockStatus[x[0]][y[0]] = ground;
+				}
+				x[0]++;
+				blockStatus[x[0]][y[0]] = spieler[0];
+				zeichnen();
+			}
+			if (moveLeft == true
+					&& playeralive[0] == true
+					&& (blockStatus[x[0] - 1][y[0]] == ground || blockStatus[x[0] - 1][y[0]] == ausgang)) {
+				if (blockStatus[x[0] - 1][y[0]] == ausgang) {
+					blockStatus[x[0]][y[0]] = ground;
+					game_over.start();
+				} else if (blockStatus[x[0]][y[0]] == spieler_bombe[0]) {
+					blockStatus[x[0]][y[0]] = bombesetzen;
+				} else {
+					blockStatus[x[0]][y[0]] = ground;
+				}
+				x[0]--;
+				blockStatus[x[0]][y[0]] = spieler[0];
+
+				zeichnen();
+			}
+			if (moveUp == true
+					&& playeralive[0] == true
+					&& (blockStatus[x[0]][y[0] - 1] == ground || blockStatus[x[0]][y[0] - 1] == ausgang)) {
+				if (blockStatus[x[0]][y[0] - 1] == ausgang) {
+					blockStatus[x[0]][y[0]] = ground;
+					game_over.start();
+				} else if (blockStatus[x[0]][y[0]] == spieler_bombe[0]) {
+					blockStatus[x[0]][y[0]] = bombesetzen;
+				} else {
+					blockStatus[x[0]][y[0]] = ground;
+				}
+				y[0]--;
+				blockStatus[x[0]][y[0]] = spieler[0];
+
+				zeichnen();
+			}
+
+			if (moveDown == true
+					&& playeralive[0] == true
+					&& (blockStatus[x[0]][y[0] + 1] == ground || blockStatus[x[0]][y[0] + 1] == ausgang)) {
+
+				if (blockStatus[x[0]][y[0] + 1] == ausgang) {
+					blockStatus[x[0]][y[0]] = ground;
+					game_over.start();
+				}
+				if (blockStatus[x[0]][y[0]] == spieler_bombe[0]) {
+					blockStatus[x[0]][y[0]] = bombesetzen;
+				} else {
+					blockStatus[x[0]][y[0]] = ground;
+				}
+				y[0]++;
+				blockStatus[x[0]][y[0]] = spieler[0];
+				zeichnen();
+			}
+
+			if (bomb == true && playeralive[0] == true) {
+
+				if (bombsLeftP1 > 0) {
+
+					blockStatus[x[0]][y[0]] = spieler_bombe[0];
+
+					a[0] = x[0];
+					b[0] = y[0];
+					x2[0] = x[0];
+					y2[0] = y[0];
+
+					Network_Bomb bombe2 = new Network_Bomb(this, 0);
+					zeichnen();
+					bombe2.explosion.start();
+					bombsLeftP1--;
+
+				}
 
 			}
+
+		} catch (Exception e) {
+
 		}
 	}
 

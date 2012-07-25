@@ -33,6 +33,9 @@ public class XMLWriter {
 	private final int spieler = 8;
 	/** Spielfigur von Spieler 2 */
 	private final int spieler2 = 11;
+	/** offengelegter Ausgang */
+	private final int ausgang = 10;
+
 	/** String für verschiedene Typen */
 	private String fieldType;
 
@@ -94,6 +97,10 @@ public class XMLWriter {
 						fieldType = "Spieler2";
 						Status.appendChild(doc.createTextNode(fieldType));
 					}
+					if (blockStatus[breite][hoehe] == ausgang) {
+						fieldType = "Ausgang";
+						Status.appendChild(doc.createTextNode(fieldType));
+					}
 				}
 			}
 
@@ -111,8 +118,6 @@ public class XMLWriter {
 				StreamResult result = new StreamResult(new File(addr + ".xml"));
 				transformer.transform(source, result);
 			}
-
-			System.out.println("Gespeichert");
 
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();

@@ -35,9 +35,11 @@ public class Sound {
 	 *            Name der Audiodatei
 	 */
 	public static void hintergrundmusik(String BGM) {
-		if (BGM != "keine Musik") {
-			String BGMFile = "Audio/" + BGM + ".au";
+		if (BGM == "keine Musik") {
+			stoppen();
+			String BGMFile = "Audio/" + BGM + ".wav";
 			try {
+
 				clip = AudioSystem.getClip();
 				AudioInputStream BackgroundStream = AudioSystem
 						.getAudioInputStream(new File(BGMFile)
@@ -49,7 +51,18 @@ public class Sound {
 
 			}
 		} else {
-			stoppen();
+			String BGMFile = "Audio/" + BGM + ".wav";
+			try {
+
+				clip = AudioSystem.getClip();
+				AudioInputStream BackgroundStream = AudioSystem
+						.getAudioInputStream(new File(BGMFile)
+								.getAbsoluteFile());
+
+				clip.open(BackgroundStream);
+				clip.loop(Clip.LOOP_CONTINUOUSLY);
+			} catch (Exception ex) {
+			}
 		}
 		return;
 	}

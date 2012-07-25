@@ -1,4 +1,4 @@
-package Objects;
+package network.server;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,7 +8,7 @@ import java.awt.event.KeyListener;
 import Gui.Main;
 import Spielfeld.Spielfeld;
 
-public class Spieler implements KeyListener {
+public class Network_Spieler implements KeyListener {
 
 	public int[][] controlSets = {
 			{ KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D,
@@ -42,7 +42,7 @@ public class Spieler implements KeyListener {
 	private final Main window;
 
 	/** Steuerungseingabe wird in Mainpanel implementiert */
-	public Spieler(Main parent, int controlType) {
+	public Network_Spieler(Main parent, int controlType) {
 		playerNR = controlType;
 		window = parent;
 		window.addKeyListener(this);
@@ -121,7 +121,7 @@ public class Spieler implements KeyListener {
 				delay.start();
 
 			}
-			window.gamepanel.control(playerNR);
+			window.netpanel.control(playerNR);
 			moveUp = false;
 			moveDown = false;
 			moveLeft = false;

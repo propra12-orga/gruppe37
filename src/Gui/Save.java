@@ -1,8 +1,11 @@
 package Gui;
 
 import java.io.File;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -12,11 +15,20 @@ import Spielfeld.XMLWriter;
  * Implementiert Speicherfunktion
  */
 public class Save {
-
 	private String Savename;
+
 	/** Variable für den Namen des Spielstands */
 	private static String caller;
 	private final Main window;
+	private int rueckgabe;
+
+	public boolean isInvalidFileName(String Savename) {
+		String chara = "";
+		CharSequence input = Savename;
+		Pattern pattern = Pattern.compile(chara);
+		Matcher matcher = pattern.matcher(input);
+		return matcher.matches();
+	}
 
 	public Save(Main parent) {
 		window = parent;
@@ -27,19 +39,29 @@ public class Save {
 		try {
 			JFileChooser chooser = new JFileChooser(
 					System.getProperty("user.dir") + File.separator + "XML");
-			chooser.setDialogType(JFileChooser.SAVE_DIALOG);
 			chooser.setMultiSelectionEnabled(false);
+			chooser.setDialogType(JFileChooser.SAVE_DIALOG);
 
 			FileFilter filter = new FileNameExtensionFilter(
 					"Leveldateien .xml", "xml");
 			chooser.setFileFilter(filter);
-
-			int rueckgabe = chooser.showSaveDialog(null);
+			rueckgabe = chooser.showSaveDialog(null);
 			Savename = chooser.getSelectedFile().getPath();
 
 			if (rueckgabe == JFileChooser.APPROVE_OPTION) {
-				new XMLWriter(window, Savename);
-				return;
+				if (isInvalidFileName(Savename)) {
+					JOptionPane
+							.showMessageDialog(
+									null,
+									Savename
+											+ ".xml"
+											+ " - invalider Name. \n\n Bitte wählen Sie einen anderen Dateinamen.");
+					new Save(parent);
+				} else {
+					new XMLWriter(window, Savename);
+					return;
+				}
+
 			} else if (rueckgabe == JFileChooser.CANCEL_OPTION) {
 				return;
 			}
